@@ -1,34 +1,37 @@
 import React, { useState, useCallback, useRef } from 'react'
-
-import { validateEmail } from '../utils/email'
+import {useNavigate } from 'react-router-dom'
+import { validateEmail } from '../utils/email.js'
 import API from '../config/api.config.js'
 import Overlay from '../components/Overlay.jsx'
 import backgroundImg from '../../public/images/Background.png'
 import logo from '../assets/images/Icon.png'
 import loginImg from '../assets/images/BWLogo.svg'
 import PhoneOTPInput from '../components/PhoneOTPInput.jsx'
+import { setToken } from "../utils/auth";
 
-console.log('hello')
-function Login(params) {
+function LogIn(params) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  })
-  const [errors, setErrors] = useState({ email: '', password: '' })
-  const [loading, setLoading] = useState(false)
-  const [towStepVerification, setTwoStepVerification] = useState(false)
+  });
+
+  const [errors, setErrors] = useState({ email: '', password: '' });
+
+  const [loading, setLoading] = useState(false);
+
   const debounceTimeout = useRef(null)
 
   const validateForm = {
     email: (value) => {
       if (!value) return 'Email is required'
       if (!validateEmail(value)) return 'Invalid email format'
-      return ''
+      return '';
     },
     password: (value) => {
       if (!value) return 'Password is required'
-      if (value.length < 6) return 'Password must be at least 6 characters'
-      return ''
+      if (value.length < 8) return 'Password must be at least 8 characters'
+      return '';
     },
   }
 
@@ -62,7 +65,7 @@ function Login(params) {
   const handleSubmit = (e) => {
     e.preventDefault()
     let formIsValid = true
-    const newErrors = {}
+    const newErrors = {};
 
     Object.keys(formData).forEach((fieldName) => {
       const error = validateForm[fieldName](formData[fieldName])
@@ -72,7 +75,7 @@ function Login(params) {
 
     setErrors(newErrors)
 
-    if (!formIsValid) return
+    if (!formIsValid) return;
 
     setLoading(true)
 
@@ -82,6 +85,9 @@ function Login(params) {
       setFormData({ email: '', password: '' })
       setTwoStepVerification(true)
     }, 1000)
+
+    setToken('okokok');
+    navigate("/dashboard");
   }
   //Function to check if the form is valid.
   const isFormValid = () => {
@@ -91,22 +97,22 @@ function Login(params) {
         isValid = false
       }
     })
-    return isValid
+
+    return isValid;
   }
+
   return (
     <>
       <div
-        className="flex min-h-screen items-center justify-end relative md:p-[6rem]   z-20 bg-black  "
+        className="flex min-h-screen items-center justify-end relative md:p-[6rem] z-20 bg-black"
         style={{
           backgroundImage: `url(${backgroundImg})`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
-
           backgroundPosition: '50% -50%',
-        }}
-      >
+        }}>
+          
         <div className="bg-white p-8 rounded-[30px] shadow-lg max-w-[45.625rem] min-h-[27.5rem] w-full flex flex-col md:flex-row items-center absolute ">
-          {/* Left Side - Logo and Image */}
           <div className="flex flex-col items-center  md:w-1/2 ">
             <a href="#" className="w-[182px] h-[87px]">
               <img src={logo} alt="" className="h-full w-full" />
@@ -119,11 +125,6 @@ function Login(params) {
             />
           </div>
 
-          {/* {enter mobile} */}
-          {towStepVerification ? (
-            <PhoneOTPInput />
-          ) : (
-            // {right side - email input}
             <div className="md:w-1/1.5 w-full pl-6">
               <h2 className="text-[2rem] font-[400] text-gray-800 mb-6 ">
                 Login
@@ -182,10 +183,10 @@ function Login(params) {
                 </div>
               </form>
             </div>
-          )}
+    
         </div>
       </div>
     </>
   )
 }
-export default Login
+export default LogIn;

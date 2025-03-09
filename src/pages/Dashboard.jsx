@@ -1,7 +1,21 @@
-import React from 'react'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { removeToken } from "../utils/auth";
 
-export default function Dashboard() {
-  return (
-    <div>Dashboard</div>
-  )
-}
+const Dashboard = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        removeToken();
+        navigate("/login");
+    };
+
+    return (
+        <div>
+            <h2>Dashboard</h2>
+            <button onClick={handleLogout}>Logout</button>
+        </div>
+    );
+};
+
+export default Dashboard;
