@@ -153,6 +153,7 @@ export default function SignUp() {
 
   // Handle form submission
   const handleNameSubmit = (e) => {
+    console.log('handle name submit hit', e)
     e.preventDefault()
     let formIsValid = true
     const newErrors = {}
