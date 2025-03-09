@@ -255,24 +255,24 @@ export default function SignUp() {
             </form>
           ) : currentStep === 3 ? (
           <>
-           <div className="flex flex-col items-center justify-center text-center p-8">
-    <img src={logo} alt="TripZite" className="w-[6rem] h-[3rem] mb-4" />
-    <p className="text-gray-700 text-lg">
-      Your request has been sent to the <strong>Tripzite’s</strong> team for verification.
-    </p>
-    <p className="text-gray-700 text-lg mt-4">
-      You will be contacted within 24hrs regarding the updates of your requests.
-    </p>
-    <p className="text-red-500 text-sm mt-6">
-      *Please confirm your email for <strong>Tripzite</strong> to have seamless communication with you.
-    </p>
-    <button className="bg-black text-white py-1 px-5">
-      Return to home page
-    </button>
-  </div>
+                 <OTPVerification />
           </>
           ):(
-            <OTPVerification />
+            <div className="flex flex-col items-center justify-center text-center p-8">
+            <img src={logo} alt="TripZite" className="w-[6rem] h-[3rem] mb-4" />
+            <p className="text-gray-700 text-lg">
+              Your request has been sent to the <strong>Tripzite’s</strong> team for verification.
+            </p>
+            <p className="text-gray-700 text-lg mt-4">
+              You will be contacted within 24hrs regarding the updates of your requests.
+            </p>
+            <p className="text-red-500 text-sm mt-6">
+              *Please confirm your email for <strong>Tripzite</strong> to have seamless communication with you.
+            </p>
+            <button className="bg-black text-white py-1 px-5">
+              Return to home page
+            </button>
+          </div>
           )}
         </div>
       </div>
