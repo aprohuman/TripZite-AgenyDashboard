@@ -13,7 +13,6 @@ const PackageDescription = () => {
     longDescription: 0,
   })
 
-  const fields = PackageDescriptionData?.fields || []
   const sections = PackageDescriptionData?.sections || []
 
   // Helper function to calculate the word count
@@ -22,20 +21,24 @@ const PackageDescription = () => {
     return words.filter((word) => word.length > 0).length
   }
 
-  // Validate word count for each field
-  const validateWordCount = (text, maxWords) => {
-    const wordCount = calculateWordCount(text)
-    return wordCount <= maxWords
-  }
+  const validatePackageDescription = {
+    packageName: (value) => {
+      if (!value) return 'package name is required'
+      if (value.length > 2) return 'Invalid input format'
+      return ''
+    },
+    shortDescription: (value) => {
+      if (value.length < 10)
+        return 'Description must be at least 10 characters long'
 
-  const validateField = (fieldId, value) => {
-    const fieldConfig = fields.find((f) => f.id === fieldId)
-    const maxWords = fieldConfig?.validation?.maxWords
-    const errorMessage =
-      maxWords && !validateWordCount(value, maxWords)
-        ? `Maximum ${maxWords} words exceeded`
-        : null
-    return errorMessage
+      return ''
+    },
+    longDescription: (value) => {
+      if (!value) return 'description is required'
+      if (value.length < 10)
+        return 'Description must be at least 10 characters long'
+      return ''
+    },
   }
 
   const handleChange = (e) => {
@@ -45,7 +48,7 @@ const PackageDescription = () => {
     setPackageDescription((prev) => ({ ...prev, [name]: value }))
 
     // Real-time validation
-    const errorMessage = validateField(name, value)
+    const errorMessage = validatePackageDescription[name](value)
     setErrors((prev) => ({
       ...prev,
       [name]: errorMessage,
@@ -54,13 +57,15 @@ const PackageDescription = () => {
     // Update word count for the fields
     if (name === 'shortDescription' || name === 'longDescription') {
       const newWordCount = calculateWordCount(value)
+      console.log('text', newWordCount)
+
       setWordCounts((prev) => ({
         ...prev,
         [name]: newWordCount,
       }))
     }
   }
-
+  console.log('ww', wordCounts)
   return (
     <div className="mx-auto bg-white p-4 sm:p-8 w-full max-w-screen">
       {sections.map((section) => (
@@ -86,6 +91,7 @@ const PackageDescription = () => {
                     value={packageDescription[field.id]}
                     onChange={handleChange}
                     placeholder={field.placeholder}
+                    maxLength={field.validation.maxWords * 2}
                     className={`  w-full box-border p-3 border-1 border-[#0000004D] rounded-[6px] focus:ring-2 outline-0 ${
                       errors[field.id]
                         ? 'border-red-500 focus:ring-red-200'
@@ -93,8 +99,16 @@ const PackageDescription = () => {
                     }`}
                     rows={8}
                   />
-                  <span className=" bottom-0 right-0 text-sm text-gray-500">
-                    {`${wordCounts[field.id]} / ${field.validation.maxWords}`}
+                  <span className="bottom-0 right-0 text-sm">
+                    <span
+                      className={`${
+                        wordCounts[field.id] === field.validation.maxWords
+                          ? 'text-red-500'
+                          : 'text-gray-500'
+                      }`}
+                    >
+                      {`${wordCounts[field.id]} / ${field.validation.maxWords}`}
+                    </span>
                   </span>
                 </div>
               ) : (
@@ -105,6 +119,7 @@ const PackageDescription = () => {
                     value={packageDescription[field.id]}
                     onChange={handleChange}
                     placeholder={field.placeholder}
+                    maxLength={field.validation.maxWords * 2}
                     className={`w-full p-3 border-1 border-[#0000004D] rounded-[6px] focus:ring-2 outline-0 ${
                       errors[field.id]
                         ? 'border-red-500 focus:ring-red-200'
@@ -112,7 +127,13 @@ const PackageDescription = () => {
                     }`}
                   />
                   {field.id === 'shortDescription' && (
-                    <span className="  text-sm text-gray-500">
+                    <span
+                      className={`${
+                        wordCounts[field.id] >= field.validation.maxWords
+                          ? 'text-red-500'
+                          : 'text-gray-500'
+                      }`}
+                    >
                       {`${wordCounts.shortDescription} / ${field.validation.maxWords}`}
                     </span>
                   )}
