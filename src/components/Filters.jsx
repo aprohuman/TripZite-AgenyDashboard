@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Filters = ({filters, setFilters}) => {
+    const navigate = useNavigate();
 
  const handleChange = (e) => {
    const {name, value} = e.target
@@ -13,13 +15,14 @@ const Filters = ({filters, setFilters}) => {
   };
 
   return (
-    <div className="flex items-center space-x-6  pl-[20%] p-5 "
+    <div className="relative flex items-center space-x-6  pl-[17%] p-5 "
      style={{background: "linear-gradient(to right, #A3ABD1 7%, #C4C9E1 15%, white 25%, white 60%, white 100%)"}}>
+        <button onClick={()=>navigate('/dashboard')} className="absolute text-black font-semibold left-6 cursor-pointer">«</button>
       
       <div className="flex items-center space-x-4 gap-8 container mx-auto px-4">
         <div className="relative">
           <select
-            className="font-base cursor-pointer focus:outline-none min-w-[120px]"
+            className="font-base cursor-pointer focus:outline-none min-w-[100px]"
             name="sortMethod"
             value={filters.sortMethod}
             onChange={(e) => handleChange(e)}
@@ -34,7 +37,7 @@ const Filters = ({filters, setFilters}) => {
 
         <div className="relative">
           <select
-            className="font-base cursor-pointer focus:outline-non min-w-[120px]"
+            className="font-base cursor-pointer focus:outline-non min-w-[100px]"
             name="location"
             value={filters.location}
             onChange={(e) => handleChange(e)}
@@ -48,7 +51,7 @@ const Filters = ({filters, setFilters}) => {
 
         <div className="relative">
           <select
-            className="font-base cursor-pointer focus:outline-none min-w-[120px]"
+            className="font-base cursor-pointer focus:outline-none min-w-[100px]"
             name="priceRange"
             value={filters.priceRange}
             onChange={(e) => handleChange(e)}
@@ -62,7 +65,7 @@ const Filters = ({filters, setFilters}) => {
 
         <div className="relative">
           <select
-            className="font-base cursor-pointer focus:outline-none min-w-[120px]"
+            className="font-base cursor-pointer focus:outline-none min-w-[100px]"
             name="rating"
             value={filters.rating}
             onChange={(e) => handleChange(e)}
@@ -76,7 +79,7 @@ const Filters = ({filters, setFilters}) => {
 
         <div className="relative">
           <select
-            className="font-base cursor-pointer focus:outline-none min-w-[120px]"
+            className="font-base cursor-pointer focus:outline-none min-w-[100px]"
             name="category"
             value={filters.category}
             onChange={(e) => handleChange(e)}

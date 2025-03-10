@@ -1,8 +1,10 @@
 import React from 'react';
 import curve1Image from "../assets/images/Curve-1.svg";
 import curve2Image from "../assets/images/Curve-2.svg";
+import { useNavigate } from "react-router-dom";
 
 const Notification = () => {
+  const navigate = useNavigate();
     return (
       <div className="relative w-full h-screen bg-white overflow-hidden">
  
@@ -22,8 +24,8 @@ const Notification = () => {
         <div className="flex-[0_1_20%] flex flex-col space-y-4">
           <button className="w-59  py-2 bg-[#102728] text-white text-[15px] rounded-[6px] shadow cursor-pointer">View all Notifications</button>
           <button className="w-59  py-2 bg-[#102728] text-white text-[15px] rounded-[6px] shadow cursor-pointer">Notice board</button>
-          <button className="w-59  py-2 bg-[#102728] text-white text-[15px] rounded-[6px] shadow cursor-pointer">Your Packages</button>
-          <button className="w-59  py-2 bg-[#102728] text-white text-[15px] rounded-[6px] shadow cursor-pointer">Add Package</button>
+          <button onClick={()=>navigate('/your-packages')} className="w-59  py-2 bg-[#102728] text-white text-[15px] rounded-[6px] shadow cursor-pointer">Your Packages</button>
+          <button onClick={()=>navigate('/add-package')} className="w-59  py-2 bg-[#102728] text-white text-[15px] rounded-[6px] shadow hover:cursor-pointer">Add Package</button>
         </div>
       </div>
 
