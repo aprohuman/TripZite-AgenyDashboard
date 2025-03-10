@@ -42,8 +42,7 @@ const Sidebar = () => {
               <div className="font-bold text-black">{pkg}</div>
               <ul className="pl-4 text-gray-600">
                 {packageFields.map((field, idx) => (
-                  <li key={idx} className="text-sm sm:text-base">
-                    <input type="checkbox" className="mr-2" />
+                  <li key={idx} className="text-sm sm:text-base text-[gray] list-[circle]">
                     {field}
                   </li>
                 ))}
