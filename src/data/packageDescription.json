@@ -21,7 +21,7 @@
             "required": true,
             "maxWords": 20
           },
-          "note": "This description will be shown initially before the client looks at the fully detailed package page"
+          "note": "*Maximum 20 words"
         },
         {
           "id": "longDescription",
@@ -32,7 +32,7 @@
             "required": true,
             "maxWords": 250
           },
-          "note": "This description will be shown on the fully detailed package page"
+          "note": "*Maximum 250 words"
         }
       ]
     }

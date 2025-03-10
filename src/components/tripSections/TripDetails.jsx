@@ -66,16 +66,16 @@ export default function TripDetailsForm() {
 
   return (
     <div className="p-4 md:p-8 bg-white">
-      <h2 className="text-xl md:text-2xl font-bold">Trip Details</h2>
+      <h2 className="text-[2rem] font-[400]  text-black mb-6">Trip Details</h2>
 
       <div className="mt-4">
-        <label className="block font-semibold">
+        <h2 className="text-[20px] font-[400]  text-black mb-6">
           Multi/Singular Travel Location
-        </label>
+        </h2>
         <select
           value={travelLocation}
           onChange={(e) => setTravelLocation(e.target.value)}
-          className="border p-2 rounded-lg w-full md:w-[40%] mt-2 outline-0"
+          className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px]  w-full md:w-[40%] outline-0"
         >
           <option value="">Select Travel Location</option>
           <option value="us">United States</option>
@@ -86,14 +86,14 @@ export default function TripDetailsForm() {
 
       {tripDetails.map((trip, index) => (
         <div key={index} className="mt-4 rounded-lg">
-          <h3 className="text-lg font-semibold">
+          <h3 className="text-[24px] font-[400]  text-black mb-6">
             {index + 1}st Country / State / City
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
             <select
               value={trip.country}
               onChange={(e) => handleChange(index, 'country', e.target.value)}
-              className="border p-2 rounded-lg w-full"
+              className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
             >
               <option value="">Select Country</option>
               {Object.keys(countriesData).map((country) => (
@@ -107,7 +107,7 @@ export default function TripDetailsForm() {
               value={trip.state}
               onChange={(e) => handleChange(index, 'state', e.target.value)}
               disabled={!trip.country}
-              className="border p-2 rounded-lg w-full"
+              className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
             >
               <option value="">Select State</option>
               {trip.country &&
@@ -122,7 +122,7 @@ export default function TripDetailsForm() {
               value={trip.city}
               onChange={(e) => handleChange(index, 'city', e.target.value)}
               disabled={!trip.state}
-              className="border p-2 rounded-lg w-full"
+              className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
             >
               <option value="">Select City</option>
               {trip.state &&
@@ -135,23 +135,23 @@ export default function TripDetailsForm() {
           </div>
 
           <div className="mt-4 flex flex-col md:flex-row items-center">
-            <label className="mr-2">No. of days:</label>
-            <div className="flex items-center">
+            <label className="mr-2 text-[20px] font-[400]">No. of days:</label>
+            <div className="flex items-center ">
               <input
                 type="number"
                 value={trip.days}
                 readOnly
-                className="border p-2 rounded-lg w-24 text-center"
+                className="box-border p-3  border-1 border-[#0000004D] rounded-[6px] w-24 text-center mr-2 "
               />
               <button
                 onClick={(e) => incrementDays(index, e)}
-                className="border px-2 py-1 rounded-lg ml-2"
+                className="box-border border-1 border-[#0000004D] rounded-[6px] p-3 h-full"
               >
                 +
               </button>
               <button
                 onClick={(e) => decrementDays(index, e)}
-                className="border px-2 py-1 rounded-lg ml-2"
+                className=" border-1 border-[#0000004D] rounded-[6px] p-3  "
               >
                 -
               </button>
