@@ -33,31 +33,33 @@ export default function PassengerPricingForm() {
   }
 
   return (
-    <div className="p-4 bg-white w-fll mx-auto">
-      <h2 className="text-2xl font-bold ">Passenger count and pricing :</h2>
+    <div className="p-4 md:p-8 bg-white my-20">
+      <h2 className="text-[2rem] font-[400]  text-black mb-6">
+        Passenger count and pricing :
+      </h2>
       {passengerDetails.map((detail, index) => (
         <div
           key={index}
           className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4 rounded-lg"
         >
           <div>
-            <label className="block font-semibold">Passenger count</label>
-            <div className="flex items-center">
+            <label className="text-[20px] font-[400]">Passenger count</label>
+            <div className="flex items-center ">
               <input
                 type="number"
                 value={detail.count}
                 readOnly
-                className="border p-2 rounded-lg w-full text-center"
+                className="p-2  border-1 border-[#0000004D] rounded-[6px]  w-full  outline-0 text-center mr-2"
               />
               <button
                 onClick={() => incrementCount(index)}
-                className="bg-gray-300 px-2 py-1 rounded-lg mx-2"
+                className=" border-1 border-[#0000004D] rounded-[6px] p-2   "
               >
                 +
               </button>
               <button
                 onClick={() => decrementCount(index)}
-                className="bg-gray-300 px-2 py-1 rounded-lg"
+                className=" border-1 border-[#0000004D] rounded-[6px] p-2  "
               >
                 -
               </button>
@@ -65,21 +67,21 @@ export default function PassengerPricingForm() {
           </div>
 
           <div>
-            <label className="block font-semibold">Pricing</label>
+            <label className="text-[20px] font-[400]">Pricing</label>
             <input
               type="text"
               value={detail.pricing}
               onChange={(e) => handleChange(index, 'pricing', e.target.value)}
-              className="border p-2 rounded-lg w-full"
+              className="p-2  border-1 border-[#0000004D] rounded-[6px]  w-full  outline-0"
             />
           </div>
 
           <div>
-            <label className="block font-semibold">Travel category</label>
+            <label className="text-[20px] font-[400]">Travel category</label>
             <select
               value={detail.category}
               onChange={(e) => handleChange(index, 'category', e.target.value)}
-              className="border p-2 rounded-lg w-full"
+              className="p-2  border-1 border-[#0000004D] rounded-[6px]  w-full  outline-0"
             >
               <option value="">Select Category</option>
               <option value="economy">Economy</option>

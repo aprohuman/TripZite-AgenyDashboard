@@ -39,11 +39,15 @@ const Sidebar = () => {
         {!isCollapsed &&
           packages.map((pkg, index) => (
             <div key={index} className="p-2">
-              <div className="font-bold text-black">{pkg}</div>
+              <div className="text-[20px] font-[400]">{pkg}</div>
               <ul className="pl-4 text-gray-600">
                 {packageFields.map((field, idx) => (
-                  <li key={idx} className="text-sm sm:text-base text-[gray] list-[circle]">
-                    {field}
+                  <li
+                    key={idx}
+                    className="text-sm sm:text-base flex items-center my-1 "
+                  >
+                    <div className="mr-2 border-1 rounded-[50%] w-[9px] h-[9px]"></div>
+                    <p className="text-[20px] font-[400]"> {field}</p>
                   </li>
                 ))}
               </ul>
