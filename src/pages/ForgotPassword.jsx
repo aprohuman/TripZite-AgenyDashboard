@@ -107,10 +107,10 @@ function ForgotPassword(params) {
           <div className="bg-white p-8 rounded-[30px] shadow-lg max-w-[45.625rem] min-h-[27.5rem] w-full flex flex-col md:flex-row items-center absolute ">
             {/* Left Side - Logo and Image */}
             <div className="flex flex-col items-center  md:w-1/2 ">
-              <a href="#" className="w-[182px] h-[87px]">
+              <a href="#" className="w-[182px] h-[87px] mb-8">
                 <img src={logo} alt="" className="h-full w-full" />
               </a>
-              <p className="text-[20px]  font-[400] mt-2">Agent Log In</p>
+              {/* <p className="text-[20px]  font-[400] mt-2">Agent Log In</p> */}
               <img
                 src={loginImg}
                 alt="Tripzite Logo"
@@ -119,18 +119,19 @@ function ForgotPassword(params) {
             </div>
               <div className="md:w-1/1.5 w-full pl-6">
                 <h2 className="text-[2rem] font-[400] text-gray-800 mb-6 ">
-                  Login
+                  Forgot Password?
                 </h2>
                 <form onSubmit={handleSubmit} autoComplete="off">
                   <div className="mb-[2rem]">
                     <input
                       type="text"
                       name="email"
-                      placeholder="*Enter your Email ID or Username"
+                      placeholder="*Enter your Email"
                       autoComplete="email"
-                      className={`w-full p-3 border rounded-[1rem]  text-[0.75rem] font-[400] focus:ring-2 focus:ring-green-500 outline-none ${
-                        errors.email ? 'border-red-500' : ''
-                      }`}
+                    //   className={`w-full p-3 border rounded-[1rem]  text-[0.75rem] font-[400] focus:ring-2 focus:ring-green-500 outline-none ${
+                    //     errors.email ? 'border-red-500' : ''
+                    //   }`}
+                    className={`w-full p-2 border rounded-[1.2rem]  text-[0.75rem] font-[400] focus:border-green-500 outline-none  mb-3`}
                       value={formData.email}
                       onChange={handleChange}
                     />
@@ -138,7 +139,7 @@ function ForgotPassword(params) {
                       <p className="text-red-500 text-sm">{errors.email}</p>
                     )}
                   </div>
-                  <div className="mb-[2rem]">
+                  {/* <div className="mb-[2rem]">
                     <input
                       type="password"
                       name="password"
@@ -153,24 +154,22 @@ function ForgotPassword(params) {
                     {errors.password && (
                       <p className="text-red-500 text-sm">{errors.password}</p>
                     )}
-                  </div>
+                  </div> */}
                   <button
                     type="submit"
-                    className={`w-full p-3 rounded-[1rem] text-[0.75rem] font-[400] transition ${
+                    className={`w-full p-2 rounded-[1.2rem] text-[0.75rem] font-[400] transition ${
                       loading || !isFormValid()
-                        ? 'bg-gray-400 cursor-not-allowed'
+                        ? 'bg-black text-white cursor-not-allowed'
                         : 'bg-black text-white hover:bg-gray-800'
                     }`}
                     disabled={loading || !isFormValid()}
                   >
-                    {loading ? 'Logging in...' : 'LOG IN'}
+                    {loading ? 'Logging in...' : 'Send Password Reset Link'}
                   </button>
-                  <div className="flex justify-between items-center mt-4 text-sm">
-                    <label className="flex items-center text-gray-600">
-                      <input type="checkbox" className="mr-2" /> Keep me logged in
-                    </label>
-                    <a href="#" className="text-red-500 hover:underline">
-                      Forgot your Password?
+                  <div className="flex justify-end items-center mt-4 text-sm">
+                  
+                    <a href="#" className="text-blue-500 hover:underline">
+                      Return To Log In Page
                     </a>
                   </div>
                 </form>

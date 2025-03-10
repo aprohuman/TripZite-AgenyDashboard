@@ -8,6 +8,7 @@ import logo from '../assets/images/Icon.png'
 import loginImg from '../assets/images/BWLogo.svg'
 import PhoneOTPInput from '../components/PhoneOTPInput.jsx'
 import { setToken } from "../utils/auth";
+import { Link } from 'react-router-dom'
 
 function LogIn(params) {
   const navigate = useNavigate();
@@ -137,9 +138,7 @@ function LogIn(params) {
                     name="email"
                     placeholder="*Enter your Email ID or Username"
                     autoComplete="email"
-                    className={`w-full p-3 border rounded-[1rem]  text-[0.75rem] font-[400] focus:ring-2 focus:ring-green-500 outline-none ${
-                      errors.email ? 'border-red-500' : ''
-                    }`}
+                    className={`w-full p-2 border rounded-[1.2rem]  text-[0.75rem] font-[400] focus:border-green-500 outline-none  mb-3`}
                     value={formData.email}
                     onChange={handleChange}
                   />
@@ -153,9 +152,10 @@ function LogIn(params) {
                     name="password"
                     placeholder="*Password"
                     autoComplete="new-password"
-                    className={`w-full p-3 border rounded-[1rem] text-[0.75rem] font-[400] focus:ring-2 focus:ring-green-500 outline-none ${
-                      errors.password ? 'border-red-500' : ''
-                    }`}
+                    // className={`w-full p-3 border rounded-[1rem] text-[0.75rem] font-[400] focus:ring-2 focus:ring-green-500 outline-none ${
+                    //   errors.password ? 'border-red-500' : ''
+                    // }`}
+                    className={`w-full p-2 border rounded-[1.2rem]  text-[0.75rem] font-[400] focus:border-green-500 outline-none  mb-3`}
                     value={formData.password}
                     onChange={handleChange}
                   />
@@ -165,9 +165,9 @@ function LogIn(params) {
                 </div>
                 <button
                   type="submit"
-                  className={`w-full p-3 rounded-[1rem] text-[0.75rem] font-[400] transition ${
+                  className={`w-full p-2 rounded-[1.2rem]  text-[0.75rem] font-[400] transition ${
                     loading || !isFormValid()
-                      ? 'bg-gray-400 cursor-not-allowed'
+                      ? 'bg-black text-white cursor-not-allowed'
                       : 'bg-black text-white hover:bg-gray-800'
                   }`}
                   disabled={loading || !isFormValid()}
@@ -175,13 +175,13 @@ function LogIn(params) {
                   {loading ? 'Logging in...' : 'LOG IN'}
                 </button>
                 <div className="flex justify-between items-center mt-4 text-sm">
-                  <label className="flex items-center text-gray-600">
-                    <input type="checkbox" className="mr-2" 
+                  <label className="flex items-center text-gray-600 cursor-pointer">
+                    <input type="checkbox" className="mr-2 cursor-pointer" 
                      onChange={(e) => setKeepMeLoggedIn(e.target.checked)} /> Keep me logged in
                   </label>
-                  <a href="#" className="text-red-500 hover:underline">
+                  <Link to="/forgot-password" className="text-red-500 hover:underline">
                     Forgot your Password?
-                  </a>
+                  </Link>
                 </div>
               </form>
             </div>

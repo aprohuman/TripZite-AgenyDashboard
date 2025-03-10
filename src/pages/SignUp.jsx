@@ -154,9 +154,10 @@ export default function SignUp() {
         <h2 className="text-xl md:text-2xl lg:text-[2.5rem] font-medium text-white">
                Sign Up
             </h2>
-           <p className="text-sm md:text-base text-white mt-2">
-              Upload your details to join Tripzite as a travel agent and explore
-               endless opportunities.
+           <p className="text-xs md:text-sm text-white font-light mt-2">
+              Upload your details to join Tripzite as a<br/> 
+              travel agent and explore endless <br/>
+               opportunities.
              </p>
         </div>
 
@@ -166,14 +167,14 @@ export default function SignUp() {
           {currentStep === 1 ? (
             <form onSubmit={handleNameSubmit}>
               {Object.keys(nameFormData).map((field) => (
-                <div key={field} className="mb-4">
-                  <label className="block text-gray-700 font-semibold mb-3">{field.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (str) => str.toUpperCase())}</label>
+                <div key={field} className="mb-3">
+                  <label className="block text-gray-700 font-semibold mb-2">{field.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (str) => str.toUpperCase())}</label>
                   <input
                     type="text"
                     name={field}
                     value={nameFormData[field]}
                     onChange={handleNameChange}
-                    className={`w-full p-2 border rounded-[1.2rem]  text-[0.75rem] font-[400] focus:border-green-500 outline-none  mb-3`}
+                    className={`w-full p-2 border rounded-[1.2rem]  text-[0.75rem] font-[400] focus:border-green-500 outline-none  mb-2`}
                   />
                   {errors[field] && <p className="text-red-500 text-xs">{errors[field]}</p>}
                 </div>
@@ -185,24 +186,25 @@ export default function SignUp() {
             </form>
           ) : currentStep === 2 ? (
             <form onSubmit={handleAddressSubmit}>
+            <legend className='block text-gray-700 font-semibold mb-2'>Based In</legend>
               {Object.keys(addressFormData).map((field, i) => (
                 <div key={field} className={`mb-4 flex flex-col justify-between items-start ${i === 1 ? `w-[48%] inline-block`: ``} ${ i === 2 ? `w-[48%] inline-block ml-4`: ``} `}>
-                  <label className={`block text-gray-700`}>{field.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (str) => str.toUpperCase())}</label>
+                  <label className={`block text-gray-700 font-semibold mb-2`}>{field.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (str) => str.toUpperCase())}</label>
                   <input
                     type="text"
                     name={field}
                     value={addressFormData[field]}
                     onChange={handleAddressChange}
-                    className={`w-full p-2 border rounded-[1.2rem]  text-[0.75rem] font-[400] focus:border-green-500 outline-none  mb-3`}
+                    className={`w-full p-2 border rounded-[1.2rem]  text-[0.75rem] font-[400] focus:border-green-500 outline-none  mb-2`}
                   />
                 </div>
               ))}
             
             <div>
-                    <label htmlFor="">Upload Document</label>
-                    <div className="flex justify-center mb-4">
+                    <label htmlFor="" className='text-gray-700 font-semibold '>Upload Document</label>
+                    <div className="flex justify-center my-2  w-full">
                       <div
-                        className={`drop-zone ${isDragging ? 'dragging' : ''} bg-[#DAE9CC]`}
+                        className={`drop-zone ${isDragging ? 'dragging' : ''} bg-[#DAE9CC] w-full`}
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         onDrop={handleDrop}
@@ -258,20 +260,25 @@ export default function SignUp() {
                  <OTPVerification />
           </>
           ):(
-            <div className="flex flex-col items-center justify-center text-center p-8">
-            <img src={logo} alt="TripZite" className="w-[6rem] h-[3rem] mb-4" />
-            <p className="text-gray-700 text-lg">
+            <div className=" h-full flex flex-col items-center justify-between px-5 py-10">
+            <div className='flex flex-col gap-4'>
+            <p className="text-gray-700 text-base font-light">
               Your request has been sent to the <strong>Tripzite’s</strong> team for verification.
             </p>
-            <p className="text-gray-700 text-lg mt-4">
+            <p className="text-gray-700 text-base font-light">
               You will be contacted within 24hrs regarding the updates of your requests.
             </p>
-            <p className="text-red-500 text-sm mt-6">
+            </div>
+
+<div className='flex flex-col items-center gap-8'>
+<p className="text-red-500 text-sm font-light mt-6">
               *Please confirm your email for <strong>Tripzite</strong> to have seamless communication with you.
-            </p>
-            <button className="bg-black text-white py-1 px-5">
-              Return to home page
-            </button>
+  </p>
+            <button className="w-[50%] bg-black text-white py-1 px-5">
+              Return To Home Page
+              </button>
+</div>
+          
           </div>
           )}
         </div>

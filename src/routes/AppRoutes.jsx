@@ -9,7 +9,8 @@ import LogIn from '../pages/Login'
 import SignUp from '../pages/SignUp'
 import ForgotPassword from '../pages/ForgotPassword'
 import Dashboard from '../pages/Dashboard'
-import TripDetailFomPage from '../pages/TripDetailFomPage'
+import AddPackage from '../pages/AddPackage'
+import YourPackages from '../pages/YourPackages'
 
 const AppRoutes = () => {
   return (
@@ -19,10 +20,12 @@ const AppRoutes = () => {
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/tripPage" element={<TripDetailFomPage />} />
+        
 
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/add-package" element={<AddPackage />} />
+          <Route path="/your-packages" element={<YourPackages />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/login" replace />} />

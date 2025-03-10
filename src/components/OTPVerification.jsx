@@ -70,15 +70,15 @@ const OTPVerification = () => {
       </div>
       <div className="text-center mt-3">
         {resendTimer > 0 ? (
-          <p className="text-gray-500">Resend OTP in {resendTimer}s</p>
+          <p className="text-gray-500 text-sm">Resend OTP in {resendTimer} secs</p>
         ) : (
           <div className="flex  justify-between  my-5 ">
-            <p>Resend otp in 30 sec.</p>
+            <p className='text-xs font-light'>Resend OTP in 30 secs</p>
             <div className="flex  flex-col items-end">
-              <p className="text-blue-500 " onClick={handleResendOTP}>
-                <a href="#">get otp via email ?</a>
+              <p className="text-blue-500  text-xs font-light" onClick={handleResendOTP}>
+                <a href="#">Get OTP via email ?</a>
               </p>
-              <p>send otp on @gmail.com</p>
+              <p className='text-xs font-light'>Send otp on {'xyz@gmail.com'}</p>
             </div>
           </div>
         )}
@@ -87,7 +87,7 @@ const OTPVerification = () => {
         onClick={handleSubmit}
         className="w-full bg-black text-white py-2 mt-4 rounded-lg hover:bg-gray-800"
       >
-        Sign Up
+        Send Request
       </button>
     </div>
   )

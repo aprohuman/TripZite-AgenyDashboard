@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 export default function Footer() {
   return (
     <footer className='bg-[#102728] '>
+        <div className='container mx-auto px-4 py-8'>
+
+  
         <div className='flex justify-between items-start'>
         <div>
             <h3 className='text-base text-white mb-2'>SERVICE</h3>
@@ -73,13 +76,18 @@ export default function Footer() {
             </nav>
         </div>
         </div>
-        <div>
+
+        <div className='mt-6'>
             <span className='text-xs text-[#A7B0AF] border-b border-white p-1'>INDIA(English)/ Rupees (&#8377;)</span>
         </div>
-        <div className='border-t border-white mt-5 p-4'>
-            <small className='text-white'>&copy;TRIPZITE 2025. All Rights Reserved.</small>
-
         </div>
-  </footer>
+        <div className='border-t border-white mt-5 p-4'>
+            <div className='container mx-auto px-4 py-4'>
+            <small className='text-white'>&copy;TRIPZITE 2025. All Rights Reserved.</small>
+            </div>
+        
+        </div>
+
+    </footer>
   )
 }
