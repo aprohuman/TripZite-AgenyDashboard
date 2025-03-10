@@ -1,0 +1,40 @@
+{
+  "sections": [
+    {
+      "formTitle": "Package Description",
+      "fields": [
+        {
+          "id": "packageName",
+          "label": "Package Name",
+          "type": "text",
+          "validation": {
+            "required": true,
+            "maxLength": 100
+          }
+        },
+        {
+          "id": "shortDescription",
+          "label": "Short Description",
+          "type": "text",
+
+          "validation": {
+            "required": true,
+            "maxWords": 20
+          },
+          "note": "This description will be shown initially before the client looks at the fully detailed package page"
+        },
+        {
+          "id": "longDescription",
+          "label": "Long Description",
+          "type": "textarea",
+
+          "validation": {
+            "required": true,
+            "maxWords": 250
+          },
+          "note": "This description will be shown on the fully detailed package page"
+        }
+      ]
+    }
+  ]
+}

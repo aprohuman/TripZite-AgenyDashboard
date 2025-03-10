@@ -1,27 +1,34 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import ProtectedRoute from "../components/ProtectedRoute";
-import LogIn from "../pages/LogIn";
-import SignUp from "../pages/SignUp";
-import ForgotPassword from "../pages/ForgotPassword";
-import Dashboard from "../pages/Dashboard";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom'
+import ProtectedRoute from '../components/ProtectedRoute'
+import LogIn from '../pages/Login'
+import SignUp from '../pages/SignUp'
+import ForgotPassword from '../pages/ForgotPassword'
+import Dashboard from '../pages/Dashboard'
+import TripDetailFomPage from '../pages/TripDetailFomPage'
 
 const AppRoutes = () => {
-    return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<LogIn />} />
-                <Route path="/login" element={<LogIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LogIn />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/tripPage" element={<TripDetailFomPage />} />
 
-                <Route element={<ProtectedRoute />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
 
-                <Route path="*" element={<Navigate to="/login" replace />} />
-            </Routes>
-        </Router>
-    );
-};
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </Router>
+  )
+}
 
-export default AppRoutes;
+export default AppRoutes
