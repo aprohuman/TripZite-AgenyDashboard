@@ -33,17 +33,19 @@ export default function TripBreakdownForm() {
   }
 
   return (
-    <div className="p-4 bg-white w-full mx-auto">
-      <h2 className="text-2xl font-bold">Trip Breakdown</h2>
+    <div className="mx-auto bg-white p-4 sm:p-8 w-full max-w-screen">
+      <h2 className="text-[2rem] font-[400]  text-black mb-6">
+        Trip Breakdown
+      </h2>
 
-      <h3 className="text-lg font-semibold mt-4">DAY 1</h3>
+      <h3 className="text-[24px] font=[400] mt-4">DAY 1</h3>
 
       <div className="mt-4 flex flex-col sm:flex-row items-center justify-between">
-        <p className="text-gray-500 mb-2 sm:mb-0">
+        <p className="text-[20px] font-[400] mb-2 sm:mb-0">
           Location: City, State/Province, Country
         </p>
         <div className="flex flex-col w-full sm:w-1/2">
-          <label className="block font-semibold mb-2">Upload Media</label>
+          <label className="text-[24px] font-[400] mb-2">Upload Media</label>
           <div
             className="border-2 border-dashed border-gray-400 bg-blue-100 rounded-lg p-8 flex flex-col items-center justify-center"
             onDrop={handleDrop}
@@ -81,19 +83,19 @@ export default function TripBreakdownForm() {
       </div>
 
       <div className="my-4">
-        <h4 className="font-semibold">Accommodation</h4>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-2">
-          <div className="flex items-center">
-            <h4 className="text-gray-400">Accommodation</h4>
-            <select className="border p-2 rounded-lg w-full ml-4">
+        <h4 className="text-[24px] font-[400] my-10">Accommodation</h4>
+        <div className="flex justify-between  w-[75%] my-2">
+          <div className="flex items-center  w-[45%] ">
+            <label className="text-[20px] font-[400]">Accommodation</label>
+            <select className="box-border p-3  border-1 border-[#0000004D] rounded-[6px] text-center w-[50%] ml-4 outline-0">
               <option value="none" hidden></option>
               <option value="hotel">Hotel</option>
               <option value="hostel">Hostel</option>
             </select>
           </div>
-          <div className="flex items-center">
-            <h4 className="text-gray-400">Accommodation type</h4>
-            <select className="border p-2 rounded-lg w-full ml-4">
+          <div className="flex items-center  w-[45%]">
+            <label className="text-[20px] font-[400]">Accommodation type</label>
+            <select className="box-border p-3  border-1 border-[#0000004D] rounded-[6px]  text-center  ml-4 w-[50%] outline-0">
               <option value="none" hidden></option>
               <option value="single">Single Room</option>
               <option value="double">Double Room</option>
@@ -103,7 +105,7 @@ export default function TripBreakdownForm() {
       </div>
 
       <div className="mt-4">
-        <h4 className="font-semibold">Itinerary of the Day 1</h4>
+        <h4 className="text-[24px] font-[400] my-10">Itinerary of the Day 1</h4>
         <div className="flex flex-wrap gap-4 mt-2">
           {itinerary.map((item, index) => (
             <div key={index} className="flex items-center w-full sm:w-auto">
@@ -111,7 +113,7 @@ export default function TripBreakdownForm() {
                 type="text"
                 value={item}
                 onChange={(e) => handleItineraryChange(index, e.target.value)}
-                className="border p-2 rounded-lg w-full"
+                className="box-border p-3  border-1 border-[#0000004D] rounded-[6px]  text-center  ml-4  outline-0 w-full"
               />
               <button
                 onClick={() => removeItinerary(index)}

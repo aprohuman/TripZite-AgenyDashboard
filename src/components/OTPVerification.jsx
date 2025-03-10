@@ -4,7 +4,7 @@ import 'react-phone-input-2/lib/style.css'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const OTPVerification = () => {
+const OTPVerification = ({ currentStep, setCurrentStep }) => {
   const [otp, setOtp] = useState(new Array(6).fill(''))
   const [resendTimer, setResendTimer] = useState(30)
   const inputRefs = useRef([])
@@ -48,7 +48,7 @@ const OTPVerification = () => {
       toast.error('Please enter a valid 6-digit OTP')
       return
     }
-    toast.success('OTP Verified Successfully!')
+    setCurrentStep(4)
   }
 
   return (
@@ -70,15 +70,22 @@ const OTPVerification = () => {
       </div>
       <div className="text-center mt-3">
         {resendTimer > 0 ? (
-          <p className="text-gray-500 text-sm">Resend OTP in {resendTimer} secs</p>
+          <p className="text-gray-500 text-sm">
+            Resend OTP in {resendTimer} secs
+          </p>
         ) : (
           <div className="flex  justify-between  my-5 ">
-            <p className='text-xs font-light'>Resend OTP in 30 secs</p>
+            <p className="text-xs font-light">Resend OTP in 30 secs</p>
             <div className="flex  flex-col items-end">
-              <p className="text-blue-500  text-xs font-light" onClick={handleResendOTP}>
+              <p
+                className="text-blue-500  text-xs font-light"
+                onClick={handleResendOTP}
+              >
                 <a href="#">Get OTP via email ?</a>
               </p>
-              <p className='text-xs font-light'>Send otp on {'xyz@gmail.com'}</p>
+              <p className="text-xs font-light">
+                Send otp on {'xyz@gmail.com'}
+              </p>
             </div>
           </div>
         )}
@@ -93,4 +100,4 @@ const OTPVerification = () => {
   )
 }
 
-export default OTPVerification;
+export default OTPVerification

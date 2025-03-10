@@ -1,18 +1,18 @@
-import React, { useState, useCallback, useRef } from 'react';
-import backgroundImg from '../../public/images/Background.png';
-import logo from '../assets/images/Icon.png';
-import { validateEmail, validateName, validateMobile } from '../utils/email';
-import PhoneOTPInput from '../components/PhoneOTPInput';
-import OTPVerification from '../components/OTPVerification';
+import React, { useState, useCallback, useRef } from 'react'
+import backgroundImg from '../../public/images/Background.png'
+import logo from '../assets/images/Icon.png'
+import { validateEmail, validateName, validateMobile } from '../utils/email'
+import PhoneOTPInput from '../components/PhoneOTPInput'
+import OTPVerification from '../components/OTPVerification'
 
 export default function SignUp() {
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
-  const debounceTimeout = useRef(null);
-  const [currentStep, setCurrentStep] = useState(1);
-  const [isDragging, setIsDragging] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const fileInputRef = useRef(null);
+  const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState({})
+  const debounceTimeout = useRef(null)
+  const [currentStep, setCurrentStep] = useState(1)
+  const [isDragging, setIsDragging] = useState(false)
+  const [selectedFile, setSelectedFile] = useState(null)
+  const fileInputRef = useRef(null)
 
   // State for form fields
   const [nameFormData, setNameFormData] = useState({
@@ -20,19 +20,34 @@ export default function SignUp() {
     ownerName: '',
     email: '',
     phone: '',
-  });
+  })
 
   const [addressFormData, setAddressFormData] = useState({
     country: '',
     state: '',
     city: '',
     postalCode: '',
-  });
+  })
 
   const validateNameForm = {
-    agencyName: (value) => (!value ? 'Agency name is required' : !validateName(value) ? 'Invalid name format' : ''),
-    ownerName: (value) => (!value ? 'Owner name is required' : !validateName(value) ? 'Invalid name format' : ''),
-    email: (value) => (!value ? 'Email is required' : !validateEmail(value) ? 'Invalid email format' : ''),
+    agencyName: (value) =>
+      !value
+        ? 'Agency name is required'
+        : !validateName(value)
+        ? 'Invalid name format'
+        : '',
+    ownerName: (value) =>
+      !value
+        ? 'Owner name is required'
+        : !validateName(value)
+        ? 'Invalid name format'
+        : '',
+    email: (value) =>
+      !value
+        ? 'Email is required'
+        : !validateEmail(value)
+        ? 'Invalid email format'
+        : '',
     phone: (value) =>
       !value
         ? 'Phone is required'
@@ -41,124 +56,130 @@ export default function SignUp() {
         : !validateMobile(value)
         ? 'Invalid format'
         : '',
-  };
+  }
 
   const validateAddressForm = {
     country: (value) => (!value.trim() ? 'Country is required' : ''),
     state: (value) => (!value.trim() ? 'State is required' : ''),
     city: (value) => (!value.trim() ? 'City is required' : ''),
     postalCode: (value) => (!value.trim() ? 'Postal code is required' : ''),
-  };
+  }
 
   const validateField = (name, value, formType) => {
-    const validator = formType === 'address' ? validateAddressForm : validateNameForm;
+    const validator =
+      formType === 'address' ? validateAddressForm : validateNameForm
     if (validator[name]) {
-      setErrors((prev) => ({ ...prev, [name]: validator[name](value) }));
+      setErrors((prev) => ({ ...prev, [name]: validator[name](value) }))
     }
-  };
+  }
 
   const handleNameChange = (e) => {
-    const { name, value } = e.target;
-    setNameFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value } = e.target
+    setNameFormData((prev) => ({ ...prev, [name]: value }))
 
-    clearTimeout(debounceTimeout.current);
+    clearTimeout(debounceTimeout.current)
     debounceTimeout.current = setTimeout(() => {
-      validateField(name, value, 'name');
-    }, 300);
-  };
+      validateField(name, value, 'name')
+    }, 300)
+  }
 
   const handleAddressChange = (e) => {
-    const { name, value } = e.target;
-    setAddressFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value } = e.target
+    setAddressFormData((prev) => ({ ...prev, [name]: value }))
 
-    clearTimeout(debounceTimeout.current);
+    clearTimeout(debounceTimeout.current)
     debounceTimeout.current = setTimeout(() => {
-      validateField(name, value, 'address');
-    }, 300);
-  };
+      validateField(name, value, 'address')
+    }, 300)
+  }
 
   const handleFileUpload = (file) => {
     // setAddressFormData((prev) => ({ ...prev, file }));
-  };
+  }
 
   const handleDragOver = useCallback((e) => {
-    e.preventDefault();
-    setIsDragging(true);
-  }, []);
+    e.preventDefault()
+    setIsDragging(true)
+  }, [])
 
   const handleDragLeave = useCallback((e) => {
-    e.preventDefault();
-    setIsDragging(false);
-  }, []);
+    e.preventDefault()
+    setIsDragging(false)
+  }, [])
 
   const handleDrop = useCallback(
     (e) => {
-      e.preventDefault();
-      setIsDragging(false);
-      const file = e.dataTransfer.files[0];
+      e.preventDefault()
+      setIsDragging(false)
+      const file = e.dataTransfer.files[0]
       if (file) {
-        setSelectedFile(file);
-        handleFileUpload(file);
+        setSelectedFile(file)
+        handleFileUpload(file)
       }
     },
-    [handleFileUpload]
-  );
+    [handleFileUpload],
+  )
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]
     if (file) {
-      setSelectedFile(file);
-      handleFileUpload(file);
+      setSelectedFile(file)
+      handleFileUpload(file)
     }
-  };
+  }
 
   const handleClick = () => {
-    fileInputRef.current.click();
-  };
+    fileInputRef.current.click()
+  }
 
   const handleNameSubmit = (e) => {
-    e.preventDefault();
-    let formIsValid = true;
-    const newErrors = {};
+    e.preventDefault()
+    let formIsValid = true
+    const newErrors = {}
 
     Object.keys(nameFormData).forEach((field) => {
-      const error = validateNameForm[field](nameFormData[field]);
-      newErrors[field] = error;
-      if (error) formIsValid = false;
-    });
+      const error = validateNameForm[field](nameFormData[field])
+      newErrors[field] = error
+      if (error) formIsValid = false
+    })
 
-    setErrors(newErrors);
-    if (formIsValid) setCurrentStep(2);
-  };
+    setErrors(newErrors)
+    if (formIsValid) setCurrentStep(2)
+  }
 
   const handleAddressSubmit = (e) => {
-    e.preventDefault();
-    let formIsValid = true;
-    const newErrors = {};
+    e.preventDefault()
+    let formIsValid = true
+    const newErrors = {}
 
     Object.keys(addressFormData).forEach((field) => {
-      const error = validateAddressForm[field](addressFormData[field]);
-      newErrors[field] = error;
-      if (error) formIsValid = false;
-    });
+      const error = validateAddressForm[field](addressFormData[field])
+      newErrors[field] = error
+      if (error) formIsValid = false
+    })
 
-    setErrors(newErrors);
-    if (formIsValid) setCurrentStep(3);
-  };
+    setErrors(newErrors)
+    if (formIsValid) setCurrentStep(3)
+  }
 
   return (
-    <div className="flex min-h-screen items-center justify-end px-4 md:px-12 bg-black"
-      style={{ backgroundImage: `url(${backgroundImg})`, backgroundSize: 'cover' }}>
+    <div
+      className="flex min-h-screen items-center justify-end px-4 md:px-12 bg-black"
+      style={{
+        backgroundImage: `url(${backgroundImg})`,
+        backgroundSize: 'cover',
+      }}
+    >
       <div className="shadow-lg w-full sm:max-w-[40rem] md:max-w-[65rem] h-auto md:h-[40rem] flex flex-col md:flex-row">
         <div className="bg-black p-6 md:p-12 w-full md:w-[50%] rounded-tl-[1.875rem] md:rounded-l-[1.875rem]">
-        <h2 className="text-xl md:text-2xl lg:text-[2.5rem] font-medium text-white">
-               Sign Up
-            </h2>
-           <p className="text-xs md:text-sm text-white font-light mt-2">
-              Upload your details to join Tripzite as a<br/> 
-              travel agent and explore endless <br/>
-               opportunities.
-             </p>
+          <h2 className="text-xl md:text-2xl lg:text-[2.5rem] font-medium text-white">
+            Sign Up
+          </h2>
+          <p className="text-xs md:text-sm text-white font-light mt-2">
+            Upload your details to join Tripzite as a<br />
+            travel agent and explore endless <br />
+            opportunities.
+          </p>
         </div>
 
         <div className="bg-white p-12 w-full md:w-[60%] rounded-br-[1.875rem] md:rounded-r-[1.875rem]">
@@ -168,7 +189,11 @@ export default function SignUp() {
             <form onSubmit={handleNameSubmit}>
               {Object.keys(nameFormData).map((field) => (
                 <div key={field} className="mb-3">
-                  <label className="block text-gray-700 font-semibold mb-2">{field.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (str) => str.toUpperCase())}</label>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    {field
+                      .replace(/([a-z])([A-Z])/g, '$1 $2')
+                      .replace(/^./, (str) => str.toUpperCase())}
+                  </label>
                   <input
                     type="text"
                     name={field}
@@ -176,20 +201,34 @@ export default function SignUp() {
                     onChange={handleNameChange}
                     className={`w-full p-2 border rounded-[1.2rem]  text-[0.75rem] font-[400] focus:border-green-500 outline-none  mb-2`}
                   />
-                  {errors[field] && <p className="text-red-500 text-xs">{errors[field]}</p>}
+                  {errors[field] && (
+                    <p className="text-red-500 text-xs">{errors[field]}</p>
+                  )}
                 </div>
               ))}
-              <div className='flex justify-center items-center'>
-              <button type="submit" className="bg-black text-white py-1 px-5">Proceed</button>
+              <div className="flex justify-center items-center">
+                <button type="submit" className="bg-black text-white py-1 px-5">
+                  Proceed
+                </button>
               </div>
-             
             </form>
           ) : currentStep === 2 ? (
             <form onSubmit={handleAddressSubmit}>
-            <legend className='block text-gray-700 font-semibold mb-2'>Based In</legend>
+              <legend className="block text-gray-700 font-semibold mb-2">
+                Based In
+              </legend>
               {Object.keys(addressFormData).map((field, i) => (
-                <div key={field} className={`mb-4 flex flex-col justify-between items-start ${i === 1 ? `w-[48%] inline-block`: ``} ${ i === 2 ? `w-[48%] inline-block ml-4`: ``} `}>
-                  <label className={`block text-gray-700 font-semibold mb-2`}>{field.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (str) => str.toUpperCase())}</label>
+                <div
+                  key={field}
+                  className={`mb-4 flex flex-col justify-between items-start ${
+                    i === 1 ? `w-[48%] inline-block` : ``
+                  } ${i === 2 ? `w-[48%] inline-block ml-4` : ``} `}
+                >
+                  <label className={`block text-gray-700 font-semibold mb-2`}>
+                    {field
+                      .replace(/([a-z])([A-Z])/g, '$1 $2')
+                      .replace(/^./, (str) => str.toUpperCase())}
+                  </label>
                   <input
                     type="text"
                     name={field}
@@ -199,91 +238,100 @@ export default function SignUp() {
                   />
                 </div>
               ))}
-            
-            <div>
-                    <label htmlFor="" className='text-gray-700 font-semibold '>Upload Document</label>
-                    <div className="flex justify-center my-2  w-full">
-                      <div
-                        className={`drop-zone ${isDragging ? 'dragging' : ''} bg-[#DAE9CC] w-full`}
-                        onDragOver={handleDragOver}
-                        onDragLeave={handleDragLeave}
-                        onDrop={handleDrop}
-                        onClick={handleClick}
-                        style={{
-                          border: `6px dashed ${
-                            isDragging ? '#2196F3' : '#FFF3E7'
-                          }`,
-                          padding: '2rem',
-                          textAlign: 'center',
-                          cursor: 'pointer',
-                          backgroundColor: isDragging
-                            ? '#f0f8ff'
-                            : '#DAE9CC',
-                          transition: 'all 0.3s ease',
-                        }}
-                      >
-                        <input
-                          type="file"
-                          ref={fileInputRef}
-                          onChange={handleFileChange}
-                          style={{ display: 'none' }}
-                          accept="image/*,.pdf,.doc,.docx" // Specify accepted file types
-                        />
 
-                        {selectedFile ? (
-                          <div>
-                            <p className='text-[#102728]'>Selected file: {selectedFile.name}</p>
-                            <p className='text-[#102728]'>
-                              Size: {(selectedFile.size / 1024).toFixed(2)} KB
-                            </p>
-                          </div>
-                        ) : (
-                          <div>
-                            <p className='text-[#102728]'>
-                              Drag and Drop
-                              <br/> or <br/> 
-                              Click to upload
-                            </p>
-                          </div>
-                        )}
+              <div>
+                <label htmlFor="" className="text-gray-700 font-semibold ">
+                  Upload Document
+                </label>
+                <div className="flex justify-center my-2  w-full">
+                  <div
+                    className={`drop-zone ${
+                      isDragging ? 'dragging' : ''
+                    } bg-[#DAE9CC] w-full`}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    onClick={handleClick}
+                    style={{
+                      border: `6px dashed ${
+                        isDragging ? '#2196F3' : '#FFF3E7'
+                      }`,
+                      padding: '2rem',
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                      backgroundColor: isDragging ? '#f0f8ff' : '#DAE9CC',
+                      transition: 'all 0.3s ease',
+                    }}
+                  >
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleFileChange}
+                      style={{ display: 'none' }}
+                      accept="image/*,.pdf,.doc,.docx" // Specify accepted file types
+                    />
+
+                    {selectedFile ? (
+                      <div>
+                        <p className="text-[#102728]">
+                          Selected file: {selectedFile.name}
+                        </p>
+                        <p className="text-[#102728]">
+                          Size: {(selectedFile.size / 1024).toFixed(2)} KB
+                        </p>
                       </div>
-                    </div>
+                    ) : (
+                      <div>
+                        <p className="text-[#102728]">
+                          Drag and Drop
+                          <br /> or <br />
+                          Click to upload
+                        </p>
+                      </div>
+                    )}
                   </div>
-
-              <div className='flex justify-center items-center'>
-              <button type="submit" className="bg-black text-white py-1 px-5">Proceed</button>
+                </div>
               </div>
-              
+
+              <div className="flex justify-center items-center">
+                <button type="submit" className="bg-black text-white py-1 px-5">
+                  Proceed
+                </button>
+              </div>
             </form>
           ) : currentStep === 3 ? (
-          <>
-                 <OTPVerification />
-          </>
-          ):(
+            <>
+              <OTPVerification
+                currentStep={currentStep}
+                setCurrentStep={setCurrentStep}
+              />
+            </>
+          ) : (
             <div className=" h-full flex flex-col items-center justify-between px-5 py-10">
-            <div className='flex flex-col gap-4'>
-            <p className="text-gray-700 text-base font-light">
-              Your request has been sent to the <strong>Tripzite’s</strong> team for verification.
-            </p>
-            <p className="text-gray-700 text-base font-light">
-              You will be contacted within 24hrs regarding the updates of your requests.
-            </p>
-            </div>
+              <div className="flex flex-col gap-4">
+                <p className="text-gray-700 text-base font-light">
+                  Your request has been sent to the <strong>Tripzite’s</strong>{' '}
+                  team for verification.
+                </p>
+                <p className="text-gray-700 text-base font-light">
+                  You will be contacted within 24hrs regarding the updates of
+                  your requests.
+                </p>
+              </div>
 
-<div className='flex flex-col items-center gap-8'>
-<p className="text-red-500 text-sm font-light mt-6">
-              *Please confirm your email for <strong>Tripzite</strong> to have seamless communication with you.
-  </p>
-            <button className="w-[50%] bg-black text-white py-1 px-5">
-              Return To Home Page
-              </button>
-</div>
-          
-          </div>
+              <div className="flex flex-col items-center gap-8">
+                <p className="text-red-500 text-sm font-light mt-6">
+                  *Please confirm your email for <strong>Tripzite</strong> to
+                  have seamless communication with you.
+                </p>
+                <button className="w-[50%] bg-black text-white py-1 px-5">
+                  Return To Home Page
+                </button>
+              </div>
+            </div>
           )}
         </div>
       </div>
     </div>
-  );
+  )
 }
-
