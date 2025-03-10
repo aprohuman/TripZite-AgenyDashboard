@@ -20,16 +20,16 @@ export default function YourPackages() {
     <Header />
     <Filters filters={filters} setFilters={setFilters} />
     <div className='flex justify-between items-stretch mx-auto'>
-        <aside className='flex-[0_1_20%] bg-[#102728]  flex justify-center'>
+        <aside className='flex-[0_1_20%] bg-[#A3AAD179]  flex justify-center'>
         <nav>
             <ul className='flex flex-col justify-start items-start gap-2 mt-4'>
-                {tabs.map((tab)=><li onClick={()=>setCurrentTab(tab)} key={tab} className={`inline-block cursor-pointer m-1 text-white ${tab === currentTab ? `border-b-1`: ``}`}>{tab}</li>)}
+                {tabs.map((tab)=><li onClick={()=>setCurrentTab(tab)} key={tab} className={`inline-block cursor-pointer m-1 text-black ${tab === currentTab ? `border-b-1`: ``}`}>{tab}</li>)}
             </ul>
         </nav>
         </aside>
         <main>
         <h1 className='text-[36px] font-medium border-b-1 border-b-[#102728] mb-6 p-4'>{currentTab}</h1>
-        <div className='flex-[0_1_80%] flex justify-start items-center flex-wrap gap-2 pb-5'>
+        <div className='flex-[0_1_80%] p-4 flex justify-between items-center flex-wrap'>
         <PackageCard />
         <PackageCard />
         <PackageCard />

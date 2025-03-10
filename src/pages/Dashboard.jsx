@@ -5,7 +5,6 @@ import Footer from "../components/Footer";
 import Notification from "../components/Notifications";
 
 const Dashboard = () => {
-
     return (
         <div>
             <Header/>

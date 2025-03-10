@@ -6,7 +6,7 @@ import darjeelingImage from "../assets/images/Darjeeling.png";
 
 const PackageCard = () => {
   return (
-    <div className="max-w-[20rem] mx-auto bg-white border border-gray-300 rounded-2xl shadow-md overflow-hidden p-4">
+    <div className="max-w-[22rem] bg-white border border-gray-300 rounded-2xl shadow-md overflow-hidden p-4 mb-4">
       <div className="relative rounded-[14px] overflow-hidden">
         <img
           className="w-full h-60 object-cover"

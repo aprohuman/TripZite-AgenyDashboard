@@ -6,4 +6,4 @@ const API = {
     resetPassword: "resetPassword/",
     signUp: "signUp/"
 }
-export default API
+export default API;

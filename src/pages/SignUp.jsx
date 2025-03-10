@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef } from 'react';
 import backgroundImg from '../../public/images/Background.png';
 import logo from '../assets/images/Icon.png';
-import { validateEmail, validateName, validateMobile } from '../utils/email';
+import { validateEmail, validateName, validateMobile } from '../utils/validators';
 import PhoneOTPInput from '../components/PhoneOTPInput';
 import OTPVerification from '../components/OTPVerification';
 
@@ -9,7 +9,7 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const debounceTimeout = useRef(null);
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(4);
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
@@ -257,7 +257,7 @@ export default function SignUp() {
             </form>
           ) : currentStep === 3 ? (
           <>
-                 <OTPVerification />
+                 <OTPVerification  currentStep={currentStep} setCurrentStep={setCurrentStep}/>
           </>
           ):(
             <div className=" h-full flex flex-col items-center justify-between px-5 py-10">
@@ -270,10 +270,7 @@ export default function SignUp() {
             </p>
             </div>
 
-<div className='flex flex-col items-center gap-8'>
-<p className="text-red-500 text-sm font-light mt-6">
-              *Please confirm your email for <strong>Tripzite</strong> to have seamless communication with you.
-  </p>
+<div className='flex justify-center items-center gap-8 w-full'>
             <button className="w-[50%] bg-black text-white py-1 px-5">
               Return To Home Page
               </button>

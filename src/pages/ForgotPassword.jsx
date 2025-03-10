@@ -1,6 +1,6 @@
 import React, {useState, useRef, useCallback} from 'react'
 
-import { validateEmail } from '../utils/email.js'
+import { validateEmail } from '../utils/validators.js'
 import API from '../config/api.config.js'
 import Overlay from '../components/Overlay.jsx'
 import backgroundImg from '../../public/images/Background.png'
