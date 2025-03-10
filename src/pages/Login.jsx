@@ -11,6 +11,7 @@ import { setToken } from "../utils/auth";
 
 function LogIn(params) {
   const navigate = useNavigate();
+  const [keepMeLoggedIn, setKeepMeLoggedIn] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -63,8 +64,8 @@ function LogIn(params) {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    let formIsValid = true
+    e.preventDefault();
+    let formIsValid = true;
     const newErrors = {};
 
     Object.keys(formData).forEach((fieldName) => {
@@ -77,7 +78,7 @@ function LogIn(params) {
 
     if (!formIsValid) return;
 
-    setLoading(true)
+    setLoading(true);
 
     setTimeout(() => {
       alert('Login successful')
@@ -86,7 +87,7 @@ function LogIn(params) {
       setTwoStepVerification(true)
     }, 1000)
 
-    setToken('okokok');
+    setToken('okokok', keepMeLoggedIn);
     navigate("/dashboard");
   }
   //Function to check if the form is valid.
@@ -175,7 +176,8 @@ function LogIn(params) {
                 </button>
                 <div className="flex justify-between items-center mt-4 text-sm">
                   <label className="flex items-center text-gray-600">
-                    <input type="checkbox" className="mr-2" /> Keep me logged in
+                    <input type="checkbox" className="mr-2" 
+                     onChange={(e) => setKeepMeLoggedIn(e.target.checked)} /> Keep me logged in
                   </label>
                   <a href="#" className="text-red-500 hover:underline">
                     Forgot your Password?

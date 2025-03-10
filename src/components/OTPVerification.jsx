@@ -87,14 +87,10 @@ const OTPVerification = () => {
         onClick={handleSubmit}
         className="w-full bg-black text-white py-2 mt-4 rounded-lg hover:bg-gray-800"
       >
-        LOG IN
+        Sign Up
       </button>
-      <div className="flex items-center mt-2">
-        <input type="checkbox" className="mr-2" />
-        <span className="text-sm">Keep me logged in</span>
-      </div>
     </div>
   )
 }
 
-export default OTPVerification
+export default OTPVerification;

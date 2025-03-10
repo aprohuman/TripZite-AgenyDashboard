@@ -117,12 +117,6 @@ function ForgotPassword(params) {
                 className="w-40 h-52 mt-4 rounded-lg shadow-md "
               />
             </div>
-  
-            {/* {enter mobile} */}
-            {towStepVerification ? (
-              <PhoneOTPInput />
-            ) : (
-              // {right side - email input}
               <div className="md:w-1/1.5 w-full pl-6">
                 <h2 className="text-[2rem] font-[400] text-gray-800 mb-6 ">
                   Login
@@ -181,7 +175,7 @@ function ForgotPassword(params) {
                   </div>
                 </form>
               </div>
-            )}
+
           </div>
         </div>
       </>

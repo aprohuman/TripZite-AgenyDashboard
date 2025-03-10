@@ -1,10 +1,11 @@
 const TOKEN_KEY = "jwt_token";
 const EXPIRE_KEY = "jwt_expiry";
-const EXPIRATION_DAYS = 7;
 
-export const setToken = (token) => {
+export const setToken = (token, keepMeLoggedIn) => {
     const expiryDate = new Date();
-    expiryDate.setDate(expiryDate.getDate() + EXPIRATION_DAYS);
+    keepMeLoggedIn
+        ? expiryDate.setDate(expiryDate.getDate() + 365)
+        : expiryDate.setDate(expiryDate.getDate() + 1);
     
     sessionStorage.setItem(TOKEN_KEY, token);
     sessionStorage.setItem(EXPIRE_KEY, expiryDate.toISOString());
