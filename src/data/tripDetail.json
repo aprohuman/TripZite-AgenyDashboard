@@ -1,0 +1,58 @@
+{
+  "tripDetails": [
+    {
+      "id": "trip-details",
+      "title": "Trip Details",
+      "selectOption": [
+        {
+          "selectId": "Multi/Singular-Travel-Location",
+          "label": "Multi/Singular Travel Location",
+          "required": true,
+          "type": "select",
+          "options": [
+            { "value": "us", "text": "United States", "selected": false },
+            { "value": "ca", "text": "Canada", "selected": true },
+            { "value": "uk", "text": "United Kingdom", "selected": false }
+          ],
+          "validation": {
+            "required": true,
+            "errorMessage": "Please select a travel location"
+          }
+        }
+      ],
+      "destination": {
+        "id": "1st-Country-State-City",
+        "label": "1st Country / State / City",
+        "required": true,
+        "countries": [
+          {
+            "name": "India",
+            "states": [
+              {
+                "name": "Maharashtra",
+                "cities": ["Mumbai", "Pune"]
+              },
+              {
+                "name": "Karnataka",
+                "cities": ["Bangalore", "Mysore"]
+              }
+            ]
+          },
+          {
+            "name": "USA",
+            "states": [
+              {
+                "name": "California",
+                "cities": ["Los Angeles", "San Francisco"]
+              },
+              {
+                "name": "New York",
+                "cities": ["New York City", "Buffalo"]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "tripDuration": [
+    {
+      "id": "Duration",
+      "title": "Duration",
+
+      "fields": [
+        {
+          "id": "overallTripDuration",
+          "label": "overall trip duration",
+          "type": "number",
+          "placeholder": "0 days",
+          "required": true,
+          "validation": { "minLength": 1, "maxLength": 50 }
+        },
+        {
+          "id": "specificDates",
+          "label": "specific dates ?",
+          "type": "date",
+          "placeholder": "0 days",
+          "required": true,
+          "validation": { "minLength": 1, "maxLength": 50 },
+          "dates": [
+            {
+              "di": "startDate",
+              "label": "start date",
+              "type": "date",
+              "required": "true"
+            },
+            {
+              "di": "endDate",
+              "label": "end date",
+              "type": "date",
+              "required": "true"
+            }
+          ]
+        },
+        {
+          "id": "bookingDeadline",
+          "label": "booking deadline",
+          "type": "number",
+          "placeholder": "0 days prior",
+          "required": true,
+          "validation": { "minLength": 1, "maxLength": 50 }
+        }
+      ]
+    }
+  ]
+}

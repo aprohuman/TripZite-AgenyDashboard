@@ -1,51 +1,68 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-const Sidebar = ({
-  sections,
-  activeSection,
-  completedSections,
-  onSectionChange,
-}) => (
-  <div className="w-[19.8125rem] bg-gray-100 flex-col items-center ">
-    <h2 className="text-xl font-bold mb-6">Progress</h2>
-    <ul className="space-y-4">
-      {sections?.map((section, index) => (
-        <li
-          key={index}
-          className={`flex items-center cursor-pointer ${
-            index === activeSection
-              ? 'text-blue-600 font-semibold'
-              : 'text-gray-600'
-          }`}
-          onClick={() => onSectionChange(index)}
-        >
-          <span className="mr-2">
-            {completedSections.has(index) ? (
-              <svg
-                className="w-5 h-5 text-green-600"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            ) : (
-              <span className="w-5 h-5 border-2 border-gray-300 rounded-full inline-block" />
-            )}
-          </span>
-          {section}
-        </li>
-      ))}
-    </ul>
-  </div>
-)
+const Sidebar = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [packages, setPackages] = useState(['PACKAGE No.#001'])
 
-Sidebar.propTypes = {
-  // ... prop type definitions
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed)
+  }
+
+  const addPackage = () => {
+    const newPackageNumber = packages.length + 1
+    setPackages([
+      ...packages,
+      `PACKAGE No.#${String(newPackageNumber).padStart(3, '0')}`,
+    ])
+  }
+
+  const packageFields = [
+    'Package Description',
+    'Duration',
+    'Trip Details',
+    'Trip Breakdown',
+    'Passenger count and pricing',
+    'Media Upload',
+  ]
+
+  return (
+    <div
+      className={`flex ${
+        isCollapsed ? 'w-16' : 'w-64'
+      } transition-width duration-300 bg-white p-2  sm:w-48 md:w-64 lg:w-72 xl:w-80`}
+    >
+      <div className="flex flex-col w-full">
+        <button onClick={toggleSidebar} className="self-start">
+          {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
+        </button>
+        {!isCollapsed &&
+          packages.map((pkg, index) => (
+            <div key={index} className="p-2">
+              <div className="font-bold text-black">{pkg}</div>
+              <ul className="pl-4 text-gray-600">
+                {packageFields.map((field, idx) => (
+                  <li key={idx} className="text-sm sm:text-base">
+                    <input type="checkbox" className="mr-2" />
+                    {field}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        {!isCollapsed && (
+          <div className="mt-4 border-t pt-4">
+            <button
+              onClick={addPackage}
+              className="text-gray-400 flex items-center"
+            >
+              + Add another Package
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
 }
 
 export default Sidebar
