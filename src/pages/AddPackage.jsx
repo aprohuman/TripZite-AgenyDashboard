@@ -8,8 +8,26 @@ import TripBreakdownForm from '../components/tripSections/TripBreakdown'
 import PassengerPricingForm from '../components/tripSections/PassengerPricing'
 import MediaUploadComponent from '../components/tripSections/MediaUpload'
 
+const packageFieldSets = [
+  'Package Description',
+  'Duration',
+  'Trip Details',
+  'Trip Breakdown',
+  'Passenger count and pricing',
+  'Media Upload',
+]
+
 export default function TripDetailFomPage() {
-  const [packages, setPackages] = useState(['PACKAGE No.#001'])
+  const [packages, setPackages] = useState(['PACKAGE No.#001']);
+  const [stepsCompleted, setStepsCompleted] = useState({
+    'Package Description': false,
+    'Duration' : false,
+    'Trip Details' : false,
+    'Trip Breakdown' : false,
+    'Passenger count and pricing' : false,
+    'Media Upload' : false,
+  });
+
 
   const addPackage = () => {
     const newPackageNumber = packages.length + 1
@@ -30,14 +48,14 @@ export default function TripDetailFomPage() {
 
       <div>
         <div className="bg-[#CFDAF0] gap-2 flex flex-col md:flex-row">
-          <Sidebar packages={packages} />
+          <Sidebar packages={packages} packageFieldSets={packageFieldSets} stepsCompleted={stepsCompleted}  />
           <div>
             <main className="w-full">
               <h2 className="p-6 text-[1.1rem] font-[400]">
                 Fill out below your package details :
               </h2>
               <form action="" className="flex-col space-y-2">
-                <PackageDescription />
+                <PackageDescription  setStepsCompleted={setStepsCompleted} />
                 <TripDuration />
                 <TripDetails />
                 <TripBreakdownForm />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-const Sidebar = () => {
+const Sidebar = ({packageFieldSets, stepsCompleted}) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [packages, setPackages] = useState(['PACKAGE No.#001'])
 
@@ -17,14 +17,7 @@ const Sidebar = () => {
     ])
   }
 
-  const packageFields = [
-    'Package Description',
-    'Duration',
-    'Trip Details',
-    'Trip Breakdown',
-    'Passenger count and pricing',
-    'Media Upload',
-  ]
+
 
   return (
     <div
@@ -41,13 +34,13 @@ const Sidebar = () => {
             <div key={index} className="p-2">
               <div className="text-[20px] font-[400]">{pkg}</div>
               <ul className="pl-4 text-gray-600">
-                {packageFields.map((field, idx) => (
+                {packageFieldSets.map((field, idx) => (
                   <li
                     key={idx}
                     className="text-sm sm:text-base flex items-center my-1 "
                   >
                     <div className="mr-2 border-1 rounded-[50%] w-[9px] h-[9px]"></div>
-                    <p className="text-[1rem] font-[400]"> {field}</p>
+                    <p className={`text-[1rem] font-[400] ${stepsCompleted[field] ? `text-black font-medium`: `text-gray`}`}> {field}</p>
                   </li>
                 ))}
               </ul>
@@ -68,4 +61,4 @@ const Sidebar = () => {
   )
 }
 
-export default Sidebar
+export default Sidebar;
