@@ -99,7 +99,7 @@ export default function TripBreakdownForm() {
                 <option value="hostel">Hostel</option>
               </select>
             </div>
-            <div className="flex flex-col sm:flex-row items-center w-full sm:w-[45%]">
+            <div className="flex flex-col sm:flex-row items-center w-full md:w-[55%] ">
               <label className="text-[20px] font-[400] mb-2 sm:mb-0">
                 Accommodation type
               </label>
