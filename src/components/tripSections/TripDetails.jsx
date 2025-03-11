@@ -90,48 +90,59 @@ export default function TripDetailsForm() {
             {index + 1}st Country / State / City
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-            <select
-              value={trip.country}
-              onChange={(e) => handleChange(index, 'country', e.target.value)}
-              className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
-            >
-              <option value="">Select Country</option>
-              {Object.keys(countriesData).map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={trip.state}
-              onChange={(e) => handleChange(index, 'state', e.target.value)}
-              disabled={!trip.country}
-              className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
-            >
-              <option value="">Select State</option>
-              {trip.country &&
-                Object.keys(countriesData[trip.country]).map((state) => (
-                  <option key={state} value={state}>
-                    {state}
+            <div>
+              <span className="text-[20px] font-[400]">
+                Country of the destination
+              </span>
+              <select
+                value={trip.country}
+                onChange={(e) => handleChange(index, 'country', e.target.value)}
+                className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
+              >
+                <option value="">Select Country</option>
+                {Object.keys(countriesData).map((country) => (
+                  <option key={country} value={country}>
+                    {country}
                   </option>
                 ))}
-            </select>
+              </select>
+            </div>
+            <div>
+              <span className="text-[20px] font-[400]"> State/Province</span>
 
-            <select
-              value={trip.city}
-              onChange={(e) => handleChange(index, 'city', e.target.value)}
-              disabled={!trip.state}
-              className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
-            >
-              <option value="">Select City</option>
-              {trip.state &&
-                countriesData[trip.country][trip.state].map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
-                ))}
-            </select>
+              <select
+                value={trip.state}
+                onChange={(e) => handleChange(index, 'state', e.target.value)}
+                disabled={!trip.country}
+                className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
+              >
+                <option value="">Select State</option>
+                {trip.country &&
+                  Object.keys(countriesData[trip.country]).map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div>
+              <span className="text-[20px] font-[400]">Select city</span>
+
+              <select
+                value={trip.city}
+                onChange={(e) => handleChange(index, 'city', e.target.value)}
+                disabled={!trip.state}
+                className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
+              >
+                <option value="">Select City</option>
+                {trip.state &&
+                  countriesData[trip.country][trip.state].map((city) => (
+                    <option key={city} value={city}>
+                      {city}
+                    </option>
+                  ))}
+              </select>
+            </div>
           </div>
 
           <div className="mt-4 flex flex-col md:flex-row items-center">

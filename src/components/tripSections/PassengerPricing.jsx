@@ -43,13 +43,13 @@ export default function PassengerPricingForm() {
           className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4 rounded-lg"
         >
           <div>
-            <label className="text-[20px] font-[400]">Passenger count</label>
+            <label className="text-[20px] font-[400] ">Passenger count</label>
             <div className="flex items-center ">
               <input
                 type="number"
                 value={detail.count}
                 readOnly
-                className="p-2  border-1 border-[#0000004D] rounded-[6px]  w-full  outline-0 text-center mr-2"
+                className="p-2  border-1 border-[#0000004D] rounded-[6px]  w-full  outline-0 text-center mr-2 my-2"
               />
               <button
                 onClick={() => incrementCount(index)}
@@ -72,7 +72,7 @@ export default function PassengerPricingForm() {
               type="text"
               value={detail.pricing}
               onChange={(e) => handleChange(index, 'pricing', e.target.value)}
-              className="p-2  border-1 border-[#0000004D] rounded-[6px]  w-full  outline-0"
+              className="p-2  border-1 border-[#0000004D] rounded-[6px]  w-full my-2  outline-0"
             />
           </div>
 
@@ -81,7 +81,7 @@ export default function PassengerPricingForm() {
             <select
               value={detail.category}
               onChange={(e) => handleChange(index, 'category', e.target.value)}
-              className="p-2  border-1 border-[#0000004D] rounded-[6px]  w-full  outline-0"
+              className="p-2  border-1 border-[#0000004D] rounded-[6px]  w-full my-2 outline-0"
             >
               <option value="">Select Category</option>
               <option value="economy">Economy</option>
