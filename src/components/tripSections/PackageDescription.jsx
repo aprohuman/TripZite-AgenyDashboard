@@ -3,12 +3,7 @@ import PackageDescriptionData from '../../data/packageDescription.json'
 
 const PackageDescription = () => {
   const [errors, setErrors] = useState({})
-  const [packageDone, setPackageDone] = useState({
-    packageName: false,
-    shortDescription: false,
-    longDescription: false,
-  })
-
+  const [isFormCompleted, setISFormCompleted] = useState(false)
   const [packageDescription, setPackageDescription] = useState({
     packageName: '',
     shortDescription: '',
@@ -69,15 +64,20 @@ const PackageDescription = () => {
         [name]: newWordCount,
       }))
     }
-
-    console.log('errors---', errors, errorMessage)
-    if (!errorMessage) {
-      for (const key of Object.keys(errors)) {
-        console.log('oo--oo--', errors[key])
-      }
-    }
   }
+  // Check if the entire form is error-free
+  const isPackageCompleted = Object.values(packageDescription).every(
+    (section) => Object.keys(section).length !== 0,
+  )
 
+  // Check if the entire form is error-free
+  const isNoErrors = Object.values(errors).every(
+    (section) => Object.keys(section).length === 0,
+  )
+  // check form completed
+  if (isPackageCompleted === isNoErrors) {
+    setISFormCompleted(true)
+  }
   return (
     <div className="mx-auto bg-white p-4 sm:p-8 w-full max-w-screen">
       {sections.map((section) => (
