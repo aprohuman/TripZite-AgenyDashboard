@@ -56,7 +56,7 @@ export default function TripDetailFomPage() {
               </h2>
               <form action="" className="flex-col space-y-2">
                 <PackageDescription  setStepsCompleted={setStepsCompleted} />
-                <TripDuration />
+                <TripDuration setStepsCompleted={setStepsCompleted} />
                 <TripDetails />
                 <TripBreakdownForm />
                 <PassengerPricingForm />

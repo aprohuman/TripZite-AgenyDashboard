@@ -7,7 +7,7 @@
       "fields": [
         {
           "id": "overallTripDuration",
-          "label": "overall trip duration",
+          "label": "Overall Trip Duration",
           "type": "number",
           "placeholder": "0 days",
           "required": true,
@@ -15,21 +15,21 @@
         },
         {
           "id": "specificDates",
-          "label": "specific dates ?",
+          "label": "Specific Dates ?",
           "type": "date",
           "placeholder": "0 days",
           "required": true,
           "validation": { "minLength": 1, "maxLength": 50 },
           "dates": [
             {
-              "di": "startDate",
-              "label": "start date",
+              "id": "startDate",
+              "label": "Start Date",
               "type": "date",
               "required": "true"
             },
             {
-              "di": "endDate",
-              "label": "end date",
+              "id": "endDate",
+              "label": "End Date",
               "type": "date",
               "required": "true"
             }
@@ -37,7 +37,7 @@
         },
         {
           "id": "bookingDeadline",
-          "label": "booking deadline",
+          "label": "Booking Deadline",
           "type": "number",
           "placeholder": "0 days prior",
           "required": true,

@@ -70,10 +70,9 @@ const PackageDescription = ({setStepsCompleted}) => {
       setStepsCompleted((prev) => ({
         ...prev,
         'Package Description': isFormCompleted,
-      }))
-    }
+      }));
+    };
 
-  
   return (
     <div className="mx-auto bg-white p-4 sm:p-8 w-full max-w-screen">
       {sections.map((section) => (
