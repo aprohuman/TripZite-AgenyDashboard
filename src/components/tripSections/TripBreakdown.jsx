@@ -40,12 +40,14 @@ export default function TripBreakdownForm() {
 
       <h3 className="text-[24px] font=[400] mt-4">DAY 1</h3>
 
-      <div className="mt-4 flex flex-col sm:flex-row items-center justify-between">
+      <div className="mt-4 flex flex-col sm:flex-row items-center justify-between ">
         <p className="text-[20px] font-[400] mb-2 sm:mb-0">
           Location: City, State/Province, Country
         </p>
-        <div className="flex flex-col w-full sm:w-1/2">
-          <label className="text-[24px] font-[400] mb-2">Upload Media</label>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-around w-full sm:w-1/2 ">
+          <label className="text-[24px] font-[400] mb-2">
+            Upload Images/Media
+          </label>
           <div
             className="border-2 border-dashed border-gray-400 bg-blue-100 rounded-lg p-8 flex flex-col items-center justify-center"
             onDrop={handleDrop}
@@ -81,29 +83,106 @@ export default function TripBreakdownForm() {
           )}
         </div>
       </div>
+      {/* Accommodation */}
 
-      <div className="my-4">
-        <h4 className="text-[24px] font-[400] my-10">Accommodation</h4>
-        <div className="flex justify-between  w-[75%] my-2">
-          <div className="flex items-center  w-[45%] ">
-            <label className="text-[20px] font-[400]">Accommodation</label>
-            <select className="box-border p-3  border-1 border-[#0000004D] rounded-[6px] text-center w-[50%] ml-4 outline-0">
+      <div className=" ">
+        <div className="my-4">
+          <h4 className="text-[24px] font-[400] my-6 sm:my-8">Accommodation</h4>
+          <div className="flex flex-col sm:flex-row  w-full sm:w-[75%] my-2 gap-4">
+            <div className="flex flex-col sm:flex-row items-center w-full sm:w-[45%]">
+              <label className="text-[20px] font-[400] mb-2 sm:mb-0">
+                Accommodation
+              </label>
+              <select className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%] sm:ml-4 outline-0">
+                <option value="none" hidden></option>
+                <option value="hotel">Hotel</option>
+                <option value="hostel">Hostel</option>
+              </select>
+            </div>
+            <div className="flex flex-col sm:flex-row items-center w-full sm:w-[45%]">
+              <label className="text-[20px] font-[400] mb-2 sm:mb-0">
+                Accommodation type
+              </label>
+              <select className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%] sm:ml-4 outline-0">
+                <option value="none" hidden></option>
+                <option value="single">Single Room</option>
+                <option value="double">Double Room</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Location */}
+        <div className="my-4">
+          <div className="flex flex-col sm:flex-row sm:justify-between w-full sm:w-[75%] my-2 gap-4 ">
+            <div className="flex flex-col sm:flex-row items-center w-full sm:w-full">
+              <label className="text-[20px] font-[400] mb-2 sm:mb-0">
+                Accommodation location
+              </label>
+              <select className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%] sm:ml-4 outline-0">
+                <option value="none" hidden></option>
+                <option value="hotel">Delhi</option>
+                <option value="hostel">Mumbai</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Transport */}
+      <div className="my-4 ">
+        <h4 className="text-[24px] font-[400] my-6 sm:my-8">Transport</h4>
+        <div className="flex flex-col sm:flex-row  w-full sm:w-[75%] my-2 gap-4 ">
+          <div className="flex flex-col sm:flex-row items-center w-full sm:w-[45%]">
+            <label className="text-[20px] font-[400] mb-2 sm:mb-0">
+              Transport
+            </label>
+            <select className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%] sm:ml-4 outline-0">
               <option value="none" hidden></option>
-              <option value="hotel">Hotel</option>
-              <option value="hostel">Hostel</option>
+              <option value="bus">Bus</option>
+              <option value="train">Train</option>
+              <option value="flight">Flight</option>
             </select>
           </div>
-          <div className="flex items-center  w-[45%]">
-            <label className="text-[20px] font-[400]">Accommodation type</label>
-            <select className="box-border p-3  border-1 border-[#0000004D] rounded-[6px]  text-center  ml-4 w-[50%] outline-0">
+          <div className="flex flex-col sm:flex-row items-center w-full sm:w-[45%]">
+            <label className="text-[20px] font-[400] mb-2 sm:mb-0">
+              Transport type
+            </label>
+            <select className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%] sm:ml-4 outline-0">
               <option value="none" hidden></option>
-              <option value="single">Single Room</option>
-              <option value="double">Double Room</option>
+              <option value="air">By Air</option>
+              <option value="road">By Road</option>
             </select>
           </div>
         </div>
       </div>
 
+      {/* Meal */}
+      <div className="my-4 ">
+        <h4 className="text-[24px] font-[400] my-6 sm:my-8">Meal</h4>
+        <div className="flex flex-col sm:flex-row  w-full sm:w-[75%] my-2 gap-4">
+          <div className="flex flex-col sm:flex-row items-center w-full sm:w-[45%]">
+            <label className="text-[20px] font-[400] mb-2 sm:mb-0">Meal</label>
+            <select className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%] sm:ml-4 outline-0">
+              <option value="none" hidden></option>
+              <option value="breakfast">Breakfast</option>
+              <option value="dinner">Dinner</option>
+            </select>
+          </div>
+          <div className="flex flex-col sm:flex-row items-center w-full sm:w-[45%]">
+            <label className="text-[20px] font-[400] mb-2 sm:mb-0">
+              Meal option
+            </label>
+            <select className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%] sm:ml-4 outline-0">
+              <option value="none" hidden></option>
+              <option value="veg">Veg</option>
+              <option value="nonveg">Non-Veg</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* itinerary */}
       <div className="mt-4">
         <h4 className="text-[24px] font-[400] my-10">Itinerary of the Day 1</h4>
         <div className="flex flex-wrap gap-4 mt-2">

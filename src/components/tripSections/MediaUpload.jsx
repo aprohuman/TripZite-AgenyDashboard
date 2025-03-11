@@ -20,9 +20,9 @@ export default function MediaUploadComponent() {
   }
 
   return (
-    <div className="p-4 bg-white">
+    <div className=" bg-white md:w-[80%] my-10    ">
       <h2 className="text-xl font-bold mb-4">Media Upload :</h2>
-      <div className="border p-6 w-full rounded-2xl">
+      <div className="border p-6 md:p-20 w-full rounded-2xl">
         <div
           className="border-2 border-dashed border-gray-400 bg-blue-100 rounded-lg p-8 flex flex-col items-center justify-center w-full max-w-md mx-auto"
           onDrop={handleDrop}

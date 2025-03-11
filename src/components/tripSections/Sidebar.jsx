@@ -47,7 +47,7 @@ const Sidebar = () => {
                     className="text-sm sm:text-base flex items-center my-1 "
                   >
                     <div className="mr-2 border-1 rounded-[50%] w-[9px] h-[9px]"></div>
-                    <p className="text-[20px] font-[400]"> {field}</p>
+                    <p className="text-[1rem] font-[400]"> {field}</p>
                   </li>
                 ))}
               </ul>

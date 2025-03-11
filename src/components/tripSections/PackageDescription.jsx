@@ -3,6 +3,12 @@ import PackageDescriptionData from '../../data/packageDescription.json'
 
 const PackageDescription = () => {
   const [errors, setErrors] = useState({})
+  const [packageDone, setPackageDone] = useState({
+    packageName: false,
+    shortDescription: false,
+    longDescription: false,
+  })
+
   const [packageDescription, setPackageDescription] = useState({
     packageName: '',
     shortDescription: '',
@@ -24,7 +30,7 @@ const PackageDescription = () => {
   const validatePackageDescription = {
     packageName: (value) => {
       if (!value) return 'package name is required'
-      if (value.length > 2) return 'Invalid input format'
+      if (value.length < 2) return 'package name should be at least 2 character'
       return ''
     },
     shortDescription: (value) => {
@@ -57,15 +63,21 @@ const PackageDescription = () => {
     // Update word count for the fields
     if (name === 'shortDescription' || name === 'longDescription') {
       const newWordCount = calculateWordCount(value)
-      console.log('text', newWordCount)
 
       setWordCounts((prev) => ({
         ...prev,
         [name]: newWordCount,
       }))
     }
+
+    console.log('errors---', errors, errorMessage)
+    if (!errorMessage) {
+      for (const key of Object.keys(errors)) {
+        console.log('oo--oo--', errors[key])
+      }
+    }
   }
-  console.log('ww', wordCounts)
+
   return (
     <div className="mx-auto bg-white p-4 sm:p-8 w-full max-w-screen">
       {sections.map((section) => (
@@ -110,6 +122,9 @@ const PackageDescription = () => {
                       {`${wordCounts[field.id]} / ${field.validation.maxWords}`}
                     </span>
                   </span>
+                  <spam className="text-red-500 text-xs mt-1">
+                    {errors[field.id]}
+                  </spam>
                 </div>
               ) : (
                 <div className="flex flex-col  w-full">
@@ -137,14 +152,16 @@ const PackageDescription = () => {
                       {`${wordCounts.shortDescription} / ${field.validation.maxWords}`}
                     </span>
                   )}
+                  {errors[field.id] && (
+                    <spam className="text-red-500 text-xs mt-1">
+                      {errors[field.id]}
+                    </spam>
+                  )}
                 </div>
               )}
               <p className="w-full sm:w-1/4 text-sm mt-1 sm:mt-0 text-gray-600">
                 {field.note || ''}
               </p>
-              {errors[field.id] && (
-                <p className="text-red-500 text-xs mt-1">{errors[field.id]}</p>
-              )}
             </div>
           ))}
         </div>

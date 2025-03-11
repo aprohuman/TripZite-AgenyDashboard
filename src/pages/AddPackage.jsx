@@ -27,35 +27,42 @@ export default function TripDetailFomPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <div className="bg-[#CFDAF0] gap-2 flex flex-col md:flex-row">
-        <Sidebar packages={packages} />
-        <main className="w-full">
-          <h2 className="p-6 text-[1.1rem] font-[400]">
-            Fill out below your package details :
-          </h2>
-          <form action="" className="flex-col space-y-2">
-            <PackageDescription />
-            <TripDuration />
-            <TripDetails />
-            <TripBreakdownForm />
-            <PassengerPricingForm />
-            <MediaUploadComponent />
-          </form>
-        </main>
-      </div>
-      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mt-4 p-10 w-[90%] m-auto justify-end">
-        <button
-          onClick={moveToDraft}
-          className="bg-blue-800 text-white px-4 py-2 rounded-lg w-full md:w-auto"
-        >
-          Move to Draft
-        </button>
-        <button
-          onClick={addPackage}
-          className="bg-blue-800 text-white px-4 py-2 rounded-lg w-full md:w-auto"
-        >
-          Add Package
-        </button>
+
+      <div>
+        <div className="bg-[#CFDAF0] gap-2 flex flex-col md:flex-row">
+          <Sidebar packages={packages} />
+          <div>
+            <main className="w-full">
+              <h2 className="p-6 text-[1.1rem] font-[400]">
+                Fill out below your package details :
+              </h2>
+              <form action="" className="flex-col space-y-2">
+                <PackageDescription />
+                <TripDuration />
+                <TripDetails />
+                <TripBreakdownForm />
+                <PassengerPricingForm />
+              </form>
+            </main>
+          </div>
+        </div>
+        <div className="w-full sm:flex md:justify-end  md:px-30  ">
+          <MediaUploadComponent />
+        </div>
+        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mt-4 p-10 w-[90%] m-auto justify-end">
+          <button
+            onClick={moveToDraft}
+            className="bg-blue-800 text-white px-4 py-2 rounded-lg w-full md:w-auto"
+          >
+            Move to Draft
+          </button>
+          <button
+            onClick={addPackage}
+            className="bg-blue-800 text-white px-4 py-2 rounded-lg w-full md:w-auto"
+          >
+            Add Package
+          </button>
+        </div>
       </div>
     </div>
   )
