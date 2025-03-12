@@ -82,7 +82,6 @@ export default function TripDuration({setStepsCompleted}) {
       }));
     };
   
-    console.log(startDateErrorMessage, endDateErrorMessage, errorMessage, 'jj')
     setErrors((prev) => ({
       ...prev,
       [name]: errorMessage,

@@ -28,19 +28,19 @@ const PackageDescription = ({setStepsCompleted}) => {
 
   const validatePackageDescription = {
     packageName: (value) => {
-      if (!value) return 'package name is required'
-      if (value.length <= 2) return 'package name should be at least 3 character'
+      if (!value) return 'package name is required.'
+      if (value.length <= 2) return 'package name should be at least 3 character.'
       return '';
     },
     shortDescription: (value) => {
       if (value.length < 10)
-        return 'Description must be at least 10 characters long'
+        return 'Description must be at least 10 characters long.'
         return '';
     },
     longDescription: (value) => {
       if (!value) return 'description is required'
       if (value.length < 10)
-        return 'Description must be at least 10 characters long'
+        return 'Description must be at least 10 characters long.'
         return '';
     },
   }

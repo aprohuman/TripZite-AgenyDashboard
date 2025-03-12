@@ -59,7 +59,7 @@ export default function TripDetailFomPage() {
                 <TripDuration setStepsCompleted={setStepsCompleted} />
                 <TripDetails />
                 <TripBreakdownForm />
-                <PassengerPricingForm />
+                <PassengerPricingForm setStepsCompleted={setStepsCompleted} />
               </form>
             </main>
           </div>
