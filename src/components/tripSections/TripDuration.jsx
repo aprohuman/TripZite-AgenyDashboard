@@ -40,7 +40,6 @@ export default function TripDuration({ setStepsCompleted }) {
     },
   }
 
-  console.log(durationData, errors, 'okok')
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -104,7 +103,6 @@ export default function TripDuration({ setStepsCompleted }) {
   }
 
   const handleButtons = (e, key) => {
-    console.log('bbb', key)
     e.preventDefault()
     let name = key.split('-')[0]
     let type = key.split('-')[1]
@@ -197,7 +195,7 @@ export default function TripDuration({ setStepsCompleted }) {
                           onClick={(e) => {
                             handleButtons(e, `${field.id}-increment`)
                           }}
-                          className="w-full box-border border-1 p-3 border-[#0000004D] rounded-[6px]"
+                          className="w-full box-border border-1 p-3 border-[#0000004D] rounded-[6px] md:w-[44px]"
                         >
                           +
                         </button>
@@ -205,7 +203,7 @@ export default function TripDuration({ setStepsCompleted }) {
                           onClick={(e) => {
                             handleButtons(e, `${field.id}-decrement`)
                           }}
-                          className="w-full box-border border-1 p-3 border-[#0000004D] rounded-[6px]"
+                          className="w-full box-border border-1 p-3 border-[#0000004D] rounded-[6px] md:w-[44px] ml-2"
                         >
                           -
                         </button>

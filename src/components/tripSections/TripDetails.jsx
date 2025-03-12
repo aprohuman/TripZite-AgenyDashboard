@@ -11,78 +11,154 @@ const countriesData = {
   },
 }
 
-const initialTripDetails = [
-  {
-    country: '',
-    state: '',
-    city: '',
-    days: 0,
-  },
-]
-
 export default function TripDetailsForm() {
-  const [tripDetails, setTripDetails] = useState(initialTripDetails)
-  const [travelLocation, setTravelLocation] = useState('')
-  const [destinationDetails, setDestinationDetails] = useState({
+  const [tripDetails, setTripDetails] = useState( [{
+    id: 0,
     country: '',
     state: '',
     city: '',
-    days: 0,
-  })
+    days: undefined,
+  }]);
 
-  const addNewTrip = (type, prefill = {}) => {
-    setTripDetails([
-      ...tripDetails,
+  const [errors, setErrors] = useState([{
+    id: 0,
+    country: null,
+    state: null,
+    city: null,
+    days: null,
+  }]);
+
+  const [travelType, setTravelType] = useState('Singular Travel Location');
+
+  const validateTripDetails = {
+    country: (value) => {
+      if (!value) return 'Country is required.'
+      return '';
+    },
+    state: (value) => {
+      if (!value) return 'State is required.'
+      return '';
+    },
+    city: (value) => {
+      if (!value) return 'City is required.'
+      return '';
+    },
+    days: (value) => {
+      if (!value) return 'Days are required.'
+      if (parseInt(value) < 1 ) return 'Days can not be 0 or negative.'
+      return '';
+    },
+  }
+
+  const addNewTrip = (e, type, prefill = {}) => {
+    e.preventDefault();
+
+    setTripDetails((prev)=>{
+      return [
+      ...prev,
       {
-        country: prefill.country || '',
-        state: prefill.state || '',
+        id: prev.length,
+        country: prefill?.country || '',
+        state: prefill?.state || '',
         city: '',
-        days: 0,
-      },
-    ])
-  }
-  console.log('tripd--', tripDetails)
-  const handleChange = (index, field, value) => {
-    const updatedTrips = [...tripDetails]
-    updatedTrips[index][field] = value
-    // console.log('dddd', index, updatedTrips, field, value)
-    if (field === 'country') {
-      updatedTrips[index].state = ''
-      updatedTrips[index].city = ''
+        days: undefined,
+      }
+    ]});
+
+    setErrors((prev)=>{
+      return [
+      ...prev,
+      {
+        id: prev.length,
+        country: null,
+        state: null,
+        city: null,
+        days: null,
+      }
+    ]});
+  };
+
+  const handleChange = (e, id) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+
+    const updatedTrip = {};
+
+    const updatedErrors = {};
+
+
+    if (name === 'country') {
+      updatedTrip.country= value;
+      updatedTrip.state = '';
+      updatedTrip.city = '';
+      updatedErrors.state =validateTripDetails.state('');
+      updatedErrors.city = validateTripDetails.city('');
     }
 
-    if (field === 'state') {
-      updatedTrips[index].city = ''
+    if (name === 'state') {
+      updatedTrip.state = value;
+      updatedTrip.city = '';
+      updatedErrors.city = validateTripDetails.city('');
     }
 
-    setTripDetails(updatedTrips)
-  }
-  const updateDays = (index, increment) => {
-    const updatedTrips = [...tripDetails]
-    updatedTrips[index].days = Math.max(0, updatedTrips[index].days + increment)
-    setTripDetails(updatedTrips)
-  }
-  // const incrementDays = (index, e) => {
-  //   e.preventDefault()
-  //   const updatedTrips = [...tripDetails]
+    if( name === 'city'){
+      updatedTrip.city = value;
+    }
 
-  //   updatedTrips[index].days += 1
-  //   setTripDetails(updatedTrips)
-  // }
+    if( name === 'days'){
+      updatedTrip.days = parseInt(value);
+    }
 
-  // const decrementDays = (index, e) => {
-  //   e.preventDefault()
-  //   const updatedTrips = [...tripDetails]
 
-  //   if (updatedTrips[index].days > 0) {
-  //     updatedTrips[index].days -= 1
-  //   }
-  //   setTripDetails(updatedTrips)
-  // }
-  const handleButtonClick = (e) => {
-    e.preventDefault() // Prevent default form submission behavior
+    setTripDetails((prev)=>{
+      let newTripDetails = [...prev];
+      newTripDetails[id] = {
+        ...newTripDetails[id],
+        ...updatedTrip
+      };
+      return newTripDetails;
+    });
+
+    updatedErrors[name] = validateTripDetails[name](value);
+
+    setErrors((prev) => {
+      return [...prev.map((error)=>{
+        if(error.id === id){
+          return {...error, ...updatedErrors}
+        }
+        return error;
+      }
+    )];
+    });
+
+  };
+
+  const updateDays = (e, id, change) => {
+    e.preventDefault();
+
+    const errorMessage = validateTripDetails.days((tripDetails[id].days || 0) + change);
+    setTripDetails((prev)=>{
+      let newTripDetails = [...prev];
+      console.log(newTripDetails)
+      newTripDetails[id] = {
+        ...newTripDetails[id],
+        days: (newTripDetails[id].days || 0) + change
+      };
+       return newTripDetails;
+    });
+
+    setErrors((prev) => {
+      return [...prev.map((error)=>{
+        if(error.id === id){
+          return {...error, days: errorMessage}
+        }
+        return error;
+      }
+    )];
+    });
   }
-  console.log('location', travelLocation)
+
+
   return (
     <div className="p-4 md:p-8 bg-white">
       <h2 className="text-[2rem] font-[400]  text-black mb-6">Trip Details</h2>
@@ -92,35 +168,33 @@ export default function TripDetailsForm() {
           Multi/Singular Travel Location
         </h2>
         <select
-          value={travelLocation}
-          onChange={(e) => setTravelLocation(e.target.value)}
+          value={travelType}
+          onChange={(e) => setTravelType(e.target.value)}
           className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px]  w-full md:w-[40%] outline-0"
         >
-          <option value="" disabled hidden>
-            Select Travel Location
+          <option value="Singular Travel Location">
+            Singular Travel Location
           </option>
           <option value="Multiple Travel Locations">
             Multiple Travel Locations
           </option>
-          <option value="Singular Travel Location">
-            Singular Travel Location
-          </option>
         </select>
       </div>
 
-      {tripDetails.map((trip, index) => (
-        <div key={index} className="mt-4 rounded-lg">
+      {tripDetails.map((trip) => (
+        <div key={trip.id} className="mt-4 rounded-lg">
           <h3 className="text-[24px] font-[400]  text-black mb-6">
-            {index + 1}st Country / State / City
+            {trip.id + 1}st Country / State / City
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
             <div>
-              <span className="text-[20px] font-[400]">
-                Country of the destination
-              </span>
+              <label className="text-[20px] font-[400]">
+                Country Of The Destination
+              </label>
               <select
                 value={trip.country}
-                onChange={(e) => handleChange(index, 'country', e.target.value)}
+                name="country"
+                onChange={(e) => handleChange(e, trip.id)}
                 className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
               >
                 <option value="" disabled>
@@ -132,12 +206,16 @@ export default function TripDetailsForm() {
                   </option>
                 ))}
               </select>
+              <span className="text-red-500 text-xs mt-2">
+                {errors[trip.id].country}
+            </span>
             </div>
             <div>
-              <span className="text-[20px] font-[400]"> State/Province</span>
+              <label className="text-[20px] font-[400]"> State/Province</label>
               <select
                 value={trip.state}
-                onChange={(e) => handleChange(index, 'state', e.target.value)}
+                name="state"
+                onChange={(e) => handleChange(e, trip.id)}
                 disabled={!trip.country}
                 className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
               >
@@ -149,66 +227,82 @@ export default function TripDetailsForm() {
                     </option>
                   ))}
               </select>
+              <span className="text-red-500 text-xs mt-2">
+                    {errors[trip.id].state}
+            </span>
             </div>
             <div>
-              <span className="text-[20px] font-[400]">Select city</span>
+              <label className="text-[20px] font-[400]">Select City</label>
               <select
                 value={trip.city}
-                onChange={(e) => handleChange(index, 'city', e.target.value)}
+                name="city"
+                onChange={(e) => handleChange(e, trip.id)}
                 disabled={!trip.state}
                 className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
               >
                 <option value="">Select City</option>
                 {trip.state &&
-                  countriesData[trip.country][trip.state].map((city) => (
+                  countriesData[trip.country][trip.state]?.map((city) => (
                     <option key={city} value={city}>
                       {city}
                     </option>
                   ))}
               </select>
+              <span className="text-red-500 text-xs mt-2">
+                  {errors[trip.id].city}
+            </span>
             </div>
           </div>
 
           <div className="mt-4 flex flex-col md:flex-row items-center">
             <label className="mr-2 text-[20px] font-[400]">No. of days:</label>
+            <div className='flex flex-col'>
             <div className="flex items-center ">
               <input
                 type="number"
+                name="days"
                 value={trip.days}
-                readOnly
+                onChange={(e) => handleChange(e, trip.id)}
+                placeholder='0 days'
                 className="box-border p-3  border-1 border-[#0000004D] rounded-[6px] w-24 text-center mr-2 "
               />
               <button
                 type="button"
-                onClick={() => updateDays(index, 1)}
-                className="box-border border-1 border-[#0000004D] rounded-[6px] p-3 h-full"
+                onClick={(e) => updateDays(e, trip.id, 1)}
+                className="box-border border-1 border-[#0000004D] rounded-[6px] p-3 h-full w-[44px]"
               >
                 +
               </button>
               <button
                 type="button"
-                onClick={() => updateDays(index, -1)}
-                className=" border-1 border-[#0000004D] rounded-[6px] p-3  "
+                onClick={(e) => updateDays(e, trip.id, -1)}
+                className=" border-1 border-[#0000004D] rounded-[6px] p-3 w-[44px] ml-2 "
               >
                 -
               </button>
             </div>
+            <span className="text-red-500 text-xs mt-2">
+                    {errors[trip.id].days}
+            </span>
+            </div>
+
           </div>
         </div>
       ))}
-      {travelLocation === 'Multiple Travel Locations' && (
+
+      {travelType === 'Multiple Travel Locations' && (
         <div className="flex flex-col md:flex-row justify-around mt-4">
           <button
             type="button"
-            onClick={() => addNewTrip('country')}
+            onClick={(e) => addNewTrip(e,'country')}
             className="text-gray-400 px-4 py-2 rounded-lg"
           >
             + Add Country
           </button>
           <button
             type="button"
-            onClick={() =>
-              addNewTrip('state', {
+            onClick={(e) =>
+              addNewTrip(e,'state', {
                 country: tripDetails[tripDetails.length - 1]?.country,
               })
             }
@@ -218,8 +312,8 @@ export default function TripDetailsForm() {
           </button>
           <button
             type="button"
-            onClick={() =>
-              addNewTrip('city', {
+            onClick={(e) =>
+              addNewTrip(e,'city', {
                 country: tripDetails[tripDetails.length - 1]?.country,
                 state: tripDetails[tripDetails.length - 1]?.state,
               })
