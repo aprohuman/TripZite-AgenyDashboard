@@ -2,6 +2,69 @@ import React, { useState } from 'react'
 import { ChevronUp, ChevronDown } from 'lucide-react';
 
 export default function TripBreakdownForm({ tripBreakdownCount }) {
+  const [breadownData, setBreakdownData] = useState([
+     { 
+      id:0,
+      isAccomodationIncluded: false,
+      accomodationType: '',
+      accomodationLocation: '',
+      isMealIncluded: false,
+      mealOption: '',
+      isTransportIncluded: false,
+      transportType: '',
+      itrerenary: [{id: 0, value: ''}],
+     }
+  ]);
+
+  const [errors, setErrors] = useState([
+    {
+      id:0,
+      isAccomodationIncluded: null,
+      accomodationType: null,
+      accomodationLocation: null,
+      isMealIncluded: null,
+      mealOption: null,
+      isTransportIncluded: null,
+      transportType: null,
+      itrerenary: [{id: 0, value: null}],
+    }
+  ]);
+
+  const validateBreakdownData = {
+    isAccomodationIncluded: (value) => {
+      if (value === null) return 'Accomodation is required.'
+      return '';
+    },
+    accomodationType: (value) => {
+      if (!value) return 'Accomodation type is required.'
+      return '';
+    },
+    accomodationLocation: (value) => {
+      if (!value) return 'Accomodation location is required.'
+      return '';
+    },
+    isMealIncluded: (value) => {
+      if (value === null) return 'Meal is required.'
+      return '';
+    },
+    mealOption: (value) => {
+      if (!value) return 'Meal option is required.'
+      return '';
+    },
+    isTransportIncluded: (value) => {
+      if (value === null) return 'Transport is required.'
+      return '';
+    },
+    transportType: (value) => {
+      if (!value) return 'Transport type is required.'
+      return '';
+    },
+    itrerenary: (value) => {
+      if (!value) return 'Itinerary is required.'
+      return '';
+    },
+  }
+
   const [itinerary, setItinerary] = useState([])
   const [files, setFiles] = useState([])
   const addItinerary = () => setItinerary([...itinerary, ''])
