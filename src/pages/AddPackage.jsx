@@ -19,6 +19,7 @@ const packageFieldSets = [
 
 export default function TripDetailFomPage() {
   const [packages, setPackages] = useState(['PACKAGE No.#001']);
+  const [tripBreakdownCount, setTripBreakDownCount] = useState([])
   const [stepsCompleted, setStepsCompleted] = useState({
     'Package Description': false,
     'Duration' : false,
@@ -57,8 +58,8 @@ export default function TripDetailFomPage() {
               <form action="" className="flex-col space-y-2">
                 <PackageDescription  setStepsCompleted={setStepsCompleted} />
                 <TripDuration setStepsCompleted={setStepsCompleted} />
-                <TripDetails />
-                <TripBreakdownForm />
+                <TripDetails setTripBreakDownCount={setTripBreakDownCount} />
+                <TripBreakdownForm tripBreakdownCount={tripBreakdownCount} />
                 <PassengerPricingForm setStepsCompleted={setStepsCompleted} />
               </form>
             </main>

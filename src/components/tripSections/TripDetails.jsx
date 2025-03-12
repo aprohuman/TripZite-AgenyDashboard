@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 
 const countriesData = {
   India: {
@@ -11,7 +11,7 @@ const countriesData = {
   },
 }
 
-export default function TripDetailsForm() {
+export default function TripDetailsForm({setTripBreakDownCount}) {
   const [tripDetails, setTripDetails] = useState( [{
     id: 0,
     country: '',
@@ -29,6 +29,32 @@ export default function TripDetailsForm() {
   }]);
 
   const [travelType, setTravelType] = useState('Singular Travel Location');
+
+  const isValidTripDetail = Array.isArray(tripDetails) && tripDetails.length > 0 && 
+    tripDetails.every(obj => 
+        Object.values(obj).every(value => value !== undefined && value !== null && value !== ' && value!==0')
+    );
+
+
+
+  useEffect(() => {
+
+    if (isValidTripDetail) {
+      setTripBreakDownCount((prev) => {
+        const updatedBreakdown = [...prev];
+
+        tripDetails.forEach((trip, index) => {
+          if (updatedBreakdown[index]) {
+            updatedBreakdown[index] = { ...updatedBreakdown[index], ...trip };
+          } else {
+            updatedBreakdown.push(trip);
+          }
+        });
+        return updatedBreakdown;
+      });
+    }
+  }, [tripDetails, isValidTripDetail, setTripBreakDownCount]);
+
 
   const validateTripDetails = {
     country: (value) => {
