@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
 const countriesData = {
   India: {
@@ -11,179 +11,188 @@ const countriesData = {
   },
 }
 
-export default function TripDetailsForm({setTripBreakDownCount}) {
-  const [tripDetails, setTripDetails] = useState( [{
-    id: 0,
-    country: '',
-    state: '',
-    city: '',
-    days: undefined,
-  }]);
+export default function TripDetailsForm({ setTripBreakDownCount }) {
+  const [tripDetails, setTripDetails] = useState([
+    {
+      id: 0,
+      country: '',
+      state: '',
+      city: '',
+      days: 0,
+    },
+  ])
 
-  const [errors, setErrors] = useState([{
-    id: 0,
-    country: null,
-    state: null,
-    city: null,
-    days: null,
-  }]);
+  const [errors, setErrors] = useState([
+    {
+      id: 0,
+      country: null,
+      state: null,
+      city: null,
+      days: null,
+    },
+  ])
 
-  const [travelType, setTravelType] = useState('Singular Travel Location');
+  const [travelType, setTravelType] = useState('Singular Travel Location')
 
-  const isValidTripDetail = Array.isArray(tripDetails) && tripDetails.length > 0 && 
-    tripDetails.every(obj => 
-        Object.values(obj).every(value => value !== undefined && value !== null && value !== ' && value!==0')
-    );
-
-
+  const isValidTripDetail =
+    Array.isArray(tripDetails) &&
+    tripDetails.length > 0 &&
+    tripDetails.every((obj) =>
+      Object.values(obj).every(
+        (value) =>
+          value !== undefined && value !== null && value !== ' && value!==0',
+      ),
+    )
 
   useEffect(() => {
-
     if (isValidTripDetail) {
       setTripBreakDownCount((prev) => {
-        const updatedBreakdown = [...prev];
+        const updatedBreakdown = [...prev]
 
         tripDetails.forEach((trip, index) => {
           if (updatedBreakdown[index]) {
-            updatedBreakdown[index] = { ...updatedBreakdown[index], ...trip };
+            updatedBreakdown[index] = { ...updatedBreakdown[index], ...trip }
           } else {
-            updatedBreakdown.push(trip);
+            updatedBreakdown.push(trip)
           }
-        });
-        return updatedBreakdown;
-      });
+        })
+        return updatedBreakdown
+      })
     }
-  }, [tripDetails, isValidTripDetail, setTripBreakDownCount]);
-
+  }, [tripDetails, isValidTripDetail, setTripBreakDownCount])
 
   const validateTripDetails = {
     country: (value) => {
       if (!value) return 'Country is required.'
-      return '';
+      return ''
     },
     state: (value) => {
       if (!value) return 'State is required.'
-      return '';
+      return ''
     },
     city: (value) => {
       if (!value) return 'City is required.'
-      return '';
+      return ''
     },
     days: (value) => {
       if (!value) return 'Days are required.'
-      if (parseInt(value) < 1 ) return 'Days can not be 0 or negative.'
-      return '';
+      if (parseInt(value) < 1) return 'Days can not be 0 or negative.'
+      return ''
     },
   }
 
   const addNewTrip = (e, type, prefill = {}) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    setTripDetails((prev)=>{
+    setTripDetails((prev) => {
       return [
-      ...prev,
-      {
-        id: prev.length,
-        country: prefill?.country || '',
-        state: prefill?.state || '',
-        city: '',
-        days: undefined,
-      }
-    ]});
+        ...prev,
+        {
+          id: prev.length,
+          country: prefill?.country || '',
+          state: prefill?.state || '',
+          city: '',
+          days: 0,
+        },
+      ]
+    })
 
-    setErrors((prev)=>{
+    setErrors((prev) => {
       return [
-      ...prev,
-      {
-        id: prev.length,
-        country: null,
-        state: null,
-        city: null,
-        days: null,
-      }
-    ]});
-  };
+        ...prev,
+        {
+          id: prev.length,
+          country: null,
+          state: null,
+          city: null,
+          days: null,
+        },
+      ]
+    })
+  }
 
   const handleChange = (e, id) => {
-    e.preventDefault();
-    const { name, value } = e.target;
+    e.preventDefault()
+    const { name, value } = e.target
+    console.log('dat-check', name, value)
+    const updatedTrip = {}
 
-    const updatedTrip = {};
-
-    const updatedErrors = {};
-
+    const updatedErrors = {}
 
     if (name === 'country') {
-      updatedTrip.country= value;
-      updatedTrip.state = '';
-      updatedTrip.city = '';
-      updatedErrors.state =validateTripDetails.state('');
-      updatedErrors.city = validateTripDetails.city('');
+      updatedTrip.country = value
+      updatedTrip.state = ''
+      updatedTrip.city = ''
+      updatedErrors.state = validateTripDetails.state('')
+      updatedErrors.city = validateTripDetails.city('')
     }
 
     if (name === 'state') {
-      updatedTrip.state = value;
-      updatedTrip.city = '';
-      updatedErrors.city = validateTripDetails.city('');
+      updatedTrip.state = value
+      updatedTrip.city = ''
+      updatedErrors.city = validateTripDetails.city('')
     }
 
-    if( name === 'city'){
-      updatedTrip.city = value;
+    if (name === 'city') {
+      updatedTrip.city = value
     }
 
-    if( name === 'days'){
-      updatedTrip.days = parseInt(value);
+    if (name === 'days') {
+      updatedTrip.days = value === '' ? 0 : parseInt(value, 10) //   Prevent `undefined`
     }
 
-
-    setTripDetails((prev)=>{
-      let newTripDetails = [...prev];
-      newTripDetails[id] = {
-        ...newTripDetails[id],
-        ...updatedTrip
-      };
-      return newTripDetails;
-    });
-
-    updatedErrors[name] = validateTripDetails[name](value);
+    // setTripDetails((prev) => {
+    //   let newTripDetails = [...prev]
+    //   newTripDetails[id] = {
+    //     ...newTripDetails[id],
+    //     ...updatedTrip,
+    //   }
+    //   return newTripDetails
+    // })
+    setTripDetails((prev) =>
+      prev.map((trip) => (trip.id === id ? { ...trip, ...updatedTrip } : trip)),
+    )
+    updatedErrors[name] = validateTripDetails[name](value)
 
     setErrors((prev) => {
-      return [...prev.map((error)=>{
-        if(error.id === id){
-          return {...error, ...updatedErrors}
-        }
-        return error;
-      }
-    )];
-    });
-
-  };
-
-  const updateDays = (e, id, change) => {
-    e.preventDefault();
-
-    const errorMessage = validateTripDetails.days((tripDetails[id].days || 0) + change);
-    setTripDetails((prev)=>{
-      let newTripDetails = [...prev];
-      console.log(newTripDetails)
-      newTripDetails[id] = {
-        ...newTripDetails[id],
-        days: (newTripDetails[id].days || 0) + change
-      };
-       return newTripDetails;
-    });
-
-    setErrors((prev) => {
-      return [...prev.map((error)=>{
-        if(error.id === id){
-          return {...error, days: errorMessage}
-        }
-        return error;
-      }
-    )];
-    });
+      return [
+        ...prev.map((error) => {
+          if (error.id === id) {
+            return { ...error, ...updatedErrors }
+          }
+          return error
+        }),
+      ]
+    })
   }
 
+  const updateDays = (e, id, change) => {
+    e.preventDefault()
+
+    const errorMessage = validateTripDetails.days(
+      (tripDetails[id].days || 0) + change,
+    )
+    setTripDetails((prev) => {
+      let newTripDetails = [...prev]
+      // console.log(newTripDetails)
+      newTripDetails[id] = {
+        ...newTripDetails[id],
+        days: (newTripDetails[id].days || 0) + change,
+      }
+      return newTripDetails
+    })
+
+    setErrors((prev) => {
+      return [
+        ...prev.map((error) => {
+          if (error.id === id) {
+            return { ...error, days: errorMessage }
+          }
+          return error
+        }),
+      ]
+    })
+  }
 
   return (
     <div className="p-4 md:p-8 bg-white">
@@ -234,7 +243,7 @@ export default function TripDetailsForm({setTripBreakDownCount}) {
               </select>
               <span className="text-red-500 text-xs mt-2">
                 {errors[trip.id].country}
-            </span>
+              </span>
             </div>
             <div>
               <label className="text-[20px] font-[400]"> State/Province</label>
@@ -254,8 +263,8 @@ export default function TripDetailsForm({setTripBreakDownCount}) {
                   ))}
               </select>
               <span className="text-red-500 text-xs mt-2">
-                    {errors[trip.id].state}
-            </span>
+                {errors[trip.id].state}
+              </span>
             </div>
             <div>
               <label className="text-[20px] font-[400]">Select City</label>
@@ -275,43 +284,42 @@ export default function TripDetailsForm({setTripBreakDownCount}) {
                   ))}
               </select>
               <span className="text-red-500 text-xs mt-2">
-                  {errors[trip.id].city}
-            </span>
+                {errors[trip.id].city}
+              </span>
             </div>
           </div>
 
           <div className="mt-4 flex flex-col md:flex-row items-center">
             <label className="mr-2 text-[20px] font-[400]">No. of days:</label>
-            <div className='flex flex-col'>
-            <div className="flex items-center ">
-              <input
-                type="number"
-                name="days"
-                value={trip.days}
-                onChange={(e) => handleChange(e, trip.id)}
-                placeholder='0 days'
-                className="box-border p-3  border-1 border-[#0000004D] rounded-[6px] w-24 text-center mr-2 "
-              />
-              <button
-                type="button"
-                onClick={(e) => updateDays(e, trip.id, 1)}
-                className="box-border border-1 border-[#0000004D] rounded-[6px] p-3 h-full w-[44px]"
-              >
-                +
-              </button>
-              <button
-                type="button"
-                onClick={(e) => updateDays(e, trip.id, -1)}
-                className=" border-1 border-[#0000004D] rounded-[6px] p-3 w-[44px] ml-2 "
-              >
-                -
-              </button>
+            <div className="flex flex-col">
+              <div className="flex items-center ">
+                <input
+                  type="number"
+                  name="days"
+                  value={trip.days === undefined ? 0 : trip.days}
+                  onChange={(e) => handleChange(e, trip.id)}
+                  placeholder="0 days"
+                  className="box-border p-3  border-1 border-[#0000004D] rounded-[6px] w-24 text-center mr-2 "
+                />
+                <button
+                  type="button"
+                  onClick={(e) => updateDays(e, trip.id, 1)}
+                  className="box-border border-1 border-[#0000004D] rounded-[6px] p-3 h-full w-[44px]"
+                >
+                  +
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => updateDays(e, trip.id, -1)}
+                  className=" border-1 border-[#0000004D] rounded-[6px] p-3 w-[44px] ml-2 "
+                >
+                  -
+                </button>
+              </div>
+              <span className="text-red-500 text-xs mt-2">
+                {errors[trip.id].days}
+              </span>
             </div>
-            <span className="text-red-500 text-xs mt-2">
-                    {errors[trip.id].days}
-            </span>
-            </div>
-
           </div>
         </div>
       ))}
@@ -320,7 +328,7 @@ export default function TripDetailsForm({setTripBreakDownCount}) {
         <div className="flex flex-col md:flex-row justify-around mt-4">
           <button
             type="button"
-            onClick={(e) => addNewTrip(e,'country')}
+            onClick={(e) => addNewTrip(e, 'country')}
             className="text-gray-400 px-4 py-2 rounded-lg"
           >
             + Add Country
@@ -328,7 +336,7 @@ export default function TripDetailsForm({setTripBreakDownCount}) {
           <button
             type="button"
             onClick={(e) =>
-              addNewTrip(e,'state', {
+              addNewTrip(e, 'state', {
                 country: tripDetails[tripDetails.length - 1]?.country,
               })
             }
@@ -339,7 +347,7 @@ export default function TripDetailsForm({setTripBreakDownCount}) {
           <button
             type="button"
             onClick={(e) =>
-              addNewTrip(e,'city', {
+              addNewTrip(e, 'city', {
                 country: tripDetails[tripDetails.length - 1]?.country,
                 state: tripDetails[tripDetails.length - 1]?.state,
               })

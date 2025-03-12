@@ -40,7 +40,6 @@ export default function TripDuration({ setStepsCompleted }) {
     },
   }
 
-
   const handleChange = (e) => {
     const { name, value } = e.target
     let startDateErrorMessage = ''
@@ -88,9 +87,9 @@ export default function TripDuration({ setStepsCompleted }) {
       setErrors((prev) => ({
         ...prev,
         [name]: errorMessage,
-      }));
-    };
-  
+      }))
+    }
+
     setErrors((prev) => ({
       ...prev,
       [name]: errorMessage,
@@ -163,7 +162,7 @@ export default function TripDuration({ setStepsCompleted }) {
                               <input
                                 type="date"
                                 name={date.id}
-                                value={durationData[date.id]}
+                                value={durationData[date.id] || ''}
                                 onChange={handleChange}
                                 placeholder={field.placeholder}
                                 className="w-full box-border border-1 p-3 border-[#0000004D] rounded-[6px] outline-0 ml-2"
@@ -185,7 +184,7 @@ export default function TripDuration({ setStepsCompleted }) {
                       <input
                         name={field.id}
                         type={field.type}
-                        value={durationData[field.id]}
+                        value={durationData[field.id] || ''}
                         onChange={handleChange}
                         placeholder={field.placeholder}
                         className="w-full box-border border-1 p-3 border-[#0000004D] rounded-[6px] outline-0"
