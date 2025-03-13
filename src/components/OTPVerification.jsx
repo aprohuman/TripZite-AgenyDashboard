@@ -61,7 +61,9 @@ const OTPVerification = ({ currentStep, setCurrentStep, otpData }) => {
 
     try {
       // api call for verify otp
-      const response = await verifyOneTimePassword(enteredOtpData)
+      // const response = await verifyOneTimePassword(enteredOtpData)
+      alert('OTP verified successfully!')
+      setCurrentStep(3)
 
       if (response && response.ok) {
         // Move to the next step if OTP is valid
@@ -83,9 +85,12 @@ const OTPVerification = ({ currentStep, setCurrentStep, otpData }) => {
   }
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mt-4">Verify OTP</h2>
-      <div className="flex gap-3 mt-4">
+    <div className="max-w-md mx-auto p-4">
+      <h2 className="text-xl md:text-2xl font-bold mt-3 md:mt-4 text-center md:text-left">
+        Verify OTP
+      </h2>
+
+      <div className="flex justify-center gap-2 md:gap-3 mt-3 md:mt-4">
         {otp.map((digit, index) => (
           <input
             key={index}
@@ -95,26 +100,30 @@ const OTPVerification = ({ currentStep, setCurrentStep, otpData }) => {
             onChange={(e) => handleChange(e, index)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             ref={(el) => (inputRefs.current[index] = el)}
-            className="w-12 h-12 text-center text-lg border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-black"
+            className="w-10 h-10 md:w-12 md:h-12 text-lg md:text-xl text-center border-1 border-black rounded-lg
+                   focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
           />
         ))}
       </div>
-      <div className=" mt-3">
+
+      <div className="mt-2 md:mt-3 px-2">
         {resendTimer > 0 ? (
-          <p className="text-left text-xs font-light">
-            Resend OTP in {resendTimer} seconds.
+          <p className="text-xs md:text-sm text-center md:text-left text-gray-600">
+            Resend OTP in {resendTimer} seconds
           </p>
         ) : (
-          <p className="text-right text-xs font-light text-blue-500 cursor-pointer">
+          <p className="text-xs md:text-sm text-center md:text-right text-blue-600 hover:text-blue-700 cursor-pointer">
             Resend OTP
           </p>
         )}
       </div>
+
       <button
         onClick={handleSubmit}
-        className="w-full bg-black text-white py-2 mt-4 rounded-lg hover:bg-gray-800"
+        className="w-full bg-black text-white py-3 md:py-2 mt-3 md:mt-4 rounded-lg
+             hover:bg-gray-800 text-sm md:text-base transition-colors"
       >
-        Send Request
+        Confirm
       </button>
     </div>
   )

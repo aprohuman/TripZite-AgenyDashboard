@@ -58,7 +58,26 @@ export const logOutUser = async (id) => {
 export const notification = async () => { }
 export const noticeBoard = async () => { }
 export const findUpComingTrip = async () => { }
-export const getPackages = async () => { }
+
+
+
+
+
+// get packages
+export const getPackages = async (filters) => {
+
+    const params = {
+        sort: filters.sortMethod,
+        location: filters.location !== "all" ? filters.location : undefined,
+        priceRange: filters.priceRange !== "any" ? filters.priceRange : undefined,
+        rating: filters.rating !== "all" ? filters.rating : undefined,
+        category: filters.category !== "all" ? filters.category : undefined,
+    };
+
+    // Remove undefined values
+    Object.keys(params).forEach((key) => params[key] === undefined && delete params[key]);
+    return apiClient.get('/user/allPackages', { params })
+}
 
 // forgot password
 export const resetPassword = async () => { }

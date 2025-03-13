@@ -18,17 +18,16 @@ const packageFieldSets = [
 ]
 
 export default function TripDetailFomPage() {
-  const [packages, setPackages] = useState(['PACKAGE No.#001']);
+  const [packages, setPackages] = useState(['PACKAGE No.#001'])
   const [tripBreakdownCount, setTripBreakDownCount] = useState([])
   const [stepsCompleted, setStepsCompleted] = useState({
     'Package Description': false,
-    'Duration' : false,
-    'Trip Details' : false,
-    'Trip Breakdown' : false,
-    'Passenger count and pricing' : false,
-    'Media Upload' : false,
-  });
-
+    Duration: false,
+    'Trip Details': false,
+    'Trip Breakdown': false,
+    'Passenger count and pricing': false,
+    'Media Upload': false,
+  })
 
   const addPackage = () => {
     const newPackageNumber = packages.length + 1
@@ -49,14 +48,18 @@ export default function TripDetailFomPage() {
 
       <div>
         <div className="bg-[#CFDAF0] gap-2 flex flex-col md:flex-row">
-          <Sidebar packages={packages} packageFieldSets={packageFieldSets} stepsCompleted={stepsCompleted}  />
+          <Sidebar
+            packages={packages}
+            packageFieldSets={packageFieldSets}
+            stepsCompleted={stepsCompleted}
+          />
           <div>
             <main className="w-full">
               <h2 className="p-6 text-[1.1rem] font-[400]">
                 Fill out below your package details :
               </h2>
               <form action="" className="flex-col space-y-2">
-                <PackageDescription  setStepsCompleted={setStepsCompleted} />
+                <PackageDescription setStepsCompleted={setStepsCompleted} />
                 <TripDuration setStepsCompleted={setStepsCompleted} />
                 <TripDetails setTripBreakDownCount={setTripBreakDownCount} />
                 <TripBreakdownForm tripBreakdownCount={tripBreakdownCount} />

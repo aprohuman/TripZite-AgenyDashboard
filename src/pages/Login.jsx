@@ -134,9 +134,9 @@ function LogIn(params) {
     if (Object.keys(newErrors).length > 0) return
 
     try {
-      setLoading(true) // Set loading state immediately before async request
+      setLoading(true) //
 
-      // call login api
+      // login api call
       const response = await logInUser({
         email: formData.email,
         password: formData.password,
@@ -144,12 +144,10 @@ function LogIn(params) {
 
       const { user } = await response.data
 
-      // Simulate a small delay before further action
       setTimeout(() => {
         alert('Login successful')
         setLoading(false)
         setFormData({ email: '', password: '' })
-        setTwoStepVerification(true) // Proceed to 2-step verification
 
         if (isFirstLogIn) {
           setCurrentStep(2) // If it's the first login, set the step

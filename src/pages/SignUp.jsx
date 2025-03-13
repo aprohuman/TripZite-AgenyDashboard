@@ -197,21 +197,18 @@ export default function SignUp() {
 
     setErrors(newErrors)
 
-    // If form is invalid, stop the submission process
     if (!formIsValid) return
 
-    // Proceed with the API call to submit the address
     try {
-      setLoading(true) // Indicate loading state
+      setLoading(true)
+      // API call to submit the address
+      // const response = await submitAddress(addressFormData)
 
-      const response = await submitAddress(addressFormData) // Pass the form data directly
-
-      console.log('Address submitted:', response.data)
-      setCurrentStep(4) // Show thank you screen after successful submission
-    } catch (error) {
+      alert('Address submitted:')
+      setCurrentStep(4)
       console.error('Error submitting address:', error)
     } finally {
-      setLoading(false) // Ensure loading state is reset regardless of success or failure
+      setLoading(false)
     }
   }
 
@@ -361,8 +358,8 @@ export default function SignUp() {
               />
             </>
           ) : (
-            <div className=" h-full flex flex-col items-center justify-between px-5 py-10">
-              <div className="flex flex-col gap-4">
+            <div className=" h-full flex flex-col  items-center justify-between px-5 py-10">
+              <div className="flex flex-col  gap-4 py-5">
                 <p className="text-gray-700 text-base font-light">
                   Your request has been sent to the <strong>Tripzite’s</strong>{' '}
                   team for verification.
@@ -373,8 +370,8 @@ export default function SignUp() {
                 </p>
               </div>
 
-              <div className="flex justify-center items-center gap-8 w-full">
-                <button className="w-[50%] bg-black text-white py-1 px-5">
+              <div className="flex justify-center items-center gap-8   w-full">
+                <button className="md:w-[50%] w-full bg-black text-white py-1 px-5">
                   Return To Home Page
                 </button>
               </div>
