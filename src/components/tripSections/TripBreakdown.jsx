@@ -7,7 +7,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
   const [itinerary, setItinerary] = useState([])
   const [files, setFiles] = useState([])
 
-  const [expandedBreakdown, setExpandedBreakdown] = useState([])
+  const [expandedBreakdown, setExpandedBreakdown] = useState([]);
   const [tripBreakdownData, setTripBreakdownData] = useState([
     {
       id: 0,
@@ -35,8 +35,8 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
     },
   ])
 
-  const isOpen = (section) => openSection === section // Check if a section is open
-  console.log('isOpen')
+  const isOpen = (section) => openSection === section 
+
   const toggleSection = (section) => {
     setTimeout(() => {
       setOpenSection((prev) => (prev === section ? null : section))
@@ -45,56 +45,54 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
 
   useEffect(() => {
     if (tripBreakdownCount?.length > 0) {
-      let dayCounter = 1 // Start from 1 and increment globally
+      let dayCounter = 1 
 
       const newArray = tripBreakdownCount.flatMap((item) =>
         Array.from({ length: item.days }, (_, index) => ({
           ...item,
           id: dayCounter,
-          days: dayCounter++, // Assign sequential day values
+          days: dayCounter++, 
         })),
       )
 
       setExpandedBreakdown(newArray)
+      
+      let tempBreakdownData = newArray.map((item, i) => {
+          return {
+            id: i+1,
+            accommodation: false,
+            accommodationType: '',
+            accommodationLocation: '',
+            transport: false,
+            transportType: '',
+            meal: false,
+            mealOption: '',
+            itinerary: [{ id: 0, value: '' }],
+          }
+         });
+
+         let tempErrors = newArray.map((item, i) => {
+          return {
+            id: i+1,
+            accommodation: null,
+            accommodationType: null,
+            accommodationLocation: null,
+            transport: null,
+            transportType: null,
+            meal: null,
+            mealOption: null,
+          }
+         });
+
+      setTripBreakdownData(tempBreakdownData);
+      setErrors(tempErrors);
+
     } else {
       setExpandedBreakdown([])
+      setTripBreakdownData([])
     }
   }, [tripBreakdownCount])
 
-  // const validateFieldDetails = {
-  //   isAccommoDationIncluded: (value) => {
-  //     if (!value) return ' accommodation is required'
-  //     return ''
-  //   },
-  //   accommodationType: (value) => {
-  //     if (!value) return ' accommodation-type is required'
-  //     return ''
-  //   },
-  //   accommodationLocation: (value) => {
-  //     if (!value) return 'location is required'
-  //     return ''
-  //   },
-  //   transport: (value) => {
-  //     if (!value) return 'location is required'
-  //     return ''
-  //   },
-  //   transportType: (value) => {
-  //     if (!value) return 'location is required'
-  //     return ''
-  //   },
-  //   meal: (value) => {
-  //     if (!value) return 'location is required'
-  //     return ''
-  //   },
-  //   mealOption: (value) => {
-  //     if (!value) return 'location is required'
-  //     return ''
-  //   },
-  // }
-
-  // handle-select-trip-break-down-details
-
-  // Field validation function
 
   const validateFieldDetails = {
     accommodation: (value) => (value ? '' : 'Accommodation is required'),
@@ -108,80 +106,29 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
     transportType: (value) => (value ? '' : 'Transport type is required'),
   }
 
-  // const handleSelectChange = (e, id) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-  //   const { name, value } = e.target
-  //   console.log('name--value', name, value)
-  //   setTripBreakdownData((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }))
-  //   if (value !== 'included') {
-  //     setTripBreakdownData((prev) => ({
-  //       ...prev,
-  //       mealType: '',
-  //     }))
-  //     setErrors((prev) => ({
-  //       ...prev,
-  //       mealType: '',
-  //     }))
-  //   }
-  // }
-
-  // console.log('count', tripBreakdownCount)
-
-  // Handle select field changes
-
   const handleSelectChange = (e, id) => {
     const { name, value } = e.target
     setTripBreakdownData((prev) => {
-      const existingItem = prev.find((item) => item.id === id)
-
-      if (existingItem) {
-        // If the object exists, update it
-        return prev.map((item) =>
-          item.id === id ? { ...item, [name]: value } : item,
-        )
-      } else {
-        // If the object doesn't exist, push a new one
-        return [
-          {
-            // id,
-            // accommodation: false,
-            // accommodationType: '',
-            // accommodationLocation: '',
-            // transport: false,
-            // transportType: '',
-            // meal: false,
-            // mealOption: '',
-            // itinerary: [{ id: 0, value: '' }],
-            ...prev,
-            [name]: value,
-            id, // Set the changed value
-          },
-        ]
+      let tempArr = [...prev];
+         tempArr[id] = {
+         ...tempArr[id],
+         [name]: value,
       }
+      return tempArr;
     })
+
+    const errorMessage = validateFieldDetails[name](value);
 
     setErrors((prev) => {
-      const existingItem = prev.find((item) => item.id === id)
+        let tempArr = [...prev];
+           tempArr[id] = {
+           ...tempArr[id],
+           [name]: errorMessage,
+        }
+        return tempArr;
+      });
+  };
 
-      if (existingItem) {
-        // If error object exists, update the specific field
-        return prev.map((item) =>
-          item.id === id
-            ? { ...item, [name]: validateFieldDetails[name](value) }
-            : item,
-        )
-      } else {
-        // If error object doesn't exist, add a new one
-        return [...prev, { id, [name]: validateFieldDetails[name](value) }]
-      }
-    })
-  }
-
-  console.log('all-day', tripBreakdownData, errors)
 
   const addItinerary = () => setItinerary([...itinerary, ''])
   const removeItinerary = (index) => {
@@ -222,6 +169,9 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
           value !== undefined && value !== null && value !== '' && value !== 0,
       )
     })
+
+
+  console.log(tripBreakdownData, errors, expandedBreakdown, 'data here')
 
   return (
     <div className="mx-auto bg-white p-4 sm:p-8 w-full max-w-screen">
@@ -308,11 +258,14 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                             <option value="included">Included</option>
                             <option value="notIncluded">Not Included</option>
                           </select>
+                          <span className="text-red-500 text-xs mt-1">
+                          {errors[item.id].accommodation}
+                          </span>
                         </div>
 
                         <div className="flex flex-col justify-start items-start w-full sm:w-[32%] ">
                           <label className="text-[18px] font-[400] md:mb-2 sm:mb-0">
-                            Accommodation type
+                            Accommodation Type
                           </label>
                           <select
                             id="accommodationType"
@@ -320,11 +273,15 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                             className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full outline-0"
                             onChange={(e) => handleSelectChange(e, item.id)}
                           >
+                            <option value="none" hidden></option>
                             <option value="Home Stay">Home Stay</option>
                             <option value="Hotel">Hotel</option>
                             <option value="Guest House">Guest House</option>
                             <option value="Hostel">Hostel</option>
                           </select>
+                          <span className="text-red-500 text-xs mt-1">
+                          {errors[item.id].accommodationType}
+                          </span>
                         </div>
 
                         <div className="flex flex-col justify-start items-start w-full sm:w-[32%] ">
@@ -334,13 +291,18 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           >
                             Accommodation Location
                           </label>
-                          <input
-                            id="accommodationLocation"
-                            type="text"
-                            name="location"
-                            placeholder="Location"
-                            className={`box-border p-[11px] border border-[#0000004D] rounded-[6px] w-full  outline-0 `}
-                          />
+                          <select
+                          id="accommodationLocation"
+                          name="accommodationLocation"
+                          className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full outline-0"
+                          onChange={(e) => handleSelectChange(e, item.id)}
+                        >
+                          <option value="none" hidden></option>
+                          <option value={item.city}>{item.city}</option>
+                        </select>
+                          <span className="text-red-500 text-xs mt-1">
+                          {errors[item.id].accommodationLocation}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -368,13 +330,16 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           <option value="included">Included</option>
                           <option value="notIncluded">Not Included</option>
                         </select>
+                        <span className="text-red-500 text-xs mt-1">
+                          {errors[item.id].transport}
+                          </span>
                       </div>
                       <div className="flex flex-col justify-start items-start w-full sm:w-[45%]">
                         <label
                           htmlFor="transportType"
                           className="text-[18px] font-[400] md:mb-2 sm:mb-0"
                         >
-                          Transport type
+                          Transport Type
                         </label>
                         <select
                           id="transportType"
@@ -388,6 +353,9 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           <option value="bus">Bus</option>
                           <option value="car-service">Car service</option>
                         </select>
+                        <span className="text-red-500 text-xs mt-1">
+                          {errors[item.id].transportType}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -414,13 +382,16 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           <option value="included">Included</option>
                           <option value="notIncluded">Not Included</option>
                         </select>
+                        <span className="text-red-500 text-xs mt-1">
+                          {errors[item.id].meal}
+                        </span>
                       </div>
                       <div className="flex flex-col justify-start items-start w-full sm:w-[45%]">
                         <label
                           htmlFor="mealOption"
                           className="text-[18px] font-[400] mb-2 "
                         >
-                          Meal option
+                          Meal Option
                         </label>
                         <select
                           id="mealOption"
@@ -434,6 +405,9 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           <option value="Jain">Jain</option>
                           <option value="Vegan">Vegan</option>
                         </select>
+                        <span className="text-red-500 text-xs mt-1">
+                          {errors[item.id].mealOption}
+                        </span>
                       </div>
                     </div>
                   </div>

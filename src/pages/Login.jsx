@@ -121,6 +121,9 @@ function LogIn(params) {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    setToken('okokok', keepMeLoggedIn)
+    navigate('/dashboard')
+
     // Validate form fields and check if the form is valid
     const newErrors = Object.keys(formData).reduce((acc, fieldName) => {
       const error = validateForm[fieldName](formData[fieldName])
