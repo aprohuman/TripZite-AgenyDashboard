@@ -4,7 +4,7 @@ import { ChevronUp, ChevronDown } from 'lucide-react'
 export default function TripBreakdownForm({ tripBreakdownCount }) {
   const [openSection, setOpenSection] = useState(null)
 
-  const [itinerary, setItinerary] = useState([{ id: null, value: '' }])
+  // const [itinerary, setItinerary] = useState([])
   const [files, setFiles] = useState([])
 
   const [expandedBreakdown, setExpandedBreakdown] = useState([])
@@ -18,7 +18,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
       transportType: '',
       meal: false,
       mealOption: '',
-      itinerary: itinerary,
+      itinerary: [],
     },
   ])
 
@@ -67,7 +67,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
           transportType: '',
           meal: false,
           mealOption: '',
-          itinerary: [{ id: 0, value: '' }],
+          itinerary: [],
         }
       })
 
@@ -127,10 +127,33 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
     })
   }
 
-  const addItinerary = () => setItinerary([...itinerary, {}])
-  const removeItinerary = (index) => {
-    const updatedItinerary = itinerary.filter((_, i) => i !== index)
-    setItinerary(updatedItinerary)
+  const addItinerary = (e, day) => {
+    e.preventDefault()
+    console.log('add-inti-hit', day)
+    setTripBreakdownData((prev) => {
+      let tempArr = [...prev]
+      tempArr[day] = {
+        ...tempArr[day],
+        itinerary: [
+          ...tempArr[day]['itinerary'],
+          { id: tempArr[day]['itinerary'].length, value: '' },
+        ],
+      }
+      return [...tempArr]
+    })
+  }
+
+  const removeItinerary = (e, day, id) => {
+    e.preventDefault()
+    setTripBreakdownData((prev) => {
+      let tempArr = [...prev]
+      tempArr[day] = {
+        ...tempArr[day],
+
+        itinerary: tempArr[day]['itinerary'].filter((it) => id !== it.id),
+      }
+      return tempArr
+    })
   }
 
   const handleItineraryChange = (index, value) => {
@@ -175,7 +198,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
       )
     })
 
-  console.log(tripBreakdownData, expandedBreakdown, itinerary, 'data here')
+  console.log(tripBreakdownData, expandedBreakdown, 'data here')
 
   return (
     <div className="mx-auto bg-white p-4 sm:p-8 w-full max-w-screen">
@@ -256,7 +279,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                             id="accommodation"
                             name="accommodation"
                             className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full  outline-0"
-                            onChange={(e) => handleSelectChange(e, item.id)}
+                            onChange={(e) => handleSelectChange(e, item.id - 1)}
                           >
                             <option value="none" hidden></option>
                             <option value="included">Included</option>
@@ -275,7 +298,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                             id="accommodationType"
                             name="accommodationType"
                             className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full outline-0"
-                            onChange={(e) => handleSelectChange(e, item.id)}
+                            onChange={(e) => handleSelectChange(e, item.id - 1)}
                           >
                             <option value="none" hidden></option>
                             <option value="Home Stay">Home Stay</option>
@@ -299,7 +322,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                             id="accommodationLocation"
                             name="accommodationLocation"
                             className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full outline-0"
-                            onChange={(e) => handleSelectChange(e, item.id)}
+                            onChange={(e) => handleSelectChange(e, item.id - 1)}
                           >
                             <option value="none" hidden></option>
                             <option value={item.city}>{item.city}</option>
@@ -328,7 +351,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           id="transport"
                           name="transport"
                           className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%]  outline-0"
-                          onChange={(e) => handleSelectChange(e, item.id)}
+                          onChange={(e) => handleSelectChange(e, item.id - 1)}
                         >
                           <option value="none" hidden></option>
                           <option value="included">Included</option>
@@ -349,7 +372,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           id="transportType"
                           name="transportType"
                           className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%]  outline-0"
-                          onChange={(e) => handleSelectChange(e, item.id)}
+                          onChange={(e) => handleSelectChange(e, item.id - 1)}
                         >
                           <option value="none" hidden></option>
                           <option value="flight">Flight</option>
@@ -380,7 +403,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           id="meal"
                           name="meal"
                           className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%]  outline-0"
-                          onChange={(e) => handleSelectChange(e, item.id)}
+                          onChange={(e) => handleSelectChange(e, item.id - 1)}
                         >
                           <option value="none" hidden></option>
                           <option value="included">Included</option>
@@ -401,7 +424,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           id="mealOption"
                           name="mealOption"
                           className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%] outline-0"
-                          onChange={(e) => handleSelectChange(e, item.id)}
+                          onChange={(e) => handleSelectChange(e, item.id - 1)}
                         >
                           <option value="" hidden></option>
                           <option value="veg">Vegetarian</option>
@@ -420,33 +443,40 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                     <h4 className="text-[24px] font-[400] my-10">
                       Itinerary Of Day {item.days}
                     </h4>
+
                     <div className="flex flex-wrap gap-4 mt-2">
-                      {itinerary.map((item, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center w-full sm:w-auto relative"
-                        >
-                          <input
-                            id={item.id}
-                            type="text"
-                            value={item.value}
-                            onChange={(e) =>
-                              handleItineraryChange(index, e.target.value)
-                            }
-                            className="box-border p-3  border-1 border-[#0000004D] rounded-[6px]  mr-4  outline-0 w-full"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => removeItinerary(index)}
-                            className="text-[24px] text-blue-500 ml-2 absolute right-6 cursor-pointer"
-                          >
-                            x
-                          </button>
-                        </div>
-                      ))}
+                      {tripBreakdownData[item.id]?.itinerary?.map(
+                        (itinerary, index) => {
+                          return (
+                            <div
+                              key={itinerary.id}
+                              className="flex items-center w-full sm:w-auto relative"
+                            >
+                              <input
+                                id={itinerary.id}
+                                type="text"
+                                value={itinerary.value}
+                                onChange={(e) =>
+                                  handleItineraryChange(index, e.target.value)
+                                }
+                                className="box-border p-3  border-1 border-[#0000004D] rounded-[6px]  mr-4  outline-0 w-full"
+                              />
+                              <button
+                                type="button"
+                                onClick={(e) =>
+                                  removeItinerary(e, item.id - 1, itinerary.id)
+                                }
+                                className="text-[24px] text-blue-500 ml-2 absolute right-6 cursor-pointer"
+                              >
+                                x
+                              </button>
+                            </div>
+                          )
+                        },
+                      )}
                       <button
                         type="button"
-                        onClick={addItinerary}
+                        onClick={(e) => addItinerary(e, item.id - 1)}
                         className=" text-[28px] text-red-500 text-lg cursor-pointer"
                       >
                         +
