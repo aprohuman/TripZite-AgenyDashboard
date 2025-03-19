@@ -156,17 +156,11 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
     })
   }
 
-  const handleItineraryChange = (index, value) => {
-    setItinerary((prev) => {
+  const handleItineraryChange = (i, value) => {
+    console.log('iti-change', i, value)
+    setTripBreakdownData((prev) => {
       const updatedItinerary = [...prev]
-
-      updatedItinerary[index] = {
-        ...updatedItinerary[index], // Preserve existing properties
-        id: index,
-        value, // Store input value in a "text" property
-      }
-
-      return updatedItinerary
+      updatedItinerary[i]
     })
   }
 
@@ -198,7 +192,12 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
       )
     })
 
-  console.log(tripBreakdownData, expandedBreakdown, 'data here')
+  console.log(
+    tripBreakdownData,
+
+    expandedBreakdown,
+    'data here',
+  )
 
   return (
     <div className="mx-auto bg-white p-4 sm:p-8 w-full max-w-screen">
@@ -206,7 +205,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
         Trip Breakdown
       </h2>
       {isValidTripBreakdownCount &&
-        expandedBreakdown?.map((item) => {
+        expandedBreakdown?.map((item, index) => {
           return (
             <>
               <div className="flex justify-start items-center">
@@ -445,8 +444,8 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                     </h4>
 
                     <div className="flex flex-wrap gap-4 mt-2">
-                      {tripBreakdownData[item.id]?.itinerary?.map(
-                        (itinerary, index) => {
+                      {tripBreakdownData[index]?.itinerary?.map(
+                        (itinerary, i) => {
                           return (
                             <div
                               key={itinerary.id}
@@ -457,7 +456,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                                 type="text"
                                 value={itinerary.value}
                                 onChange={(e) =>
-                                  handleItineraryChange(index, e.target.value)
+                                  handleItineraryChange(i, e.target.value)
                                 }
                                 className="box-border p-3  border-1 border-[#0000004D] rounded-[6px]  mr-4  outline-0 w-full"
                               />
