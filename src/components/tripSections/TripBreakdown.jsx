@@ -68,6 +68,10 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
           meal: false,
           mealOption: '',
           itinerary: [],
+          media: [''],
+          country: '',
+          state: '',
+          city: '',
         }
       })
 
@@ -144,6 +148,8 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
   }
 
   const removeItinerary = (e, day, id) => {
+    console.log('rem-inti-hit', day, id)
+
     e.preventDefault()
     setTripBreakdownData((prev) => {
       let tempArr = [...prev]
@@ -152,15 +158,30 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
 
         itinerary: tempArr[day]['itinerary'].filter((it) => id !== it.id),
       }
-      return tempArr
+      return [...tempArr]
     })
   }
 
-  const handleItineraryChange = (i, value) => {
-    console.log('iti-change', i, value)
+  const handleItineraryChange = (e, day, id) => {
+    e.preventDefault()
+    const { value } = e.target
+    console.log('iti-change', value)
     setTripBreakdownData((prev) => {
-      const updatedItinerary = [...prev]
-      updatedItinerary[i]
+      let tempArr = [...prev]
+      tempArr[day] = {
+        ...tempArr[day],
+        itinerary: tempArr[day]['itinerary'].map((it) => {
+          if (it.id === id) {
+            return {
+              ...it,
+              value: value,
+            }
+          } else {
+            return it
+          }
+        }),
+      }
+      return [...tempArr]
     })
   }
 
@@ -456,7 +477,11 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                                 type="text"
                                 value={itinerary.value}
                                 onChange={(e) =>
-                                  handleItineraryChange(i, e.target.value)
+                                  handleItineraryChange(
+                                    e,
+                                    item.id - 1,
+                                    itinerary.id,
+                                  )
                                 }
                                 className="box-border p-3  border-1 border-[#0000004D] rounded-[6px]  mr-4  outline-0 w-full"
                               />
