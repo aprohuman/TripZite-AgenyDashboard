@@ -19,6 +19,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
       meal: false,
       mealOption: '',
       itinerary: [],
+      media: [],
     },
   ])
 
@@ -69,9 +70,9 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
           mealOption: '',
           itinerary: [],
           media: [''],
-          country: '',
-          state: '',
-          city: '',
+          country: item.country,
+          state: item.state,
+          city: item.city,
         }
       })
 
@@ -185,15 +186,36 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
     })
   }
 
-  const handleDrop = (e) => {
+  const handleDrop = (e, day) => {
     e.preventDefault()
+
     const droppedFiles = Array.from(e.dataTransfer.files)
-    setFiles([...files, ...droppedFiles])
+
+    setTripBreakdownData((prev) => {
+      let tempArr = [...prev]
+      tempArr[day] = {
+        ...tempArr[day],
+        media: [...tempArr[day].media, ...droppedFiles], // Append files instead of replacing
+      }
+      return tempArr
+    })
   }
 
-  const handleFileSelect = (e) => {
+  const handleFileSelect = (e, day) => {
+    e.preventDefault()
+
+    console.log('media--', e.target, day)
+
     const selectedFiles = Array.from(e.target.files)
-    setFiles([...files, ...selectedFiles])
+    // setFiles([...files, ...selectedFiles])
+    setTripBreakdownData((prev) => {
+      let tempArr = [...prev]
+      tempArr[day] = {
+        ...tempArr[day],
+        media: [...tempArr[day].media, ...selectedFiles], // Append files instead of replacing
+      }
+      return tempArr
+    })
   }
 
   const preventDefaults = (e) => {
@@ -250,7 +272,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                       </label>
                       <div
                         className="border-2 border-dashed border-gray-400 bg-blue-100 rounded-lg p-8 flex flex-col items-center justify-center"
-                        onDrop={handleDrop}
+                        onDrop={(e) => handleDrop(e, item.days)}
                         onDragOver={preventDefaults}
                         onDragEnter={preventDefaults}
                         onDragLeave={preventDefaults}
@@ -261,7 +283,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           accept="image/*,video/*"
                           className="hidden"
                           id="file-upload"
-                          onChange={handleFileSelect}
+                          onChange={(e) => handleFileSelect(e, item.days)}
                         />
                         <label
                           htmlFor="file-upload"
