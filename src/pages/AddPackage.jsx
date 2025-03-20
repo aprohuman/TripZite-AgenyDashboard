@@ -64,12 +64,14 @@ export default function TripDetailFomPage() {
                 <TripDetails setTripBreakDownCount={setTripBreakDownCount} />
                 <TripBreakdownForm tripBreakdownCount={tripBreakdownCount} />
                 <PassengerPricingForm setStepsCompleted={setStepsCompleted} />
+                <MediaUploadComponent  setStepsCompleted={setStepsCompleted} />
               </form>
             </main>
+      
           </div>
         </div>
         <div className="w-full sm:flex md:justify-end  md:px-30  ">
-          <MediaUploadComponent />
+       
         </div>
         <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mt-4 p-10 w-[90%] m-auto justify-end">
           <button
