@@ -207,7 +207,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
     console.log('media--', e.target, day)
 
     const selectedFiles = Array.from(e.target.files)
-    // setFiles([...files, ...selectedFiles])
+    setFiles([...files, ...selectedFiles])
     setTripBreakdownData((prev) => {
       let tempArr = [...prev]
       tempArr[day] = {
@@ -243,10 +243,8 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
   )
 
   return (
-    <div className="mx-auto bg-white p-4 sm:p-8 w-full max-w-screen">
-      <h2 className="text-[2rem] font-[400]  text-black mb-6">
-        Trip Breakdown
-      </h2>
+    <div className="bg-white p-4 w-full max-w-screen mx-auto sm:p-8">
+      <h2 className="text-[2rem] text-black font-[400] mb-6">Trip Breakdown</h2>
       {isValidTripBreakdownCount &&
         expandedBreakdown?.map((item, index) => {
           return (
@@ -254,7 +252,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
               <div className="flex justify-start items-center">
                 <h3 className="text-[24px] font=[400] mt-4">DAY {item.days}</h3>
                 <span
-                  className="flex justify-center items-center cursor-pointer mt-3 ml-2"
+                  className="flex justify-center cursor-pointer items-center ml-2 mt-3"
                   onClick={() => toggleSection(item.id)}
                 >
                   {isOpen(item.days) ? <ChevronUp /> : <ChevronDown />}{' '}
@@ -262,16 +260,16 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
               </div>
               {isOpen(item.days) && (
                 <div>
-                  <div className="mt-4 flex flex-col sm:flex-row items-center justify-between ">
+                  <div className="flex flex-col justify-between items-center mt-4 sm:flex-row">
                     <p className="text-[20px] font-[400] mb-2 sm:mb-0">
                       Location: {item.city}, {item.state} ,{item.country}
                     </p>
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-around w-full sm:w-1/2 ">
+                    <div className="flex flex-col w-full md:flex-row md:items-center md:justify-around sm:w-1/2">
                       <label className="text-[22px] font-[400] mb-2">
                         Upload Images/Media
                       </label>
                       <div
-                        className="border-2 border-dashed border-gray-400 bg-blue-100 rounded-lg p-8 flex flex-col items-center justify-center"
+                        className="flex flex-col bg-blue-100 border-2 border-dashed border-gray-400 justify-center p-8 rounded-lg items-center"
                         onDrop={(e) => handleDrop(e, item.days)}
                         onDragOver={preventDefaults}
                         onDragEnter={preventDefaults}
@@ -287,7 +285,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                         />
                         <label
                           htmlFor="file-upload"
-                          className="cursor-pointer text-gray-500 text-sm underline"
+                          className="text-gray-500 text-sm cursor-pointer underline"
                         >
                           (UPLOAD FROM COMPUTER)
                         </label>
@@ -297,7 +295,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                       {files.length > 0 && (
                         <ul className="mt-2">
                           {files.map((file, index) => (
-                            <li key={index} className="text-sm text-gray-700">
+                            <li key={index} className="text-gray-700 text-sm">
                               {file.name}
                             </li>
                           ))}
@@ -312,15 +310,15 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                         Accommodation
                       </h4>
 
-                      <div className="flex flex-col sm:flex-row  w-full sm:w-[75%] my-2 gap-4">
-                        <div className="flex flex-col justify-start items-start w-full sm:w-[32%]">
+                      <div className="flex flex-col w-full gap-4 my-2 sm:flex-row sm:w-[75%]">
+                        <div className="flex flex-col justify-start w-full items-start sm:w-[32%]">
                           <label className="text-[18px] font-[400] md:mb-2 sm:mb-0">
                             Accommodation
                           </label>
                           <select
                             id="accommodation"
                             name="accommodation"
-                            className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full  outline-0"
+                            className="border border-[#0000004D] p-3 rounded-[6px] text-center w-full box-border outline-0"
                             onChange={(e) => handleSelectChange(e, item.id - 1)}
                           >
                             <option value="none" hidden></option>
@@ -332,15 +330,19 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           </span>
                         </div>
 
-                        <div className="flex flex-col justify-start items-start w-full sm:w-[32%] ">
+                        <div className="flex flex-col justify-start w-full items-start sm:w-[32%]">
                           <label className="text-[18px] font-[400] md:mb-2 sm:mb-0">
                             Accommodation Type
                           </label>
                           <select
                             id="accommodationType"
                             name="accommodationType"
-                            className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full outline-0"
+                            className="border border-[#0000004D] p-3 rounded-[6px] text-center w-full box-border outline-0"
                             onChange={(e) => handleSelectChange(e, item.id - 1)}
+                            disabled={
+                              tripBreakdownData[item.id - 1]?.accommodation ===
+                              'notIncluded'
+                            }
                           >
                             <option value="none" hidden></option>
                             <option value="Home Stay">Home Stay</option>
@@ -353,7 +355,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           </span>
                         </div>
 
-                        <div className="flex flex-col justify-start items-start w-full sm:w-[32%] ">
+                        <div className="flex flex-col justify-start w-full items-start sm:w-[32%]">
                           <label
                             htmlFor="accommodationLocation"
                             className="text-[18px] font-[400] md:mb-2 sm:mb-0"
@@ -363,7 +365,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           <select
                             id="accommodationLocation"
                             name="accommodationLocation"
-                            className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full outline-0"
+                            className="border border-[#0000004D] p-3 rounded-[6px] text-center w-full box-border outline-0"
                             onChange={(e) => handleSelectChange(e, item.id - 1)}
                           >
                             <option value="none" hidden></option>
@@ -377,12 +379,12 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                     </div>
                   </div>
                   {/* Transport */}
-                  <div className="my-4 ">
+                  <div className="my-4">
                     <h4 className="text-[24px] font-[400] my-6 sm:my-8">
                       Transport
                     </h4>
-                    <div className="flex flex-col sm:flex-row  w-full sm:w-[75%] my-2 gap-4 ">
-                      <div className="flex flex-col justify-start items-start w-full sm:w-[45%]">
+                    <div className="flex flex-col w-full gap-4 my-2 sm:flex-row sm:w-[75%]">
+                      <div className="flex flex-col justify-start w-full items-start sm:w-[45%]">
                         <label
                           htmlFor="transport"
                           className="text-[18px] font-[400] md:mb-2 sm:mb-0"
@@ -392,7 +394,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                         <select
                           id="transport"
                           name="transport"
-                          className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%]  outline-0"
+                          className="border border-[#0000004D] p-3 rounded-[6px] text-center w-full box-border outline-0 sm:w-[50%]"
                           onChange={(e) => handleSelectChange(e, item.id - 1)}
                         >
                           <option value="none" hidden></option>
@@ -403,7 +405,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           {errors[item.id]?.transport}
                         </span>
                       </div>
-                      <div className="flex flex-col justify-start items-start w-full sm:w-[45%]">
+                      <div className="flex flex-col justify-start w-full items-start sm:w-[45%]">
                         <label
                           htmlFor="transportType"
                           className="text-[18px] font-[400] md:mb-2 sm:mb-0"
@@ -413,8 +415,14 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                         <select
                           id="transportType"
                           name="transportType"
-                          className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%]  outline-0"
+                          className="border border-[#0000004D] p-3 rounded-[6px] text-center w-full box-border outline-0 sm:w-[50%]"
                           onChange={(e) => handleSelectChange(e, item.id - 1)}
+                          disabled={
+                            (tripBreakdownData[item.id - 1]?.transport ??
+                              '') === false ||
+                            tripBreakdownData[item.id - 1]?.transport ===
+                              'notIncluded'
+                          }
                         >
                           <option value="none" hidden></option>
                           <option value="flight">Flight</option>
@@ -422,29 +430,35 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           <option value="bus">Bus</option>
                           <option value="car-service">Car service</option>
                         </select>
-                        <span className="text-red-500 text-xs mt-1">
-                          {errors[item.id]?.transportType}
+                        <span
+                          className={`${
+                            tripBreakdownData[item.id - 1]?.transport ===
+                            'notIncluded'
+                          }? text-red-500 text-xs mt-1:""`}
+                        >
+                          {/* {errors[item.id]?.transportType} */}
+                          field not included
                         </span>
                       </div>
                     </div>
                   </div>
                   {/* Meal */}
-                  <div className="my-4 ">
+                  <div className="my-4">
                     <h4 className="text-[24px] font-[400] my-6 sm:my-8">
                       Meal
                     </h4>
-                    <div className="flex flex-col sm:flex-row  w-full sm:w-[75%] my-2 gap-4">
-                      <div className="flex flex-col justify-start items-start w-full sm:w-[45%]">
+                    <div className="flex flex-col w-full gap-4 my-2 sm:flex-row sm:w-[75%]">
+                      <div className="flex flex-col justify-start w-full items-start sm:w-[45%]">
                         <label
                           htmlFor="meal"
-                          className="text-[18px] font-[400] mb-2 "
+                          className="text-[18px] font-[400] mb-2"
                         >
                           Meal
                         </label>
                         <select
                           id="meal"
                           name="meal"
-                          className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%]  outline-0"
+                          className="border border-[#0000004D] p-3 rounded-[6px] text-center w-full box-border outline-0 sm:w-[50%]"
                           onChange={(e) => handleSelectChange(e, item.id - 1)}
                         >
                           <option value="none" hidden></option>
@@ -455,18 +469,22 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           {errors[item.id]?.meal}
                         </span>
                       </div>
-                      <div className="flex flex-col justify-start items-start w-full sm:w-[45%]">
+                      <div className="flex flex-col justify-start w-full items-start sm:w-[45%]">
                         <label
                           htmlFor="mealOption"
-                          className="text-[18px] font-[400] mb-2 "
+                          className="text-[18px] font-[400] mb-2"
                         >
                           Meal Option
                         </label>
                         <select
                           id="mealOption"
                           name="mealOption"
-                          className="box-border p-3 border border-[#0000004D] rounded-[6px] text-center w-full sm:w-[50%] outline-0"
+                          className="border border-[#0000004D] p-3 rounded-[6px] text-center w-full box-border outline-0 sm:w-[50%]"
                           onChange={(e) => handleSelectChange(e, item.id - 1)}
+                          disabled={
+                            tripBreakdownData[item.id - 1]?.meal ===
+                            'notIncluded'
+                          }
                         >
                           <option value="" hidden></option>
                           <option value="veg">Vegetarian</option>
@@ -492,7 +510,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                           return (
                             <div
                               key={itinerary.id}
-                              className="flex items-center w-full sm:w-auto relative"
+                              className="flex w-full items-center relative sm:w-auto"
                             >
                               <input
                                 id={itinerary.id}
@@ -505,14 +523,14 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                                     itinerary.id,
                                   )
                                 }
-                                className="box-border p-3  border-1 border-[#0000004D] rounded-[6px]  mr-4  outline-0 w-full"
+                                className="border-[#0000004D] border-1 p-3 rounded-[6px] w-full box-border mr-4 outline-0"
                               />
                               <button
                                 type="button"
                                 onClick={(e) =>
                                   removeItinerary(e, item.id - 1, itinerary.id)
                                 }
-                                className="text-[24px] text-blue-500 ml-2 absolute right-6 cursor-pointer"
+                                className="text-[24px] text-blue-500 absolute cursor-pointer ml-2 right-6"
                               >
                                 x
                               </button>
@@ -523,7 +541,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                       <button
                         type="button"
                         onClick={(e) => addItinerary(e, item.id - 1)}
-                        className=" text-[28px] text-red-500 text-lg cursor-pointer"
+                        className="text-[28px] text-lg text-red-500 cursor-pointer"
                       >
                         +
                       </button>
