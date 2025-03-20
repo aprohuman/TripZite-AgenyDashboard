@@ -15,7 +15,7 @@ import { AwardIcon } from 'lucide-react'
 function LogIn(params) {
   const navigate = useNavigate()
   const [keepMeLoggedIn, setKeepMeLoggedIn] = useState(false)
-  const [isFirstLogIn, setIsLogIn] = useState(false)
+  const [isFirstLogIn, setIsLogIn] = useState(true)
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState({
     email: '',
@@ -120,6 +120,11 @@ function LogIn(params) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+
+
+    // setCurrentStep(2)
+
 
     setToken('okokok', keepMeLoggedIn)
     navigate('/dashboard')
@@ -238,10 +243,13 @@ function LogIn(params) {
               </h2>
               <form onSubmit={handleSubmit} autoComplete="off">
                 <div className="mb-[2rem]">
+                <label htmlFor="email" className='inline-block mb-4 text-[14px]'>
+                    Enter Your Email
+                </label>
                   <input
                     type="text"
                     name="email"
-                    placeholder="*Enter your Email ID or Username"
+                    placeholder="*Enter your Email"
                     autoComplete="email"
                     className={`w-full p-2 border rounded-[1.2rem]  text-[0.75rem] font-[400] focus:border-green-500 outline-none  mb-3`}
                     value={formData.email}
@@ -252,14 +260,14 @@ function LogIn(params) {
                   )}
                 </div>
                 <div className="mb-[2rem]">
+                <label htmlFor="password" className='inline-block mb-4 text-[14px]'>
+                    Enter Your Password
+                </label>
                   <input
                     type="password"
                     name="password"
                     placeholder="*Password"
                     autoComplete="new-password"
-                    // className={`w-full p-3 border rounded-[1rem] text-[0.75rem] font-[400] focus:ring-2 focus:ring-green-500 outline-none ${
-                    //   errors.password ? 'border-red-500' : ''
-                    // }`}
                     className={`w-full p-2 border rounded-[1.2rem]  text-[0.75rem] font-[400] focus:border-green-500 outline-none  mb-3`}
                     value={formData.password}
                     onChange={handleChange}
@@ -300,14 +308,17 @@ function LogIn(params) {
           ) : currentStep === 2 ? (
             <div className="md:w-1/1.5 w-full pl-6">
               <h2 className="text-[2rem] font-[400] text-gray-800 mb-6 ">
-                Set Password
+                Set new password
               </h2>
               <form onSubmit={handlePasswordSubmit} autoComplete="off">
                 <div className="mb-[2rem]">
+                <label htmlFor="confirmPassword" className='inline-block mb-4 text-[14px]'>
+                    Enter New Password
+                </label>
                   <input
                     type="password"
                     name="newPassword"
-                    placeholder="*Enter Your Password"
+                    placeholder="*Enter New Password"
                     className={`w-full p-2 border rounded-[1.2rem]  text-[0.75rem] font-[400] focus:border-green-500 outline-none  mb-3`}
                     value={passwordData.newPassword}
                     onChange={handlePasswordChange}
@@ -319,10 +330,13 @@ function LogIn(params) {
                   )}
                 </div>
                 <div className="mb-[2rem]">
+                  <label htmlFor="confirmPassword" className='inline-block mb-4 text-[14px]'>
+                    Re-Enter New Password
+                  </label>
                   <input
                     type="password"
                     name="confirmPassword"
-                    placeholder="*Confirm Your Password"
+                    placeholder="*Confirm New Password"
                     className={`w-full p-2 border rounded-[1.2rem]  text-[0.75rem] font-[400] focus:border-green-500 outline-none  mb-3`}
                     value={passwordData.confirmPassword}
                     onChange={handlePasswordChange}
@@ -342,7 +356,7 @@ function LogIn(params) {
                   }`}
                   disabled={loading || !isPasswordFormValid()}
                 >
-                  {loading ? 'Logging in...' : 'LOG IN'}
+                  {loading ? 'Logging in...' : 'SET PASSWORD'}
                 </button>
                 <div className="flex justify-between items-center mt-4 text-sm">
                   <label className="flex items-center text-gray-600 cursor-pointer">

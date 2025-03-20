@@ -4,6 +4,8 @@ import Footer from '../components/Footer'
 import PackageCard from '../components/PackageCard'
 import Filters from '../components/Filters'
 import { usePackages } from '../hook/usePackages'
+import darjeelingImage from '../assets/images/Darjeeling.svg';
+import locationImage from '../assets/images/Location.svg';
 
 const tabs = ['All Packages', 'Published', 'Under Review', 'Drafts', 'Trash']
 
@@ -26,18 +28,18 @@ export default function YourPackages() {
       <div className="h-full">
         <div className="flex flex-col md:flex-row gap-6 md:gap-8">
           {/* Sidebar Navigation */}
-          <aside className="w-full md:w-1/5 lg:w-1/6 bg-[#A3AAD179] ">
+          <aside className="w-full md:w-1/5 lg:w-1/6 bg-[#4050A0]">
             <nav>
-              <ul className="flex flex-row md:flex-col flex-wrap gap-2 md:gap-3">
+              <ul className="flex flex-row md:flex-col md:justify-center md:itmes-center flex-wrap gap-2 md:p-10">
                 {tabs.map((tab) => (
                   <li
                     key={tab}
                     onClick={() => setCurrentTab(tab)}
-                    className={`text-sm md:text-base lg:text-lg p-2 md:p-3 rounded-md cursor-pointer transition-colors
+                    className={` text-sm md:text-base lg:text-lg pt-2 md:pt-2 rounded-md hover:text-gray hover:cursor-pointer transition-colors text-white
                       ${
                         tab === currentTab
-                          ? 'bg-[#102728] text-white'
-                          : 'hover:bg-gray-200 text-black'
+                          ? 'font-extrabold'
+                          : 'font-400'
                       }
                     `}
                   >
@@ -50,18 +52,42 @@ export default function YourPackages() {
 
           {/* Main Content */}
           <main className="w-full md:w-4/5 lg:w-5/6">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-medium border-b border-[#102728] mb-4 md:mb-6 pb-2 md:pb-4">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-medium border-b border-[#10272862] py-4 my-8 min-w-[25%] inline-block">
               {currentTab}
             </h1>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 ">
+           <div className='max-h-[720px]' style={{overflow:'scroll'}}>
+            <div className="flex flex-row justify-start items-center flex-wrap gap-4 pt-2 ">
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
+              <PackageCard />
               <PackageCard />
               <PackageCard />
               <PackageCard />
               <PackageCard />
             </div>
+            </div>
           </main>
         </div>
+      </div>
+      <div style={{height:"400px", overflow:"hidden", position:"relative"}}>
+        <img style={{objectFit:'cover', width:'100%', height:'100%'}} src={darjeelingImage} alt="Darjeeling" />
+         <div className='flex justify-center items-center' style={{position:'absolute', bottom:'10px', right:'20px'}}>
+          <img src={locationImage} alt="Location" width={40} height={40} />
+          <span className='text-white mb-2'>Darjeeling, India</span>
+         </div>
       </div>
 
       <Footer />

@@ -16,16 +16,15 @@ const Filters = ({ filters, setFilters }) => {
     <div className="relative  flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 p-4 md:pl-[10%] lg:pl-[17%] bg-[#A3ABD1] md:bg-gradient-to-r md:from-[#A3ABD1] md:from-[7%] md:via-[#C4C9E1] md:via-[15%] md:to-white md:to-[25%]">
       <button
         onClick={() => navigate('/dashboard')}
-        className="md:absolute text-black font-semibold md:left-6 cursor-pointer"
-      >
-        « Back
+        className="md:absolute text-black font-semibold md:left-6 cursor-pointer">
+        «
       </button>
 
       <div className="w-full flex flex-col md:flex-row flex-wrap gap-4 md:gap-6">
         {/* Sort Method */}
         <div className="flex-1 w-full md:min-w-[150px] md:max-w-[200px]">
           <select
-            className="w-full font-base cursor-pointer focus:outline-none p-2 bg-white rounded"
+            className="w-full font-base cursor-pointer focus:outline-none p-2 rounded bg-transparent"
             name="sortMethod"
             value={filters.sortMethod}
             onChange={handleChange}
@@ -40,7 +39,7 @@ const Filters = ({ filters, setFilters }) => {
         {/* Location */}
         <div className="flex-1 w-full md:min-w-[150px] md:max-w-[200px]">
           <select
-            className="w-full font-base cursor-pointer focus:outline-none p-2 bg-white rounded"
+            className="w-full font-base cursor-pointer focus:outline-none p-2 bg-transparent rounded"
             name="location"
             value={filters.location}
             onChange={handleChange}
@@ -55,7 +54,7 @@ const Filters = ({ filters, setFilters }) => {
         {/* Price Range */}
         <div className="flex-1 w-full md:min-w-[150px] md:max-w-[200px]">
           <select
-            className="w-full font-base cursor-pointer focus:outline-none p-2 bg-white rounded"
+            className="w-full font-base cursor-pointer focus:outline-none p-2 bg-transparent rounded"
             name="priceRange"
             value={filters.priceRange}
             onChange={handleChange}
@@ -70,7 +69,7 @@ const Filters = ({ filters, setFilters }) => {
         {/* Rating */}
         <div className="flex-1 w-full md:min-w-[150px] md:max-w-[200px]">
           <select
-            className="w-full font-base cursor-pointer focus:outline-none p-2 bg-white rounded"
+            className="w-full font-base cursor-pointer focus:outline-none p-2 bg-transparent rounded"
             name="rating"
             value={filters.rating}
             onChange={handleChange}
