@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 export default function MediaUploadComponent() {
   const [files, setFiles] = useState([])
 
+  console.log(files, 'ffff')
+
   const handleDrop = (e) => {
     e.preventDefault()
     const droppedFiles = Array.from(e.dataTransfer.files)
