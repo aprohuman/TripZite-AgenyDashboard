@@ -3,9 +3,7 @@ import { ChevronUp, ChevronDown } from 'lucide-react'
 import BreakdownDays from './BreakdownDays'
 
 export default function TripBreakdownForm({ tripBreakdownCount }) {
-  const [openSection, setOpenSection] = useState(null)
-
-  // const [itinerary, setItinerary] = useState([])
+  const [openSection, setOpenSection] = useState(null);
   const [files, setFiles] = useState([])
 
   const [expandedBreakdown, setExpandedBreakdown] = useState([])
@@ -62,15 +60,15 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
       let tempBreakdownData = newArray.map((item, i) => {
         return {
           id: i + 1,
-          accommodation: false,
+          accommodation: 'notIncluded',
           accommodationType: '',
           accommodationLocation: '',
-          transport: false,
+          transport: 'notIncluded',
           transportType: '',
-          meal: false,
+          meal: 'notIncluded',
           mealOption: '',
           itinerary: [],
-          media: [''],
+          media: [],
           country: item.country,
           state: item.state,
           city: item.city,
@@ -236,12 +234,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
       )
     })
 
-  console.log(
-    tripBreakdownData,
-
-    expandedBreakdown,
-    'data here',
-  )
+  console.log(tripBreakdownData, 'data here');
 
   return (
     <div className="bg-white p-4 w-full max-w-screen mx-auto sm:p-8">
@@ -272,6 +265,7 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                    addItinerary={addItinerary}
                    removeItinerary={removeItinerary}
                    handleItineraryChange={handleItineraryChange}
+                   setTripBreakdownData={setTripBreakdownData}
                 />
               )}
             </>
