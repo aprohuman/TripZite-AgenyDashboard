@@ -117,8 +117,7 @@ export default function MediaUploadComponent() {
             <div onClick={(e)=>handleClick(e)}>
               <h3 className="text-white font-bold mb-2 text-[20px]">Upload Images / Videos</h3>
               <p className="text-[#A4ADBE] text-[16px]"> DRAG AND DROP </p>
-              <p className="text-[#A4ADBE] text-[14px]">(images/videos)</p>
-              <p className="text-[#A4ADBE] text-[14px] my-2">OR</p>
+              <p className="text-[#A4ADBE] text-[14px] my-2">or</p>
               <p className="text-[#A4ADBE] text-[16px]">UPLOAD FROM COMPUTER</p>
               <p className="text-[#A4ADBE] text-[14px]">(images/videos)</p>
             </div>

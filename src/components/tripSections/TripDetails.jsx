@@ -252,7 +252,7 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
                 name="state"
                 onChange={(e) => handleChange(e, trip.id)}
                 disabled={!trip.country}
-                className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
+                className={`box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full ${!trip.country ? `bg-gray-100 cursor-not-allowed text-gray-200 border-gray-200` : ``} `}
               >
                 <option value="">Select State</option>
                 {trip.country &&
@@ -273,7 +273,7 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
                 name="city"
                 onChange={(e) => handleChange(e, trip.id)}
                 disabled={!trip.state}
-                className="box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full"
+                className={`box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full ${!trip.state ? `bg-gray-100 cursor-not-allowed text-gray-200 border-gray-200` : ``}`}
               >
                 <option value="">Select City</option>
                 {trip.state &&
