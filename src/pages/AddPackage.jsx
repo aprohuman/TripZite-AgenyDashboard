@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Header from '../components/Header';
 import Sidebar from '../components/formFiledsets/Sidebar';
 import PackageForm from '../components/PackageForm';
+import  { setPackageName } from "../redux";
+import store from "../redux/store";
 
 const packageFieldSets = [
   'Package Description',
@@ -24,6 +27,9 @@ export default function TripDetailFomPage() {
     'Passenger count and pricing': false,
     'Media Upload': false,
   })
+
+  const dispatch = useDispatch();
+  const state = useSelector((state)=>state);
 
   const addPackage = () => {
     const newPackageNumber = packages.length + 1

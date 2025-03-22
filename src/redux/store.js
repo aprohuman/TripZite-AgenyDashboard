@@ -1,12 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import tripReducer from './slices/tripSlice';
-import authReducer from './slices/authSlice';
+import logger from 'redux-logger';
+
+import packageDescriptionReducer from './slices/packageDescriptionSlice';
+
 
 const store = configureStore({
     reducer: {
-        trip: tripReducer,
-        auth: authReducer,
+        packageDescription: packageDescriptionReducer
     },
+    middleware: (getDefaultMiddleware)=>{
+        return getDefaultMiddleware().concat(logger)
+    }
 });
 
 export default store;
