@@ -2,7 +2,7 @@
   "tripDetails": [
     {
       "id": "trip-details",
-      "title": "Trip Details",
+      "title": "Trip Details :",
       "selectOption": [
         {
           "selectId": "Multi/Singular-Travel-Location",

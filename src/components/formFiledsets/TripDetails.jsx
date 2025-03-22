@@ -195,8 +195,8 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
   }
 
   return (
-    <div className="p-4 md:p-8 bg-white">
-      <h2 className="text-[2rem] font-[400]  text-black mb-6">Trip Details</h2>
+    <div className="p-4 md:p-8 bg-white mt-2">
+      <h2 className="text-[2rem] font-[400]  text-black mb-6">Trip Details :</h2>
 
       <div className="mt-4">
         <h2 className="text-[20px] font-[400]  text-black mb-6">

@@ -152,8 +152,7 @@ const PackageDescription = ({setStepsCompleted}) => {
                   )}
                 </div>
               )}
-              <p className="w-full sm:w-1/4 text-sm mt-1 sm:mt-0 text-gray-600">
-                {field.note || ''}
+              <p className="w-full sm:w-1/4 text-sm mt-1 sm:mt-0 text-gray-600 pl-1" dangerouslySetInnerHTML={{__html: field.note}}>
               </p>
             </div>
           ))}

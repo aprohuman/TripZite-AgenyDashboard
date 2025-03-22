@@ -132,7 +132,7 @@ export default function TripDuration({ setStepsCompleted }) {
   }
 
   return (
-    <div className="mx-auto bg-white p-4 sm:p-8 w-full max-w-screen gap-2">
+    <div className="mx-auto bg-white p-4 sm:p-8 w-full max-w-screen gap-2 mt-2">
       {tripDurationData.tripDuration.map((field, index) => (
         <h2 key={index} className="text-[2rem] font-[400] text-black mb-6">
           {field.title}

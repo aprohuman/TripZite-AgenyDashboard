@@ -206,9 +206,9 @@ export default function PassengerPricingForm({setStepsCompleted}) {
   };
 
   return (
-    <div className="p-4 md:p-8 bg-white my-20">
+    <div className="p-4 md:p-8 bg-white mt-2">
       <h2 className="text-[2rem] font-[400]  text-black mb-6">
-        Passenger Count And Pricing
+        Passenger Count And Pricing :
       </h2>
       {passengerDetails.map((detail) => (
         <div

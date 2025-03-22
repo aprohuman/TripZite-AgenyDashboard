@@ -1,12 +1,8 @@
-import React, { useState } from 'react'
-import Header from '../components/Header'
-import Sidebar from '../components/tripSections/Sidebar'
-import PackageDescription from '../components/tripSections/PackageDescription'
-import TripDuration from '../components/tripSections/TripDuration'
-import TripDetails from '../components/tripSections/TripDetails'
-import TripBreakdownForm from '../components/tripSections/TripBreakdown'
-import PassengerPricingForm from '../components/tripSections/PassengerPricing'
-import MediaUploadComponent from '../components/tripSections/MediaUpload'
+import React, { useState } from 'react';
+
+import Header from '../components/Header';
+import Sidebar from '../components/formFiledsets/Sidebar';
+import PackageForm from '../components/PackageForm';
 
 const packageFieldSets = [
   'Package Description',
@@ -42,49 +38,30 @@ export default function TripDetailFomPage() {
     alert('Packages moved to draft!')
   }
 
-  return (
-    <div className="flex flex-col fixed">
-      <Header />
 
-      <div>
-        <div className="flex flex-col bg-[#CFDAF0] gap-2 md:flex-row">
+  return (
+    <div className="flex flex-col fixed border-2 w-full">
+      <Header />
+        <div className=" flex flex-col bg-[#CFDAF0] gap-2 md:flex-row">
           <Sidebar
             packages={packages}
             packageFieldSets={packageFieldSets}
             stepsCompleted={stepsCompleted}
           />
-          <div className="h-[90vh] overflow-y-auto">
-            <main className="w-full">
-              <h2 className="p-6 text-[1.1rem] font-[400]">
+          <div className="h-[90vh] flex-[0_1_80%]">
+              <h2 className="py-6 px-1 text-[1.1rem] font-[500]">
                 Fill out below your package details :
               </h2>
-              <form action="" className="flex-col space-y-2">
-                <PackageDescription setStepsCompleted={setStepsCompleted} />
-                <TripDuration setStepsCompleted={setStepsCompleted} />
-                <TripDetails setTripBreakDownCount={setTripBreakDownCount} />
-                <TripBreakdownForm tripBreakdownCount={tripBreakdownCount} />
-                <PassengerPricingForm setStepsCompleted={setStepsCompleted} />
-                <MediaUploadComponent setStepsCompleted={setStepsCompleted} />
-              </form>
-            </main>
-
-            <div className="flex flex-col bg-white justify-end p-10 md:flex-row md:space-x-4 md:space-y-0 space-y-4">
-              <button
-                onClick={moveToDraft}
-                className="bg-blue-800 rounded-lg text-white w-full md:w-auto px-4 py-2"
-              >
-                Move to Draft
-              </button>
-              <button
-                onClick={addPackage}
-                className="bg-blue-800 rounded-lg text-white w-full md:w-auto px-4 py-2"
-              >
-                Add Package
-              </button>
-            </div>
+              <div className='h-[82vh] overflow-y-auto'>
+              <PackageForm 
+                setStepsCompleted={setStepsCompleted}
+                stepsCompleted={stepsCompleted}
+                setTripBreakDownCount={setTripBreakDownCount}
+                tripBreakdownCount={tripBreakdownCount}
+              />
+              </div>
           </div>
         </div>
-      </div>
     </div>
   )
 }

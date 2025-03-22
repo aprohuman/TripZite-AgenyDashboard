@@ -237,8 +237,8 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
   console.log(tripBreakdownData, 'data here');
 
   return (
-    <div className="bg-white p-4 w-full max-w-screen mx-auto sm:p-8">
-      <h2 className="text-[2rem] text-black font-[400] mb-6">Trip Breakdown</h2>
+    <div className="bg-white p-4 w-full max-w-screen mx-auto sm:p-8 mt-2">
+      <h2 className="text-[2rem] text-black font-[400] mb-6">Trip Breakdown :</h2>
       {isValidTripBreakdownCount &&
         expandedBreakdown?.map((item, index) => {
           return (

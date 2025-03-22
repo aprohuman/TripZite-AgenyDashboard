@@ -48,7 +48,7 @@ export default function MediaUploadComponent() {
   }
 
   return (
-    <div className="flex flex-col align-center bg-white justify-center p-4 w-full md:p-8">
+    <div className="flex flex-col align-center bg-white justify-center p-4 w-full md:p-8 mt-2">
       <h2 className="text-[2rem] text-black font-[400] mb-6">Upload Media :</h2>
 
       <div className="flex border-2 border-black justify-center p-2 rounded-[24px] w-full md:p-8 my-2">

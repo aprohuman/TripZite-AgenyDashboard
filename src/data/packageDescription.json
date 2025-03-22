@@ -1,7 +1,7 @@
 {
   "sections": [
     {
-      "formTitle": "Package Description",
+      "formTitle": "Package Description :",
       "fields": [
         {
           "id": "packageName",
@@ -21,7 +21,7 @@
             "required": true,
             "maxWords": 20
           },
-          "note": "*Maximum 20 words"
+          "note": "<p>*Maximum 20 words<br/>(This description will be shown initially before the client looks at the fully detailed package page)<p/>"
         },
         {
           "id": "longDescription",
@@ -32,7 +32,7 @@
             "required": true,
             "maxWords": 250
           },
-          "note": "*Maximum 250 words"
+          "note": "*Maximum 250 words<br/>(This description will be shown on the fully detailed package page)"
         }
       ]
     }

@@ -19,11 +19,11 @@ const Sidebar = ({ packageFieldSets, stepsCompleted }) => {
 
   return (
     <div
-      className={` flex sm:flex-col sm:justify-between   sm:h-[90vh] ${
+      className={`flex flex-[0_1_20%] sm:flex-col sm:justify-between   sm:h-[90vh] ${
         isCollapsed ? 'w-16' : 'w-64'
       } transition-width duration-300 pt-2  sm:w-48 md:w-64 lg:w-72 xl:w-80`}
     >
-      <div className="flex bg-white sm:flex-col sm:h-[85%] sm:overflow-auto">
+      <div className="flex bg-white sm:flex-col sm:h-[89.5%] sm:overflow-auto">
         <button onClick={() => window.history.back()} className="self-start">
           <ChevronLeft />
         </button>
@@ -59,12 +59,13 @@ const Sidebar = ({ packageFieldSets, stepsCompleted }) => {
           ))}
       </div>
 
-      <div className="bg-white p-10">
+      <div className="bg-white p-7 flex justify-center items-center">
         <button
           onClick={addPackage}
-          className="flex text-black font-bold items-center"
+          className="flex text-black font-semibold items-center cursor-pointer"
         >
-          + Add another Package
+          <span className='font-bold mr-2'>+</span>
+          Add another Package 
         </button>
       </div>
     </div>
