@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    packageDescription: {
+    tripPackageDescription: {
         packageName: '',
         shortDescription: '',
         longDescription: '',
@@ -9,21 +9,21 @@ const initialState = {
 }
 
 const packageDescriptionSlice = createSlice({
-    name: 'packageDescription',
+    name: 'tripPackageDescription',
     initialState,
     reducers: {
         setPackageName: (state, action) => {
-            console.log('hiiiiii', action.payload)
-            state.tripPackage.packageName = action.payload
+
+            state.tripPackageDescription.packageName = action.payload
         },
         setPackageShortDescription: (state, action) => {
-            state.tripPackage.shortDescription = action.payload
+            state.tripPackageDescription.shortDescription = action.payload
         },
         setPackageLongDescription: (state, action) => {
-            state.tripPackage.longDescription = action.payload
+            state.tripPackageDescription.longDescription = action.payload
         }
     }
 });
 
-export const {setPackageName, setPackageShortDescription, setPackageLongDescription} = packageDescriptionSlice.actions;
+export const { setPackageName, setPackageShortDescription, setPackageLongDescription } = packageDescriptionSlice.actions;
 export default packageDescriptionSlice.reducer;

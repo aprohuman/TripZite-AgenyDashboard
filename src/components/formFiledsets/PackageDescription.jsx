@@ -1,18 +1,24 @@
 import React, { useState } from 'react'
 import PackageDescriptionData from '../../data/packageDescription.json'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  setPackageLongDescription,
+  setPackageShortDescription,
+  setPackageName,
+} from '../../redux/slices/packageDescriptionSlice'
+const PackageDescription = ({ setStepsCompleted }) => {
+  const dispatch = useDispatch()
+  const packageDescription = useSelector(
+    (state) => state.packageDescription.tripPackageDescription,
+  )
 
-const PackageDescription = ({setStepsCompleted}) => {
-  const [packageDescription, setPackageDescription] = useState({
-    packageName: '',
-    shortDescription: '',
-    longDescription: '',
-  });
+  // console.log('pppp', packageDescription)
 
   const [errors, setErrors] = useState({
     packageName: null,
     shortDescription: null,
     longDescription: null,
-  });
+  })
 
   const [wordCounts, setWordCounts] = useState({
     shortDescription: 0,
@@ -22,77 +28,82 @@ const PackageDescription = ({setStepsCompleted}) => {
   const sections = PackageDescriptionData?.sections || []
 
   const calculateWordCount = (text) => {
-    const words = text.trim().split(/\s+/);
-    return words.length;
-  };
+    const words = text.trim().split(/\s+/)
+    return words.length
+  }
 
   const validatePackageDescription = {
     packageName: (value) => {
       if (!value) return 'package name is required.'
-      if (value.length <= 2) return 'package name should be at least 3 character.'
-      return '';
+      if (value.length <= 2)
+        return 'package name should be at least 3 character.'
+      return ''
     },
     shortDescription: (value) => {
       if (value.length < 10)
         return 'Description must be at least 10 characters long.'
-        return '';
+      return ''
     },
     longDescription: (value) => {
       if (!value) return 'description is required'
       if (value.length < 10)
         return 'Description must be at least 10 characters long.'
-        return '';
+      return ''
     },
   }
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-
+    const { name, value } = e.target
 
     if (name === 'shortDescription' || name === 'longDescription') {
-      const newWordCount = calculateWordCount(value);
+      const newWordCount = calculateWordCount(value)
       setWordCounts((prev) => ({
         ...prev,
         [name]: newWordCount,
       }))
     }
 
-    if(name === 'shortDescription' && wordCounts.shortDescription > 20) return;
-    if(name === 'longDescription' && wordCounts.longDescription > 250) return;
-    setPackageDescription((prev) => ({ ...prev, [name]: value }))
+    if (name === 'shortDescription' && wordCounts.shortDescription > 20) return
+    if (name === 'longDescription' && wordCounts.longDescription > 250) return
+
+    // dispatch action to the redux to update the value
+    if (name === 'packageName') dispatch(setPackageName(value))
+    if (name === 'shortDescription') dispatch(setPackageShortDescription(value))
+    if (name === 'longDescription') dispatch(setPackageLongDescription(value))
+
     const errorMessage = validatePackageDescription[name](value)
     setErrors((prev) => ({
       ...prev,
       [name]: errorMessage,
     }))
 
-   let isFormCompleted = !Object.values(errors).some(i => i !== "");
-      setStepsCompleted((prev) => ({
-        ...prev,
-        'Package Description': isFormCompleted,
-      }));
-    };
+    let isFormCompleted = !Object.values(errors).some((i) => i !== '')
+    setStepsCompleted((prev) => ({
+      ...prev,
+      'Package Description': isFormCompleted,
+    }))
+  }
 
   return (
-    <div className="mx-auto bg-white p-4 sm:p-8 w-full max-w-screen">
+    <div className="bg-white p-4 w-full max-w-screen mx-auto sm:p-8">
       {sections.map((section) => (
         <div key={section.id}>
-          <h2 className="text-[2rem] font-[400]  text-black mb-6">
+          <h2 className="text-[2rem] text-black font-[400] mb-6">
             {section.formTitle}
           </h2>
           {section.fields.map((field) => (
             <div
               key={field.id}
-              className="flex flex-col sm:flex-row justify-between items-start sm:items-center my-4 outline-0"
+              className="flex flex-col justify-between items-start my-4 outline-0 sm:flex-row sm:items-center"
             >
               <label
                 htmlFor={field.id}
-                className="w-full sm:w-1/4 mb-2 sm:mb-0  font-[400] text-[20px]   "
+                className="text-[20px] w-full font-[400] mb-2 sm:mb-0 sm:w-1/4"
               >
                 {field.label}
               </label>
               {field.type === 'textarea' ? (
-                <div className=" flex flex-col w-full">
+                <div className="flex flex-col w-full">
                   <textarea
                     name={field.id}
                     value={packageDescription[field.id]}
@@ -105,7 +116,7 @@ const PackageDescription = ({setStepsCompleted}) => {
                     }`}
                     rows={8}
                   />
-                  <span className="bottom-0 right-0 text-sm">
+                  <span className="text-sm bottom-0 right-0">
                     <span
                       className={`${
                         wordCounts[field.id] > field.validation.maxWords
@@ -113,7 +124,9 @@ const PackageDescription = ({setStepsCompleted}) => {
                           : 'text-gray-500'
                       }`}
                     >
-                      {`${wordCounts[field.id]} / ${field.validation.maxWords} words.`}
+                      {`${wordCounts[field.id]} / ${
+                        field.validation.maxWords
+                      } words.`}
                     </span>
                   </span>
                   <span className="text-red-500 text-xs mt-1">
@@ -121,7 +134,7 @@ const PackageDescription = ({setStepsCompleted}) => {
                   </span>
                 </div>
               ) : (
-                <div className="flex flex-col  w-full">
+                <div className="flex flex-col w-full">
                   <input
                     type={field.type}
                     name={field.id}
@@ -142,7 +155,7 @@ const PackageDescription = ({setStepsCompleted}) => {
                           : 'text-gray-500'
                       }`}
                     >
-                      {`${wordCounts.shortDescription} / ${field.validation.maxWords } words.`}
+                      {`${wordCounts.shortDescription} / ${field.validation.maxWords} words.`}
                     </span>
                   )}
                   {errors[field.id] && (
@@ -152,8 +165,10 @@ const PackageDescription = ({setStepsCompleted}) => {
                   )}
                 </div>
               )}
-              <p className="w-full sm:w-1/4 text-sm mt-1 sm:mt-0 text-gray-600 pl-1" dangerouslySetInnerHTML={{__html: field.note}}>
-              </p>
+              <p
+                className="text-gray-600 text-sm w-full mt-1 pl-1 sm:mt-0 sm:w-1/4"
+                dangerouslySetInnerHTML={{ __html: field.note }}
+              ></p>
             </div>
           ))}
         </div>
@@ -162,4 +177,4 @@ const PackageDescription = ({setStepsCompleted}) => {
   )
 }
 
-export default PackageDescription;
+export default PackageDescription
