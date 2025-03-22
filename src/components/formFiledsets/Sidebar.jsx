@@ -1,70 +1,89 @@
-import React, { useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import React from 'react';
+import { ChevronLeft, X } from 'lucide-react';
 
-const Sidebar = ({ packageFieldSets, stepsCompleted }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false)
-  const [packages, setPackages] = useState(['PACKAGE No.#001'])
+export const packageFieldSets = [
+  'Package Description',
+  'Duration',
+  'Trip Details',
+  'Trip Breakdown',
+  'Passenger Count And Pricing',
+  'Media Upload',
+];
 
-  const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed)
-  }
+const Sidebar = ({ packages, setPackages, selectedPackage, setSelectedPackage, stepsCompleted }) => {
 
   const addPackage = () => {
-    const newPackageNumber = packages.length + 1
+    const newPackage = String(packages.length + 1).padStart(3, '0');
     setPackages([
       ...packages,
-      `PACKAGE No.#${String(newPackageNumber).padStart(3, '0')}`,
-    ])
+      newPackage
+    ]);
+  };
+
+  const changeSelectedPackage = (pkg)=>{
+       setSelectedPackage(pkg);
+  };
+
+  const deletePackage = (e, pkg) =>{
+      e.preventDefault();
+      setPackages(prev=>{
+        return [...prev].filter((p) => p != pkg);
+      })
   }
 
   return (
     <div
-      className={`flex flex-[0_1_20%] sm:flex-col sm:justify-between   sm:h-[90vh] ${
-        isCollapsed ? 'w-16' : 'w-64'
-      } transition-width duration-300 pt-2  sm:w-48 md:w-64 lg:w-72 xl:w-80`}
+      className={`flex flex-col justify-between items-stretch flex-[0_1_20%]  h-[90vh]  sm:w-48 md:w-64 lg:w-72 xl:w-80 bg-white`}
     >
-      <div className="flex bg-white sm:flex-col sm:h-[89.5%] sm:overflow-auto">
-        <button onClick={() => window.history.back()} className="self-start">
+      <div className="flex flex-col  bg-white overflow-auto h-[calc(100vh-100px)] border-t-8 border-[#CFDAF0]">
+        <button onClick={() => window.history.back()} className="self-start mt-2 ">
           <ChevronLeft />
         </button>
-
-        {!isCollapsed &&
-          packages.map((pkg, index) => (
-            <div
-              key={index}
-              className="flex-column justify-content-between p-2"
+        <div className='h-[calc(100%-8px)] overflow-auto mt-2'>
+        {
+          packages.map((pkg) => (
+            <div key={pkg} className={`flex-column justify-content-between p-2 ${selectedPackage === pkg ? ` bg-gray-200`: ``}`}
+              onClick={()=>{changeSelectedPackage(pkg)}}
             >
-              <div className="text-[20px] font-[400]">{pkg}</div>
+              {
+                console.log(selectedPackage, pkg)
+              }
+              <div className='flex flex-row justify-between items-center'>
+              <h3 className="text-[20px] font-[400]">{`PACKAGE NO. # ${pkg}`}</h3>
+               <X className='text-gray-400 hover:text-red-400 hover:cursor-pointer mr-2'
+                onClick={(e)=>{deletePackage(e,pkg)}} />
+              </div>
+              
               <ul className="text-gray-600 pl-4">
                 {packageFieldSets.map((field, idx) => (
                   <li
                     key={idx}
                     className="flex text-sm items-center my-1 sm:text-base"
                   >
-                    <div className="border-1 h-[9px] rounded-[50%] w-[9px] mr-2"></div>
+                    <span className="border-1 h-[9px] rounded-[50%] w-[9px] mr-2"></span>
                     <p
                       className={`text-[1rem] font-[400] ${
                         stepsCompleted[field]
                           ? `text-black font-medium`
                           : `text-gray`
-                      }`}
-                    >
-                      {' '}
+                      }`}>
                       {field}
                     </p>
                   </li>
                 ))}
               </ul>
             </div>
-          ))}
+          ))
+        }
+        </div>
       </div>
 
-      <div className="bg-white p-7 flex justify-center items-center">
+      <div className="bg-white p-5 flex justify-center items-center h-[100px] border-t-8 border-[#CFDAF0]">
         <button
           onClick={addPackage}
           className="flex text-black font-semibold items-center cursor-pointer"
         >
-          <span className='font-bold mr-2'>+</span>
+          <span className='font-bold mr-2'> + </span>
           Add another Package 
         </button>
       </div>

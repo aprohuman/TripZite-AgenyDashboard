@@ -13,7 +13,6 @@ const packageDescriptionSlice = createSlice({
     initialState,
     reducers: {
         setPackageName: (state, action) => {
-
             state.tripPackageDescription.packageName = action.payload
         },
         setPackageShortDescription: (state, action) => {

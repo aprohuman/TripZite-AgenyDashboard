@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 
 import PackageDescription from './formFiledsets/PackageDescription';
 import TripDuration from './formFiledsets/TripDuration';
@@ -8,7 +8,13 @@ import PassengerPricingForm from './formFiledsets/PassengerPricing';
 import MediaUploadComponent from './formFiledsets/MediaUpload';
 import FormActions from './formFiledsets/FormActions';
 
-function PackageForm({setStepsCompleted, stepsCompleted, setTripBreakDownCount, tripBreakdownCount}) {
+function PackageForm({setStepsCompleted}) {
+    const [tripBreakdownCount, setTripBreakDownCount] = useState([]);
+
+    const addPackage = (e) => { e.preventDefault(); alert('Package Added!');};
+
+    const moveToDraft = (e) => { e.preventDefault(); alert('Packages Moved To Draft!');};
+    
     return (
         <form className='flex flex-col'>
             <PackageDescription setStepsCompleted={setStepsCompleted} />
@@ -17,7 +23,7 @@ function PackageForm({setStepsCompleted, stepsCompleted, setTripBreakDownCount, 
             <TripBreakdownForm tripBreakdownCount={tripBreakdownCount} />
             <PassengerPricingForm setStepsCompleted={setStepsCompleted} />
             <MediaUploadComponent setStepsCompleted={setStepsCompleted} />
-            <FormActions />
+            <FormActions addPackage={addPackage} moveToDraft={moveToDraft} />
         </form>
     )
 }
