@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addTrip, updateTrip } from '../../redux/slices/packageDetailSlice'
 
 const countriesData = {
   India: {
@@ -12,15 +14,19 @@ const countriesData = {
 }
 
 export default function TripDetailsForm({ setTripBreakDownCount }) {
-  const [tripDetails, setTripDetails] = useState([
-    {
-      id: 0,
-      country: '',
-      state: '',
-      city: '',
-      days: 0,
-    },
-  ])
+  const dispatch = useDispatch()
+  const tripDetails = useSelector((state) => state.packageDetail.trips)
+
+  console.log('tripDetails', tripDetails)
+  // const [tripDetails, setTripDetails] = useState([
+  //   {
+  //     id: 0,
+  //     country: '',
+  //     state: '',
+  //     city: '',
+  //     days: 0,
+  //   },
+  // ])
 
   const [errors, setErrors] = useState([
     {
@@ -84,18 +90,19 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
   const addNewTrip = (e, type, prefill = {}) => {
     e.preventDefault()
 
-    setTripDetails((prev) => {
-      return [
-        ...prev,
-        {
-          id: prev.length,
-          country: prefill?.country || '',
-          state: prefill?.state || '',
-          city: '',
-          days: 0,
-        },
-      ]
-    })
+    // setTripDetails((prev) => {
+    //   return [
+    //     ...prev,
+    //     {
+    //       id: prev.length,
+    //       country: prefill?.country || '',
+    //       state: prefill?.state || '',
+    //       city: '',
+    //       days: 0,
+    //     },
+    //   ]
+    // })
+    dispatch(addTrip(prefill))
 
     setErrors((prev) => {
       return [
@@ -115,31 +122,36 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
     e.preventDefault()
     const { name, value } = e.target
     console.log('dat-check', name, value)
-    const updatedTrip = {}
+    // dispatch(updateTrip({ id, name, value }))
+    // const updatedTrip = {}
+    // dispatch(updateTrip({ id, name, value }))
 
     const updatedErrors = {}
 
     if (name === 'country') {
-      updatedTrip.country = value
-      updatedTrip.state = ''
-      updatedTrip.city = ''
+      // updatedTrip.country = value
+      // updatedTrip.state = ''
+      // updatedTrip.city = ''
+      dispatch(updateTrip({ id, name, value }))
+
       updatedErrors.state = validateTripDetails.state('')
       updatedErrors.city = validateTripDetails.city('')
     }
 
     if (name === 'state') {
-      updatedTrip.state = value
-      updatedTrip.city = ''
+      dispatch(updateTrip({ id, name, value }))
+
       updatedErrors.city = validateTripDetails.city('')
     }
+    dispatch(updateTrip({ id, name, value }))
 
-    if (name === 'city') {
-      updatedTrip.city = value
-    }
+    // if (name === 'city') {
+    //   updatedTrip.city = value
+    // }
 
-    if (name === 'days') {
-      updatedTrip.days = value === '' ? 0 : parseInt(value, 10) //   Prevent `undefined`
-    }
+    // if (name === 'days') {
+    //   updatedTrip.days = value === '' ? 0 : parseInt(value, 10) //   Prevent `undefined`
+    // }
 
     // setTripDetails((prev) => {
     //   let newTripDetails = [...prev]
@@ -149,9 +161,9 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
     //   }
     //   return newTripDetails
     // })
-    setTripDetails((prev) =>
-      prev.map((trip) => (trip.id === id ? { ...trip, ...updatedTrip } : trip)),
-    )
+    // setTripDetails((prev) =>
+    //   prev.map((trip) => (trip.id === id ? { ...trip, ...updatedTrip } : trip)),
+    // )
     updatedErrors[name] = validateTripDetails[name](value)
 
     setErrors((prev) => {
@@ -166,37 +178,51 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
     })
   }
 
+  // const updateDays = (e, id, change) => {
+  //   e.preventDefault()
+
+  //   const errorMessage = validateTripDetails.days(
+  //     (tripDetails[id].days || 0) + change,
+  //   )
+  //   setTripDetails((prev) => {
+  //     let newTripDetails = [...prev]
+  //     // console.log(newTripDetails)
+  //     newTripDetails[id] = {
+  //       ...newTripDetails[id],
+  //       days: (newTripDetails[id].days || 0) + change,
+  //     }
+  //     return newTripDetails
+  //   })
+
+  //   setErrors((prev) => {
+  //     return [
+  //       ...prev.map((error) => {
+  //         if (error.id === id) {
+  //           return { ...error, days: errorMessage }
+  //         }
+  //         return error
+  //       }),
+  //     ]
+  //   })
+  // }
+
   const updateDays = (e, id, change) => {
     e.preventDefault()
 
-    const errorMessage = validateTripDetails.days(
-      (tripDetails[id].days || 0) + change,
-    )
-    setTripDetails((prev) => {
-      let newTripDetails = [...prev]
-      // console.log(newTripDetails)
-      newTripDetails[id] = {
-        ...newTripDetails[id],
-        days: (newTripDetails[id].days || 0) + change,
-      }
-      return newTripDetails
-    })
+    const currentDays = tripDetails[id].days || 0
+    const newDays = currentDays + change
 
-    setErrors((prev) => {
-      return [
-        ...prev.map((error) => {
-          if (error.id === id) {
-            return { ...error, days: errorMessage }
-          }
-          return error
-        }),
-      ]
-    })
+    const errorMessage = validateTripDetails.days(newDays)
+
+    // Dispatch Redux action
+    dispatch(updateTrip({ id, name: 'days', value: newDays }))
   }
 
   return (
     <div className="p-4 md:p-8 bg-white mt-2">
-      <h2 className="text-[2rem] font-[400]  text-black mb-6">Trip Details :</h2>
+      <h2 className="text-[2rem] font-[400]  text-black mb-6">
+        Trip Details :
+      </h2>
 
       <div className="mt-4">
         <h2 className="text-[20px] font-[400]  text-black mb-6">
@@ -252,7 +278,11 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
                 name="state"
                 onChange={(e) => handleChange(e, trip.id)}
                 disabled={!trip.country}
-                className={`box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full ${!trip.country ? `bg-gray-100 cursor-not-allowed text-gray-200 border-gray-200` : ``} `}
+                className={`box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full ${
+                  !trip.country
+                    ? `bg-gray-100 cursor-not-allowed text-gray-200 border-gray-200`
+                    : ``
+                } `}
               >
                 <option value="">Select State</option>
                 {trip.country &&
@@ -273,7 +303,11 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
                 name="city"
                 onChange={(e) => handleChange(e, trip.id)}
                 disabled={!trip.state}
-                className={`box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full ${!trip.state ? `bg-gray-100 cursor-not-allowed text-gray-200 border-gray-200` : ``}`}
+                className={`box-border p-3  mt-2 border-1 border-[#0000004D] rounded-[6px] w-full ${
+                  !trip.state
+                    ? `bg-gray-100 cursor-not-allowed text-gray-200 border-gray-200`
+                    : ``
+                }`}
               >
                 <option value="">Select City</option>
                 {trip.state &&

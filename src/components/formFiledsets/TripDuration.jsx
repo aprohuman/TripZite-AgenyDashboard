@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import tripDurationData from '../../data/duration.json'
-
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  setOverallTripDuration,
+  setStartDate,
+  setEndDate,
+  setBookingDeadline,
+} from '../../redux/slices/packageDurationSlice'
 export default function TripDuration({ setStepsCompleted }) {
-  const [durationData, setDurationData] = useState({
-    overallTripDuration: undefined,
-    startDate: null,
-    endDate: null,
-    bookingDeadline: undefined,
-  })
+  const dispatch = useDispatch()
+  const durationData = useSelector(
+    (state) => state.packageDuration.packageTripDuration,
+  )
 
   const [errors, setErrors] = useState({
     overallTripDuration: null,
@@ -42,25 +46,34 @@ export default function TripDuration({ setStepsCompleted }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target
+    const errorMessage = validateTripDuration[name](value)
     let startDateErrorMessage = ''
     let endDateErrorMessage = ''
-    setDurationData((prev) => {
-      if (name === 'startDate' && prev.endDate && value > prev.endDate) {
-        return { ...prev, startDate: value, endDate: '' }
-      } else if (
-        name === 'endDate' &&
-        prev.startDate &&
-        value < prev.startDate
-      ) {
-        return { ...prev, endDate: value, startDate: '' }
-      } else if (name === 'startDate' || name === 'endDate') {
-        return { ...prev, [name]: value }
-      } else {
-        return { ...prev, [name]: parseInt(value) }
-      }
-    })
-    const errorMessage = validateTripDuration[name](value)
 
+    if (
+      name === 'startDate' &&
+      durationData.endDate &&
+      value > durationData.endDate
+    ) {
+      dispatch(setStartDate(value))
+      dispatch(setEndDate('')) // Reset end date if invalid
+    } else if (
+      name === 'endDate' &&
+      durationData.startDate &&
+      value < durationData.startDate
+    ) {
+      dispatch(setEndDate(value))
+      dispatch(setStartDate('')) // Reset start date if invalid
+    } else if (name === 'startDate') {
+      dispatch(setStartDate(value))
+    } else if (name === 'endDate') {
+      dispatch(setEndDate(value))
+    } else if (name === 'overallTripDuration') {
+      dispatch(setOverallTripDuration(parseInt(value)))
+    } else if (name === 'bookingDeadline') {
+      dispatch(setBookingDeadline(parseInt(value)))
+    }
+    // Handle Errors
     if (
       name === 'startDate' &&
       durationData.endDate &&
@@ -105,20 +118,19 @@ export default function TripDuration({ setStepsCompleted }) {
     e.preventDefault()
     let name = key.split('-')[0]
     let type = key.split('-')[1]
-    let errorMessage = ''
 
-    if (type === 'increment') {
-      errorMessage = validateTripDuration[name]((durationData[name] || 0) + 1)
-      setDurationData((prev) => {
-        return { ...prev, [name]: prev[name] + 1 }
-      })
-    } else if (type === 'decrement') {
-      errorMessage = validateTripDuration[name]((durationData[name] || 0) - 1)
-      setDurationData((prev) => {
-        return { ...prev, [name]: prev[name] - 1 }
-      })
+    let currentValue = durationData[name] || 0
+    let newValue = type === 'increment' ? currentValue + 1 : currentValue - 1
+    let errorMessage = validateTripDuration[name](newValue)
+
+    // Dispatch Redux action based on the field name
+    if (name === 'overallTripDuration') {
+      dispatch(setOverallTripDuration(newValue))
+    } else if (name === 'bookingDeadline') {
+      dispatch(setBookingDeadline(newValue))
     }
 
+    // Handle Errors
     setErrors((prev) => ({
       ...prev,
       [name]: errorMessage,
