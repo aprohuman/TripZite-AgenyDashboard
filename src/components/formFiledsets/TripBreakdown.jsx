@@ -1,27 +1,41 @@
 import React, { useState, useEffect } from 'react'
 import { ChevronUp, ChevronDown } from 'lucide-react'
+import { useDispatch, useSelector } from 'react-redux'
 import BreakdownDays from './BreakdownDays'
+import {
+  updateField,
+  addItinerary,
+  removeItinerary,
+  updateItinerary,
+  addMedia,
+  resetTripBreakdown,
+  addTripBreakdown,
+} from '../../redux/slices/packageBreakDownSlice'
 
 export default function TripBreakdownForm({ tripBreakdownCount }) {
-  const [openSection, setOpenSection] = useState(null);
+  const [openSection, setOpenSection] = useState(null)
   const [files, setFiles] = useState([])
+  const dispatch = useDispatch()
+  const tripBreakdownData = useSelector(
+    (state) => state.packageBreakDown.tripDayBreakdown,
+  )
 
   const [expandedBreakdown, setExpandedBreakdown] = useState([])
-  const [tripBreakdownData, setTripBreakdownData] = useState([
-    {
-      id: 0,
-      accommodation: false,
-      accommodationType: '',
-      accommodationLocation: '',
-      transport: false,
-      transportType: '',
-      meal: false,
-      mealOption: '',
-      itinerary: [],
-      media: [],
-    },
-  ])
-
+  // const [tripBreakdownData, setTripBreakdownData] = useState([
+  //   {
+  //     id: 0,
+  //     accommodation: false,
+  //     accommodationType: '',
+  //     accommodationLocation: '',
+  //     transport: false,
+  //     transportType: '',
+  //     meal: false,
+  //     mealOption: '',
+  //     itinerary: [],
+  //     media: [],
+  //   },
+  // ])
+  console.log('tripBreakdown', tripBreakdownData)
   const [errors, setErrors] = useState([
     {
       id: 0,
@@ -87,12 +101,13 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
           mealOption: null,
         }
       })
-
-      setTripBreakdownData(tempBreakdownData)
+      // setTripBreakdownData(tempBreakdownData)
+      dispatch(addTripBreakdown(tempBreakdownData))
       setErrors(tempErrors)
     } else {
       setExpandedBreakdown([])
-      setTripBreakdownData([])
+      // setTripBreakdownData([])
+      dispatch(resetTripBreakdown())
     }
   }, [tripBreakdownCount])
 
@@ -110,15 +125,16 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
 
   const handleSelectChange = (e, id) => {
     const { name, value } = e.target
-    setTripBreakdownData((prev) => {
-      let tempArr = [...prev]
-      tempArr[id] = {
-        ...tempArr[id],
-        [name]: value,
-      }
-      return tempArr
-    })
+    // setTripBreakdownData((prev) => {
+    //   let tempArr = [...prev]
+    //   tempArr[id] = {
+    //     ...tempArr[id],
+    //     [name]: value,
+    //   }
+    //   return tempArr
+    // })
 
+    dispatch(updateField({ id, name, value }))
     const errorMessage = validateFieldDetails[name](value)
 
     setErrors((prev) => {
@@ -133,18 +149,20 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
 
   const addItinerary = (e, day) => {
     e.preventDefault()
-    console.log('add-inti-hit', day)
-    setTripBreakdownData((prev) => {
-      let tempArr = [...prev]
-      tempArr[day] = {
-        ...tempArr[day],
-        itinerary: [
-          ...tempArr[day]['itinerary'],
-          { id: tempArr[day]['itinerary'].length, value: '' },
-        ],
-      }
-      return [...tempArr]
-    })
+    console.log('add-inti-hit', e, day)
+    dispatch(addItinerary({ id: day }))
+
+    // setTripBreakdownData((prev) => {
+    //   let tempArr = [...prev]
+    //   tempArr[day] = {
+    //     ...tempArr[day],
+    //     itinerary: [
+    //       ...tempArr[day]['itinerary'],
+    //       { id: tempArr[day]['itinerary'].length, value: '' },
+    //     ],
+    //   }
+    //   return [...tempArr]
+    // })
   }
 
   const removeItinerary = (e, day, id) => {
@@ -207,14 +225,15 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
 
     const selectedFiles = Array.from(e.target.files)
     setFiles([...files, ...selectedFiles])
-    setTripBreakdownData((prev) => {
-      let tempArr = [...prev]
-      tempArr[day] = {
-        ...tempArr[day],
-        media: [...tempArr[day].media, ...selectedFiles], // Append files instead of replacing
-      }
-      return tempArr
-    })
+    // setTripBreakdownData((prev) => {
+    //   let tempArr = [...prev]
+    //   tempArr[day] = {
+    //     ...tempArr[day],
+    //     media: [...tempArr[day].media, ...selectedFiles], // Append files instead of replacing
+    //   }
+    //   return tempArr
+    // })
+    dispatch(addMedia({ id: day, files: selectedFiles }))
   }
 
   const preventDefaults = (e) => {
@@ -234,11 +253,13 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
       )
     })
 
-  console.log(tripBreakdownData, 'data here');
+  // console.log(tripBreakdownData, 'data here')
 
   return (
     <div className="bg-white p-4 w-full max-w-screen mx-auto sm:p-8 mt-2">
-      <h2 className="text-[2rem] text-black font-[400] mb-6">Trip Breakdown :</h2>
+      <h2 className="text-[2rem] text-black font-[400] mb-6">
+        Trip Breakdown :
+      </h2>
       {isValidTripBreakdownCount &&
         expandedBreakdown?.map((item, index) => {
           return (
@@ -249,23 +270,23 @@ export default function TripBreakdownForm({ tripBreakdownCount }) {
                   className="flex justify-center cursor-pointer items-center ml-2 mt-3"
                   onClick={() => toggleSection(item.id)}
                 >
-              {isOpen(item.days) ? <ChevronUp /> : <ChevronDown />}{' '}
+                  {isOpen(item.days) ? <ChevronUp /> : <ChevronDown />}{' '}
                 </span>
               </div>
               {isOpen(item.days) && (
-                <BreakdownDays 
-                   item={item}
-                   index={index}
-                   errors={errors}
-                   files={files}
-                   tripBreakdownData={tripBreakdownData}
-                   handleDrop={handleDrop}
-                   handleFileSelect={handleFileSelect}
-                   handleSelectChange={handleSelectChange}
-                   addItinerary={addItinerary}
-                   removeItinerary={removeItinerary}
-                   handleItineraryChange={handleItineraryChange}
-                   setTripBreakdownData={setTripBreakdownData}
+                <BreakdownDays
+                  item={item}
+                  index={index}
+                  errors={errors}
+                  files={files}
+                  tripBreakdownData={tripBreakdownData}
+                  handleDrop={handleDrop}
+                  handleFileSelect={handleFileSelect}
+                  handleSelectChange={handleSelectChange}
+                  addItinerary={addItinerary}
+                  removeItinerary={removeItinerary}
+                  handleItineraryChange={handleItineraryChange}
+                  // setTripBreakdownData={setTripBreakdownData}
                 />
               )}
             </>

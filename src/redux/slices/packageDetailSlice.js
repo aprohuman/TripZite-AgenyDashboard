@@ -1,38 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-// const initialState = {
-//     packageTripDetail: {
-//         id: 0,
-//         country: '',
-//         state: '',
-//         city: '',
-//         days: 0,
-//     }
-// }
-
-// const packageDetailSlice = createSlice({
-//     name: 'packageTripDetail',
-//     initialState,
-//     reducers: {
-
-//         setCountry: (state, action) => {
-//             state.packageTripDetail.country = action.payload
-//         },
-//         setState: (state, action) => {
-//             state.packageTripDetail.state = action.payload
-//         },
-//         setCity: (state, action) => {
-//             state.packageTripDetail.city = action.payload
-//         },
-//         setDays: (state, action) => {
-//             state.packageTripDetail.days = action.payload
-//         },
-//     }
-// })
-
-// export const { setCountry, setState, setCity, setDays } = packageDetailSlice.actions;
-// export default packageDetailSlice.reducer
 
 
 

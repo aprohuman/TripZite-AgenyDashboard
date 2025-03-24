@@ -1,6 +1,11 @@
 import React, { useState, useRef, useCallback } from 'react'
 import { Trash2 } from 'lucide-react'
-
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  addItinerary,
+  addMedia,
+  updateField,
+} from '../../redux/slices/packageBreakDownSlice'
 const BreakdownDays = ({
   item,
   index,
@@ -11,7 +16,7 @@ const BreakdownDays = ({
   addItinerary,
   removeItinerary,
   handleItineraryChange,
-  setTripBreakdownData,
+  // setTripBreakdownData,
 }) => {
   const [isAccommodationExcluded, setIsAccommodationExcluded] = useState(true)
   const [isTransportExcluded, setIsTransportExcluded] = useState(true)
@@ -19,7 +24,7 @@ const BreakdownDays = ({
   const [fileList, setFiles] = useState([])
   const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef(null)
-
+  const dispatch = useDispatch()
   const handleFileUpload = (newFiles) => {
     setFiles((prevFiles) => [...prevFiles, ...newFiles])
   }
@@ -49,14 +54,16 @@ const BreakdownDays = ({
     const droppedFiles = Array.from(e.dataTransfer.files)
     if (droppedFiles.length > 0) {
       handleFileUpload(droppedFiles)
-      setTripBreakdownData((prev) => {
-        let tempArr = [...prev]
-        tempArr[day] = {
-          ...tempArr[day],
-          media: [...tempArr[day].media, ...droppedFiles],
-        }
-        return tempArr
-      })
+      // setTripBreakdownData((prev) => {
+      //   let tempArr = [...prev]
+      //   tempArr[day] = {
+      //     ...tempArr[day],
+      //     media: [...tempArr[day].media, ...droppedFiles],
+      //   }
+      //   return tempArr
+      // })
+
+      dispatch(addMedia({ id: day, files: droppedFiles }))
     }
   }, [])
 
@@ -99,16 +106,17 @@ const BreakdownDays = ({
     const { name, value } = e.target
     if (name === 'accommodation') {
       setIsAccommodationExcluded(value == 'notIncluded' ? true : false)
-      setTripBreakdownData((prev) => {
-        let tempArr = [...prev]
-        tempArr[day] = {
-          ...tempArr[day],
-          accommodation: value,
-          accommodationType: '',
-          accommodationLocation: '',
-        }
-        return tempArr
-      })
+      // setTripBreakdownData((prev) => {
+      //   let tempArr = [...prev]
+      //   tempArr[day] = {
+      //     ...tempArr[day],
+      //     accommodation: value,
+      //     accommodationType: '',
+      //     accommodationLocation: '',
+      //   }
+      //   return tempArr
+      // })
+      dispatch(updateField({ id: day, name: 'accommodation', value }))
     } else if (name === 'transport') {
       setIsTransportExcluded(value == 'notIncluded' ? true : false)
       setTripBreakdownData((prev) => {

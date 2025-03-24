@@ -90,18 +90,6 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
   const addNewTrip = (e, type, prefill = {}) => {
     e.preventDefault()
 
-    // setTripDetails((prev) => {
-    //   return [
-    //     ...prev,
-    //     {
-    //       id: prev.length,
-    //       country: prefill?.country || '',
-    //       state: prefill?.state || '',
-    //       city: '',
-    //       days: 0,
-    //     },
-    //   ]
-    // })
     dispatch(addTrip(prefill))
 
     setErrors((prev) => {
@@ -122,16 +110,10 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
     e.preventDefault()
     const { name, value } = e.target
     console.log('dat-check', name, value)
-    // dispatch(updateTrip({ id, name, value }))
-    // const updatedTrip = {}
-    // dispatch(updateTrip({ id, name, value }))
 
     const updatedErrors = {}
 
     if (name === 'country') {
-      // updatedTrip.country = value
-      // updatedTrip.state = ''
-      // updatedTrip.city = ''
       dispatch(updateTrip({ id, name, value }))
 
       updatedErrors.state = validateTripDetails.state('')
@@ -145,25 +127,6 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
     }
     dispatch(updateTrip({ id, name, value }))
 
-    // if (name === 'city') {
-    //   updatedTrip.city = value
-    // }
-
-    // if (name === 'days') {
-    //   updatedTrip.days = value === '' ? 0 : parseInt(value, 10) //   Prevent `undefined`
-    // }
-
-    // setTripDetails((prev) => {
-    //   let newTripDetails = [...prev]
-    //   newTripDetails[id] = {
-    //     ...newTripDetails[id],
-    //     ...updatedTrip,
-    //   }
-    //   return newTripDetails
-    // })
-    // setTripDetails((prev) =>
-    //   prev.map((trip) => (trip.id === id ? { ...trip, ...updatedTrip } : trip)),
-    // )
     updatedErrors[name] = validateTripDetails[name](value)
 
     setErrors((prev) => {
@@ -177,34 +140,6 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
       ]
     })
   }
-
-  // const updateDays = (e, id, change) => {
-  //   e.preventDefault()
-
-  //   const errorMessage = validateTripDetails.days(
-  //     (tripDetails[id].days || 0) + change,
-  //   )
-  //   setTripDetails((prev) => {
-  //     let newTripDetails = [...prev]
-  //     // console.log(newTripDetails)
-  //     newTripDetails[id] = {
-  //       ...newTripDetails[id],
-  //       days: (newTripDetails[id].days || 0) + change,
-  //     }
-  //     return newTripDetails
-  //   })
-
-  //   setErrors((prev) => {
-  //     return [
-  //       ...prev.map((error) => {
-  //         if (error.id === id) {
-  //           return { ...error, days: errorMessage }
-  //         }
-  //         return error
-  //       }),
-  //     ]
-  //   })
-  // }
 
   const updateDays = (e, id, change) => {
     e.preventDefault()
