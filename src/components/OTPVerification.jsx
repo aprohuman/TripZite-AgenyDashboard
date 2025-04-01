@@ -63,7 +63,7 @@ const OTPVerification = ({ currentStep, setCurrentStep, otpData }) => {
       // api call for verify otp
       // const response = await verifyOneTimePassword(enteredOtpData)
       alert('OTP verified successfully!')
-      setCurrentStep(3)
+      setCurrentStep(4)
 
       if (response && response.ok) {
         // Move to the next step if OTP is valid

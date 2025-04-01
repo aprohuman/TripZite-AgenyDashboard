@@ -124,8 +124,9 @@ export default function TripDetailsForm({ setTripBreakDownCount }) {
       dispatch(updateTrip({ id, name, value }))
 
       updatedErrors.city = validateTripDetails.city('')
+    } else {
+      dispatch(updateTrip({ id, name, value }))
     }
-    dispatch(updateTrip({ id, name, value }))
 
     updatedErrors[name] = validateTripDetails[name](value)
 

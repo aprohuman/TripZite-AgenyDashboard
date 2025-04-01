@@ -201,12 +201,23 @@ export default function SignUp() {
 
     try {
       setLoading(true)
-      // API call to submit the address
-      // const response = await submitAddress(addressFormData)
 
-      alert('Address submitted:')
-      setCurrentStep(4)
-      console.error('Error submitting address:', error)
+      // Merge nameFormData and addressFormData
+      const formData = {
+        ...nameFormData,
+        ...addressFormData,
+      }
+      // API call to submit the address
+      const response = await submitAddress(formData)
+      if (response.data.success) {
+        setLoading(false)
+        alert('Address submitted successfully!')
+      } else {
+        alert('Error submitting address. Please try again.')
+      }
+    } catch (error) {
+      alert('An error occurred while submitting the address.')
+      setCurrentStep(3)
     } finally {
       setLoading(false)
     }
@@ -262,7 +273,7 @@ export default function SignUp() {
                 </button>
               </div>
             </form>
-          ) : currentStep === 3 ? (
+          ) : currentStep === 2 ? (
             <form onSubmit={handleAddressSubmit}>
               <legend className="block text-gray-700 font-semibold mb-2">
                 Based In
@@ -349,7 +360,7 @@ export default function SignUp() {
                 </button>
               </div>
             </form>
-          ) : currentStep === 2 ? (
+          ) : currentStep === 3 ? (
             <>
               <OTPVerification
                 currentStep={currentStep}

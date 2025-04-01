@@ -5,7 +5,7 @@ export const apiClient = axios.create({
     baseURL: API.Base_URL,
     headers: {
 
-        // "Content-Type": "multipart/form-data",
+        "Content-Type": "multipart/form-data",
         "Content-Type": "application/json",
     },
     withCredentials: true,
@@ -39,7 +39,8 @@ export const verifyOneTimePassword = async (data) => {
     return apiClient.post('/user/verifyOtp', data)
 }
 export const submitAddress = async (data) => {
-    return apiClient.post('/user/submit-address', data)
+    console.log("data", data)
+    return apiClient.post('/register', data)
 }
 
 // login flow

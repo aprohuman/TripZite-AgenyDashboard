@@ -29,10 +29,11 @@ const tripBreakdownSlice = createSlice({
             const { id, name, value } = action.payload;
             const item = state.tripDayBreakdown.find((trip) => trip.id === id);
             if (item) {
-                item[name] = value;
+
                 if (name === 'accommodation') {
                     item.accommodationType = '';
                     item.accommodationLocation = '';
+                    item[name] = value;
                 }
             }
         },
