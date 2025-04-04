@@ -11,6 +11,8 @@ export const setToken = (token, keepMeLoggedIn) => {
 };
 
 export const getToken = () => {
+
+
     const token = sessionStorage.getItem(TOKEN_KEY);
     const expiry = sessionStorage.getItem(EXPIRE_KEY);
     if (!token || !expiry) return null;
