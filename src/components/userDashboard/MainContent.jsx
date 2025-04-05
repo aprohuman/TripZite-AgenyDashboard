@@ -5,10 +5,10 @@ import CompanyDetails from './CompanyDetails'
 
 const MainContent = ({ user, company, notifications }) => {
   return (
-    <main className="main-content  w-full p-4 overflow-y-auto">
+    <main className="w-full pl-10 pt-30 ">
       <div>
-        <h1 className="text-[24px] font-[400] pb-[4rem]">Notifications</h1>
-        <div className="flex gap-20">
+        <h1 className="text-[24px] font-[400] pb-[20px]">Notifications</h1>
+        <div className="flex gap-20 pb-[67px]">
           {notifications.map((note, index) => (
             <NotificationCard key={index} {...note} />
           ))}
