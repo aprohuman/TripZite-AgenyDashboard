@@ -5,7 +5,7 @@ export const apiClient = axios.create({
     baseURL: API.Base_URL,
     headers: {
 
-        "Content-Type": "multipart/form-data",
+
         "Content-Type": "application/json",
     },
     withCredentials: true,
@@ -39,7 +39,9 @@ export const verifyOneTimePassword = async (data) => {
     return apiClient.post('/user/verifyOtp', data)
 }
 export const submitAddress = async (data) => {
-    console.log("data", data)
+    for (let [key, value] of data.entries()) {
+        console.log(`${key}:`, value)
+    }
     return apiClient.post('/register', data)
 }
 

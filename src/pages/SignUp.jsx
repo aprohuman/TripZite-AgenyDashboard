@@ -105,7 +105,7 @@ export default function SignUp() {
   }
 
   const handleFileUpload = (file) => {
-    // setAddressFormData((prev) => ({ ...prev, file }));
+    // setAddressFormData((prev) => ({ ...prev, file }))
   }
 
   const handleDragOver = useCallback((e) => {
@@ -130,7 +130,7 @@ export default function SignUp() {
     },
     [handleFileUpload],
   )
-
+  console.log('selectedFile', selectedFile?.name)
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (file) {
@@ -184,15 +184,55 @@ export default function SignUp() {
     if (formIsValid) setCurrentStep(2)
   }
 
+  // const handleAddressSubmit = async (e) => {
+  //   e.preventDefault()
+  //   const newErrors = {}
+
+  //   // Validate the address form fields
+  //   let formIsValid = Object.keys(addressFormData).every((field) => {
+  //     const error = validateAddressForm[field](addressFormData[field])
+  //     newErrors[field] = error
+  //     return !error // Continue only if no errors are found
+  //   })
+
+  //   setErrors(newErrors)
+
+  //   if (!formIsValid) return
+
+  //   try {
+  //     setLoading(true)
+
+  //     // Merge nameFormData and addressFormData
+  //     const formData = {
+  //       ...nameFormData,
+  //       ...addressFormData,
+  //       documentFile: selectedFile?.name,
+  //     }
+  //     // API call to submit the address
+  //     const response = await submitAddress(formData)
+  //     console.log('response', response)
+  //     if (response.data.success) {
+  //       setLoading(false)
+  //       alert('Address submitted successfully!')
+  //     } else {
+  //       alert('Error submitting address. Please try again.')
+  //     }
+  //   } catch (error) {
+  //     alert('An error occurred while submitting the address.')
+  //     setCurrentStep(3)
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
+
   const handleAddressSubmit = async (e) => {
     e.preventDefault()
     const newErrors = {}
 
-    // Validate the address form fields
     let formIsValid = Object.keys(addressFormData).every((field) => {
       const error = validateAddressForm[field](addressFormData[field])
       newErrors[field] = error
-      return !error // Continue only if no errors are found
+      return !error
     })
 
     setErrors(newErrors)
@@ -202,13 +242,30 @@ export default function SignUp() {
     try {
       setLoading(true)
 
-      // Merge nameFormData and addressFormData
-      const formData = {
-        ...nameFormData,
-        ...addressFormData,
+      // ✅ Create FormData object
+      const formData = new FormData()
+
+      // Append name fields
+      Object.entries(nameFormData).forEach(([key, value]) => {
+        formData.append(key, value)
+      })
+
+      // Append address fields
+      Object.entries(addressFormData).forEach(([key, value]) => {
+        formData.append(key, value)
+      })
+
+      // ✅ Append actual file, not just file name
+      if (selectedFile) {
+        formData.append('documentFile', selectedFile) // "document" should match backend field
       }
-      // API call to submit the address
+      // for (let [key, value] of formData.entries()) {
+      //   console.log(`${key}:`, value)
+      // }
+      // ✅ Call API
       const response = await submitAddress(formData)
+
+      console.log('response', response)
       if (response.data.success) {
         setLoading(false)
         alert('Address submitted successfully!')
@@ -216,6 +273,7 @@ export default function SignUp() {
         alert('Error submitting address. Please try again.')
       }
     } catch (error) {
+      console.error('Submit Error:', error)
       alert('An error occurred while submitting the address.')
       setCurrentStep(3)
     } finally {

@@ -176,7 +176,7 @@ const EditProfileModal = ({ user, onClose, onSave }) => {
             </button>
           </div>
         </form>
-      </div>
+      </div>  
     </div>
   )
 }
