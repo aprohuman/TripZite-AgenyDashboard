@@ -2,11 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     email: '',
-    agencyId:'',
+    agencyId: '',
     isFirstLogin: false,
     isAuthenticated: false,
-    accessToken:'',
-    refreshToken:'',
+    accessToken: '',
+    refreshToken: '',
 };
 
 const authSlice = createSlice({
@@ -14,21 +14,32 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action) => {
-            const { email, agencyId, isFirstLogin,isAuthenticated, accessToken, refreshToken } = action.payload;
+            const { email, agencyId, isFirstLogin, isAuthenticated, accessToken, refreshToken } = action.payload;
             state.email = email;
             state.agencyId = agencyId;
             state.isFirstLogin = isFirstLogin;
             state.isAuthenticated = isAuthenticated;
 
-            if(accessToken){
+            if (accessToken) {
                 state.accessToken = accessToken;
             }
 
-            if(refreshToken){
+            if (refreshToken) {
                 state.refreshToken = refreshToken;
             }
         },
-        logout: () => initialState
+        logout: (state) => {
+            // This clears persisted state on logout
+            Object.assign(state, {
+                email: '',
+                agencyId: '',
+                isFirstLogin: false,
+                isAuthenticated: false,
+                accessToken: '',
+                refreshToken: '',
+            })
+        }
+
     }
 });
 

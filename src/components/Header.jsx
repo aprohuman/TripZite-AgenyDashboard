@@ -4,14 +4,22 @@ import { removeToken } from '../utils/auth'
 import logoImage from '../assets/images/Icon.svg'
 import userImage from '../assets/images/User.svg'
 import { cn } from '../utils/cn'
-
+import { useSelector, useDispatch } from 'react-redux'
+import { logout } from '../redux/slices/authSlice'
+import { logOutUser } from '../services/apiService'
 export default function Header() {
   const [isUserProfileOpen, setIsUserProfileOpen] = useState(false)
 
   const navigate = useNavigate()
 
+  const dispatch = useDispatch()
+  const auth = useSelector((state) => state.auth)
+  console.log(auth, 'auth')
+
   const handleLogout = () => {
     removeToken()
+    dispatch(logout())
+    setIsUserProfileOpen(false)
     navigate('/login')
   }
   return (
@@ -28,7 +36,7 @@ export default function Header() {
         <div className="flex border-1 h-[24px] justify-center p-1 rounded-full w-[24px] items-center">
           <img src={userImage} alt="Agency Logo" className="w-[18px]" />
         </div>
-        <span> XYZ Agency</span>
+        <span> {auth.email}</span>
 
         <div
           onMouseEnter={() => setIsUserProfileOpen(true)}
@@ -42,7 +50,9 @@ export default function Header() {
         >
           <div className="p-2">
             <p className="text-sm font-semibold">XYZ Agency</p>
-            <p className="text-gray-500 text-xs">user@xyz.com</p>
+            <p className="text-gray-500 text-xs">
+              {auth.email || 'xyz@gmail.com'}
+            </p>
           </div>
           <hr />
           <button

@@ -1,8 +1,8 @@
-import React, { useState, useCallback, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Link  } from 'react-router-dom'
-import Cookies from "js-cookie";
-import {jwtDecode} from "jwt-decode";
+import React, { useState, useCallback, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, Link } from 'react-router-dom'
+import Cookies from 'js-cookie'
+import { jwtDecode } from 'jwt-decode'
 
 import backgroundImg from '../../public/images/Background.png'
 import logo from '../assets/images/Icon.png'
@@ -12,28 +12,33 @@ import { validateEmail } from '../utils/validators.js'
 import { setToken } from '../utils/auth'
 import { logInAPI, changePasswordAPI } from '../services/apiService.js'
 
-import { login } from '../redux/index.js';
+import { login } from '../redux/index.js'
 
 function LogIn() {
+  const [keepMeLoggedIn, setKeepMeLoggedIn] = useState(false)
+  const [isFirstLogIn, setIsLogIn] = useState(true)
+  const [currentStep, setCurrentStep] = useState(1)
+  const [loading, setLoading] = useState(false)
 
-  const [keepMeLoggedIn, setKeepMeLoggedIn] = useState(false);
-  const [isFirstLogIn, setIsLogIn] = useState(true);
-  const [currentStep, setCurrentStep] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({ email: '', password: '' })
+  const [passwordData, setPasswordData] = useState({
+    newPassword: '',
+    confirmPassword: '',
+  })
 
-  const [formData, setFormData] = useState({email: '',password: ''});
-  const [passwordData, setPasswordData] = useState({newPassword: '',confirmPassword: ''});
+  const [errors, setErrors] = useState({ email: '', password: '' })
+  const [passwordErrors, setPasswordErrors] = useState({
+    newPassword: '',
+    confirmPassword: '',
+  })
 
-  const [errors, setErrors] = useState({ email: '', password: '' });
-  const [passwordErrors, setPasswordErrors] = useState({newPassword: '', confirmPassword: ''});
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const authDetails = useSelector((state) => state.auth)
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const debounceTimeout = useRef(null);
+  const debounceTimeout = useRef(null)
 
-  const authDetails = useSelector((state) => state.auth);
-
-
+  console.log(authDetails, 'authDetails')
 
   const validateForm = {
     email: (value) => {
@@ -123,9 +128,9 @@ function LogIn() {
       if (validateForm[fieldName](formData[fieldName])) {
         isValid = false
       }
-    });
+    })
 
-    return isValid;
+    return isValid
   }
 
   const isPasswordFormValid = () => {
@@ -136,56 +141,57 @@ function LogIn() {
       }
     })
 
-    return isValid;
+    return isValid
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const newErrors = Object.keys(formData).reduce((acc, fieldName) => {
       const error = validateForm[fieldName](formData[fieldName])
       if (error) acc[fieldName] = error
-      return acc;
+      return acc
     }, {})
 
-    setErrors(newErrors);
+    setErrors(newErrors)
 
-    if (Object.keys(newErrors).length > 0){
+    if (Object.keys(newErrors).length > 0) {
       return
-    } 
+    }
 
     try {
-      setLoading(true);
+      setLoading(true)
       const response = await logInAPI({
         email: formData.email,
         password: formData.password,
       })
 
-      const data = response.data.data;
+      const data = response.data.data
 
       console.log(response, 'here')
 
-      dispatch(login({
-        email: data.email,
-        agencyId:data.agencyId,
-        isFirstLogin: Boolean(data?.firstLogin),
-        isAuthenticated: Boolean(true),
-        accessToken:response.data?.accessToken,
-        refreshToken:response.data?.accessToken,
-      }))
+      dispatch(
+        login({
+          email: data.email,
+          agencyId: data.agencyId,
+          isFirstLogin: Boolean(data?.firstLogin),
+          isAuthenticated: Boolean(true),
+          accessToken: response.data?.accessToken,
+          refreshToken: response.data?.accessToken,
+        }),
+      )
 
-      setLoading(false);
+      setLoading(false)
 
-        if (data?.firstLogin) {
-          setCurrentStep(2);
-        } else {
-          setToken(response.data.accessToken, keepMeLoggedIn, 'access-token')
-          setToken(response.data.refreshToken, keepMeLoggedIn, 'refresh-token')
-          navigate('/dashboard')
-        }
-
+      if (data?.firstLogin) {
+        setCurrentStep(2)
+      } else {
+        setToken(response.data.accessToken, keepMeLoggedIn, 'access-token')
+        setToken(response.data.refreshToken, keepMeLoggedIn, 'refresh-token')
+        navigate('/dashboard')
+      }
     } catch (error) {
-      setLoading(false);
+      setLoading(false)
       console.error('Login error:', error)
     }
   }
@@ -203,36 +209,37 @@ function LogIn() {
 
     setPasswordErrors(newErrors)
 
-    if (!formIsValid){
-      return;
-    } 
+    if (!formIsValid) {
+      return
+    }
 
     try {
-      setLoading(true);
+      setLoading(true)
       const response = await changePasswordAPI({
         email: formData.email,
         oldPassword: formData.password,
-        newPassword: passwordData.confirmPassword
+        newPassword: passwordData.confirmPassword,
       })
 
-      const data = response.data.data;
+      const data = response.data.data
 
-      dispatch(login({
-        email: data.email,
-        agencyId:data.agencyId,
-        isFirstLogin: Boolean(data?.firstLogin),
-        isAuthenticated: Boolean(true),
-        accessToken:response.data?.accessToken,
-        refreshToken:response.data?.accessToken,
-      }));
+      dispatch(
+        login({
+          email: data.email,
+          agencyId: data.agencyId,
+          isFirstLogin: Boolean(data?.firstLogin),
+          isAuthenticated: Boolean(true),
+          accessToken: response.data?.accessToken,
+          refreshToken: response.data?.accessToken,
+        }),
+      )
 
       setToken(response.data.accessToken, keepMeLoggedIn, 'access-token')
       setToken(response.data.refreshToken, keepMeLoggedIn, 'refresh-token')
       navigate('/dashboard')
-      
     } catch (error) {
-        setLoading(false);
-        console.error('Login error:', error)
+      setLoading(false)
+      console.error('Login error:', error)
     }
   }
 
@@ -266,9 +273,12 @@ function LogIn() {
               </h2>
               <form onSubmit={handleSubmit} autoComplete="off">
                 <div className="mb-[2rem]">
-                <label htmlFor="email" className='inline-block mb-4 text-[14px]'>
+                  <label
+                    htmlFor="email"
+                    className="inline-block mb-4 text-[14px]"
+                  >
                     Enter Your Email
-                </label>
+                  </label>
                   <input
                     type="text"
                     name="email"
@@ -283,9 +293,12 @@ function LogIn() {
                   )}
                 </div>
                 <div className="mb-[2rem]">
-                <label htmlFor="password" className='inline-block mb-4 text-[14px]'>
+                  <label
+                    htmlFor="password"
+                    className="inline-block mb-4 text-[14px]"
+                  >
                     Enter Your Password
-                </label>
+                  </label>
                   <input
                     type="password"
                     name="password"
@@ -326,12 +339,14 @@ function LogIn() {
                     Forgot your Password?
                   </Link>
                 </div>
-                <div className='flex justify-end items-center mt-3'>
-                  <label className='text-[14px]'>Don't have an account? </label>
+                <div className="flex justify-end items-center mt-3">
+                  <label className="text-[14px]">Don't have an account? </label>
                   <Link
                     to="/signup"
                     className="text-blue-500 hover:underline text-[14px] ml-1"
-                  >Sign Up</Link>
+                  >
+                    Sign Up
+                  </Link>
                 </div>
               </form>
             </div>
@@ -342,9 +357,12 @@ function LogIn() {
               </h2>
               <form onSubmit={handlePasswordSubmit} autoComplete="off">
                 <div className="mb-[2rem]">
-                <label htmlFor="confirmPassword" className='inline-block mb-4 text-[14px]'>
+                  <label
+                    htmlFor="confirmPassword"
+                    className="inline-block mb-4 text-[14px]"
+                  >
                     Enter New Password
-                </label>
+                  </label>
                   <input
                     type="password"
                     name="newPassword"
@@ -360,7 +378,10 @@ function LogIn() {
                   )}
                 </div>
                 <div className="mb-[2rem]">
-                  <label htmlFor="confirmPassword" className='inline-block mb-4 text-[14px]'>
+                  <label
+                    htmlFor="confirmPassword"
+                    className="inline-block mb-4 text-[14px]"
+                  >
                     Re-Enter New Password
                   </label>
                   <input
@@ -414,4 +435,4 @@ function LogIn() {
     </>
   )
 }
-export default LogIn;
+export default LogIn
