@@ -37,9 +37,11 @@ export default function SignUp() {
     city: '',
     postalCode: '',
   })
+
   const [otpData, setOtpData] = useState({
     otp: '',
   })
+  
   const validateNameForm = {
     agencyName: (value) =>
       !value

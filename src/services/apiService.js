@@ -1,34 +1,28 @@
 import axios from "axios";
 import API from "../config/api.config";
 
+
+const {BaseURL, logIn, changePassword} = API;
+
 export const apiClient = axios.create({
-    baseURL: API.Base_URL,
+    baseURL: BaseURL,
     headers: {
-
-
         "Content-Type": "application/json",
     },
-    withCredentials: true,
-})
-
-
-// Add an interceptor to handle session expiration
+    withCredentials: false,
+});
 
 
 apiClient.interceptors.response.use(
     response => response,
     error => {
         if (error.response && error.response.status === 401) {
-            // Clear user state in Redux
-            // store.dispatch(clearUser());
-
-            // Redirect to login page
-            window.location.href = 'http://localhost:5173/login'; // Force page refresh
+            console.error(error.response);
+            window.location.href = 'http://localhost:5173/login';
         }
         return Promise.reject(error);
     }
 );
-
 
 
 // sign-up flow
@@ -46,18 +40,21 @@ export const submitAddress = async (data) => {
 }
 
 // login flow
-
-
-export const logInUser = async (data) => {
-    return apiClient.post('/user/login', data)
+export const logInAPI = async (data) => {
+    return apiClient.post(logIn, data);
 }
 
-
+export const changePasswordAPI = async (data) => {
+    console.log('hit in call')
+    return apiClient.post(changePassword, data);
+}
 
 
 export const logOutUser = async (id) => {
     return apiClient.post(`/user/logout${id}`)
 }
+
+
 export const notification = async () => { }
 export const noticeBoard = async () => { }
 export const findUpComingTrip = async () => { }

@@ -1,40 +1,39 @@
-import React, { useState, useCallback, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { validateEmail } from '../utils/validators.js'
-import API from '../config/api.config.js'
-import Overlay from '../components/Overlay.jsx'
+import React, { useState, useCallback, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, Link  } from 'react-router-dom'
+import Cookies from "js-cookie";
+import {jwtDecode} from "jwt-decode";
+
 import backgroundImg from '../../public/images/Background.png'
 import logo from '../assets/images/Icon.png'
 import loginImg from '../assets/images/BWLogo.svg'
-import PhoneOTPInput from '../components/PhoneOTPInput.jsx'
+
+import { validateEmail } from '../utils/validators.js'
 import { setToken } from '../utils/auth'
-import { Link } from 'react-router-dom'
-import { logInUser } from '../services/apiService.js'
-import { AwardIcon } from 'lucide-react'
+import { logInAPI, changePasswordAPI } from '../services/apiService.js'
 
-function LogIn(params) {
-  const navigate = useNavigate()
-  const [keepMeLoggedIn, setKeepMeLoggedIn] = useState(false)
-  const [isFirstLogIn, setIsLogIn] = useState(true)
-  const [currentStep, setCurrentStep] = useState(1)
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  })
-  const [passwordData, setPasswordData] = useState({
-    newPassword: '',
-    confirmPassword: '',
-  })
+import { login } from '../redux/index.js';
 
-  const [errors, setErrors] = useState({ email: '', password: '' })
-  const [passwordErrors, setPasswordErrors] = useState({
-    newPassword: '',
-    confirmPassword: '',
-  })
+function LogIn() {
 
-  const [loading, setLoading] = useState(false)
+  const [keepMeLoggedIn, setKeepMeLoggedIn] = useState(false);
+  const [isFirstLogIn, setIsLogIn] = useState(true);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  const debounceTimeout = useRef(null)
+  const [formData, setFormData] = useState({email: '',password: ''});
+  const [passwordData, setPasswordData] = useState({newPassword: '',confirmPassword: ''});
+
+  const [errors, setErrors] = useState({ email: '', password: '' });
+  const [passwordErrors, setPasswordErrors] = useState({newPassword: '', confirmPassword: ''});
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const debounceTimeout = useRef(null);
+
+  const authDetails = useSelector((state) => state.auth);
+
+
 
   const validateForm = {
     email: (value) => {
@@ -105,7 +104,7 @@ function LogIn(params) {
     clearTimeout(debounceTimeout.current)
     debounceTimeout.current = setTimeout(() => {
       validateField(name, value)
-    }, 300) // 300ms debounce
+    }, 300)
   }
 
   const handlePasswordChange = (e) => {
@@ -115,70 +114,18 @@ function LogIn(params) {
     clearTimeout(debounceTimeout.current)
     debounceTimeout.current = setTimeout(() => {
       validatePasswordField(name, value)
-    }, 300) // 300ms debounce
+    }, 300)
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-
-
-    // setCurrentStep(2)
-
-
-    setToken('okokok', keepMeLoggedIn)
-    navigate('/dashboard')
-
-    // Validate form fields and check if the form is valid
-    const newErrors = Object.keys(formData).reduce((acc, fieldName) => {
-      const error = validateForm[fieldName](formData[fieldName])
-      if (error) acc[fieldName] = error
-      return acc
-    }, {})
-
-    setErrors(newErrors)
-
-    // If form is invalid, early exit
-    if (Object.keys(newErrors).length > 0) return
-
-    try {
-      setLoading(true) //
-
-      // login api call
-      const response = await logInUser({
-        email: formData.email,
-        password: formData.password,
-      })
-
-      const { user } = await response.data
-
-      setTimeout(() => {
-        alert('Login successful')
-        setLoading(false)
-        setFormData({ email: '', password: '' })
-
-        if (isFirstLogIn) {
-          setCurrentStep(2) // If it's the first login, set the step
-        } else {
-          setToken('okokok', keepMeLoggedIn)
-          navigate('/dashboard')
-        }
-      }, 1000)
-    } catch (error) {
-      setLoading(false) // Ensure loading is stopped in case of error
-      console.error('Login error:', error)
-    }
-  }
-  //Function to check if the form is valid.
   const isFormValid = () => {
     let isValid = true
     Object.keys(formData).forEach((fieldName) => {
       if (validateForm[fieldName](formData[fieldName])) {
         isValid = false
       }
-    })
+    });
 
-    return isValid
+    return isValid;
   }
 
   const isPasswordFormValid = () => {
@@ -189,10 +136,61 @@ function LogIn(params) {
       }
     })
 
-    return isValid
+    return isValid;
   }
 
-  const handlePasswordSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const newErrors = Object.keys(formData).reduce((acc, fieldName) => {
+      const error = validateForm[fieldName](formData[fieldName])
+      if (error) acc[fieldName] = error
+      return acc;
+    }, {})
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0){
+      return
+    } 
+
+    try {
+      setLoading(true);
+      const response = await logInAPI({
+        email: formData.email,
+        password: formData.password,
+      })
+
+      const data = response.data.data;
+
+      console.log(response, 'here')
+
+      dispatch(login({
+        email: data.email,
+        agencyId:data.agencyId,
+        isFirstLogin: Boolean(data?.firstLogin),
+        isAuthenticated: Boolean(true),
+        accessToken:response.data?.accessToken,
+        refreshToken:response.data?.accessToken,
+      }))
+
+      setLoading(false);
+
+        if (data?.firstLogin) {
+          setCurrentStep(2);
+        } else {
+          setToken(response.data.accessToken, keepMeLoggedIn, 'access-token')
+          setToken(response.data.refreshToken, keepMeLoggedIn, 'refresh-token')
+          navigate('/dashboard')
+        }
+
+    } catch (error) {
+      setLoading(false);
+      console.error('Login error:', error)
+    }
+  }
+
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault()
     let formIsValid = true
     const newErrors = {}
@@ -205,12 +203,37 @@ function LogIn(params) {
 
     setPasswordErrors(newErrors)
 
-    if (!formIsValid) return
+    if (!formIsValid){
+      return;
+    } 
 
-    setLoading(true)
+    try {
+      setLoading(true);
+      const response = await changePasswordAPI({
+        email: formData.email,
+        oldPassword: formData.password,
+        newPassword: passwordData.confirmPassword
+      })
 
-    setToken('okokok', keepMeLoggedIn)
-    navigate('/dashboard')
+      const data = response.data.data;
+
+      dispatch(login({
+        email: data.email,
+        agencyId:data.agencyId,
+        isFirstLogin: Boolean(data?.firstLogin),
+        isAuthenticated: Boolean(true),
+        accessToken:response.data?.accessToken,
+        refreshToken:response.data?.accessToken,
+      }));
+
+      setToken(response.data.accessToken, keepMeLoggedIn, 'access-token')
+      setToken(response.data.refreshToken, keepMeLoggedIn, 'refresh-token')
+      navigate('/dashboard')
+      
+    } catch (error) {
+        setLoading(false);
+        console.error('Login error:', error)
+    }
   }
 
   return (
@@ -303,6 +326,13 @@ function LogIn(params) {
                     Forgot your Password?
                   </Link>
                 </div>
+                <div className='flex justify-end items-center mt-3'>
+                  <label className='text-[14px]'>Don't have an account? </label>
+                  <Link
+                    to="/signup"
+                    className="text-blue-500 hover:underline text-[14px] ml-1"
+                  >Sign Up</Link>
+                </div>
               </form>
             </div>
           ) : currentStep === 2 ? (
@@ -384,4 +414,4 @@ function LogIn(params) {
     </>
   )
 }
-export default LogIn
+export default LogIn;
